@@ -6,13 +6,20 @@ from typing import TypedDict, cast
 from library.database import connection, cursor
 
 
-@dataclass
-class CreateBookPayload:
+class CreateBookPayload(TypedDict):
     title: str
 
 
-class UpdateBookPayload(TypedDict, total=False):
-    title: str
+class FindBookPayload(TypedDict):
+    id: int
+
+
+class UpdateBookPayload(CreateBookPayload):
+    id: int
+
+
+class DeleteBookPayload(TypedDict):
+    id: int
 
 
 @dataclass
@@ -20,45 +27,17 @@ class Book:
     id: int
     title: str
 
-    def delete(self) -> None:
-        """Deletes the book."""
-        cursor.execute(
-            """
-            DELETE FROM books WHERE id = %(id)s
-            """,
-            {"id": self.id},
-        )
-
-        connection.commit()
-
-    def update(self, payload: UpdateBookPayload) -> None:
-        """Updates the book."""
-        data = asdict(self) | payload
-
-        cursor.execute(
-            """
-            UPDATE books SET title = %(title)s
-            WHERE id = %(id)s
-            """,
-            data,
-        )
-
-        connection.commit()
-
-        for field, value in data.items():
-            setattr(self, field, value)
-
     @staticmethod
-    def create(payload: CreateBookPayload) -> Book:
+    def create(title: str) -> Book:
         """Creates a new book."""
-        data = asdict(payload)
+        payload: CreateBookPayload = {"title": title}
 
         cursor.execute(
             """
             INSERT INTO books (title)
             VALUES (%(title)s)
             """,
-            data,
+            payload,
         )
 
         connection.commit()
@@ -71,11 +50,13 @@ class Book:
     @staticmethod
     def find(id: int) -> Book | None:
         """Finds a book by its id."""
+        payload: FindBookPayload = {"id": id}
+
         cursor.execute(
             """
             SELECT * FROM books WHERE id = %(id)s
             """,
-            {"id": id},
+            payload,
         )
 
         result = cursor.fetchone()
@@ -84,6 +65,53 @@ class Book:
             return
 
         return Book(*result)
+
+    @staticmethod
+    def update(id: int, title: str | None = None) -> Book | None:
+        """Updates a book by its id."""
+        book = Book.find(id)
+
+        if book is None:
+            return
+
+        payload = cast(UpdateBookPayload, asdict(book))
+
+        if title is not None:
+            payload["title"] = title
+
+        cursor.execute(
+            """
+            UPDATE books SET title = %(title)s
+            WHERE id = %(id)s
+            """,
+            payload,
+        )
+
+        connection.commit()
+
+        book = cast(Book, Book.find(id))
+        return book
+
+    @staticmethod
+    def delete(id: int) -> Book | None:
+        """Deletes a book by its id."""
+        book = Book.find(id)
+
+        if book is None:
+            return
+
+        payload: DeleteBookPayload = {"id": book.id}
+
+        cursor.execute(
+            """
+            DELETE FROM books WHERE id = %(id)s
+            """,
+            payload,
+        )
+
+        connection.commit()
+
+        return book
 
     @staticmethod
     def init() -> None:
