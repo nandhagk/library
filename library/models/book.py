@@ -14,22 +14,23 @@ class FindBookPayload(TypedDict):
     id: int
 
 
-class UpdateBookPayload(CreateBookPayload):
+class UpdateBookPayload(TypedDict):
     id: int
+    title: str
 
 
 class DeleteBookPayload(TypedDict):
     id: int
 
 
-@dataclass
+@dataclass(frozen=True)
 class Book:
     id: int
     title: str
 
     @staticmethod
     def create(title: str) -> Book:
-        """Creates a new book."""
+        """Creates a book."""
         payload: CreateBookPayload = {"title": title}
 
         cursor.execute(
@@ -48,7 +49,7 @@ class Book:
         return book
 
     @staticmethod
-    def find(id: int) -> Book | None:
+    def find(id: int, /) -> Book | None:
         """Finds a book by its id."""
         payload: FindBookPayload = {"id": id}
 
@@ -67,7 +68,7 @@ class Book:
         return Book(*result)
 
     @staticmethod
-    def update(id: int, title: str | None = None) -> Book | None:
+    def update(id: int, /, title: str | None = None) -> Book | None:
         """Updates a book by its id."""
         book = Book.find(id)
 
@@ -89,11 +90,10 @@ class Book:
 
         connection.commit()
 
-        book = cast(Book, Book.find(id))
-        return book
+        return cast(Book, Book.find(id))
 
     @staticmethod
-    def delete(id: int) -> Book | None:
+    def delete(id: int, /) -> Book | None:
         """Deletes a book by its id."""
         book = Book.find(id)
 
@@ -130,4 +130,17 @@ class Book:
                 PRIMARY KEY (id)
             )
             """
+        )
+
+        payload = [
+            {"id": 1, "title": "Great Expectations"},
+            {"id": 2, "title": "David Copperfield"},
+        ]
+
+        cursor.executemany(
+            """
+            INSERT INTO books (id, title)
+            VALUES (%(id)s, %(title)s)
+            """,
+            payload,
         )
