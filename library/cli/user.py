@@ -1,4 +1,4 @@
-from click import argument, group, option
+from click import group, option
 
 from library.models.user import User
 
@@ -17,7 +17,7 @@ def create(name: str) -> None:
 
 
 @user.command()
-@argument("id", type=int)
+@option("--id", type=int, required=True, help="ID of the user")
 def find(id: int) -> None:
     """Finds a user by their id."""
     user = User.find(id)
@@ -30,7 +30,7 @@ def find(id: int) -> None:
 
 
 @user.command()
-@argument("id", type=int)
+@option("--id", type=int, required=True, help="ID of the user")
 @option("--name", help="Name of the user")
 def update(id: int, name: str | None) -> None:
     """Updates a user by their id."""
@@ -44,7 +44,7 @@ def update(id: int, name: str | None) -> None:
 
 
 @user.command()
-@argument("id", type=int)
+@option("--id", type=int, required=True, help="ID of the user")
 def delete(id: int) -> None:
     """Deletes a user by their id."""
     user = User.delete(id)

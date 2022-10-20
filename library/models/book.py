@@ -55,7 +55,9 @@ class Book:
 
         cursor.execute(
             """
-            SELECT * FROM books WHERE id = %(id)s
+            SELECT * FROM books
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -82,8 +84,11 @@ class Book:
 
         cursor.execute(
             """
-            UPDATE books SET title = %(title)s
-            WHERE id = %(id)s
+            UPDATE books
+            SET
+                title = %(title)s
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -104,7 +109,9 @@ class Book:
 
         cursor.execute(
             """
-            DELETE FROM books WHERE id = %(id)s
+            DELETE FROM books
+            WHERE
+                id = %(id)s
             """,
             payload,
         )

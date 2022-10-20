@@ -15,12 +15,12 @@ class FindBookCopyPayload(TypedDict):
     id: int
 
 
+class FindAvailableToLoanBookCopyPayload(TypedDict):
+    book_id: int
+
+
 class DeleteBookCopyPayload(TypedDict):
     id: int
-
-
-class BookDoesNotExistError(Exception):
-    pass
 
 
 @dataclass(frozen=True)
@@ -59,7 +59,36 @@ class BookCopy:
 
         cursor.execute(
             """
-            SELECT * FROM book_copies WHERE id = %(id)s
+            SELECT * FROM book_copies
+            WHERE
+                id = %(id)s
+            """,
+            payload,
+        )
+
+        result = cursor.fetchone()
+
+        if result is None:
+            return
+
+        return BookCopy(*result)
+
+    @staticmethod
+    def find_available_to_loan(book_id: int, /) -> BookCopy | None:
+        """Finds a copy of a book that is available to loan by its book id."""
+        payload: FindAvailableToLoanBookCopyPayload = {"book_id": book_id}
+
+        # https://stackoverflow.com/a/15389141
+        cursor.execute(
+            """
+            SELECT book_copies.* FROM book_copies
+            LEFT JOIN loans ON
+                book_copies.id = loans.book_copy_id
+                AND loans.status = 'active'
+            WHERE
+                book_id = %(book_id)s
+                AND loans.book_copy_id IS NULL
+            LIMIT 1
             """,
             payload,
         )
@@ -83,7 +112,9 @@ class BookCopy:
 
         cursor.execute(
             """
-            DELETE FROM book_copies WHERE id = %(id)s
+            DELETE FROM book_copies
+            WHERE
+                id = %(id)s
             """,
             payload,
         )

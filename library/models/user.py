@@ -55,7 +55,9 @@ class User:
 
         cursor.execute(
             """
-            SELECT * FROM users WHERE id = %(id)s
+            SELECT * FROM users
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -82,8 +84,11 @@ class User:
 
         cursor.execute(
             """
-            UPDATE users SET name = %(name)s
-            WHERE id = %(id)s
+            UPDATE users
+            SET
+                name = %(name)s
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -104,7 +109,9 @@ class User:
 
         cursor.execute(
             """
-            DELETE FROM users WHERE id = %(id)s
+            DELETE FROM users
+            WHERE
+                id = %(id)s
             """,
             payload,
         )

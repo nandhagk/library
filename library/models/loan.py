@@ -1,16 +1,23 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import TypedDict, cast
+from dataclasses import asdict, dataclass
+from typing import Literal, TypeAlias, TypedDict, cast
 
 from library.database import connection, cursor
 from library.models.book_copy import BookCopy
 from library.models.user import User
 
+LoanStatus: TypeAlias = Literal["active", "overdue", "returned"]
+
 
 class CreateLoanPayload(TypedDict):
     user_id: int
     book_copy_id: int
+
+
+class UpdateLoanPayload(TypedDict):
+    id: int
+    status: LoanStatus
 
 
 class FindLoanPayload(TypedDict):
@@ -24,6 +31,7 @@ class DeleteLoanPayload(TypedDict):
 @dataclass(frozen=True)
 class Loan:
     id: int
+    status: LoanStatus
 
     user_id: int
     book_copy_id: int
@@ -74,6 +82,31 @@ class Loan:
         return Loan(*result)
 
     @staticmethod
+    def update(id: int, /, status: LoanStatus | None = None) -> Loan | None:
+        """Updates a loan by its id."""
+        loan = Loan.find(id)
+
+        if loan is None:
+            return
+
+        payload = cast(UpdateLoanPayload, asdict(loan))
+
+        if status is not None:
+            payload["status"] = status
+
+        cursor.execute(
+            """
+            UPDATE loans SET status = %(status)s
+            WHERE id = %(id)s
+            """,
+            payload,
+        )
+
+        connection.commit()
+
+        return cast(Loan, Loan.find(id))
+
+    @staticmethod
     def delete(id: int, /) -> Loan | None:
         """Deletes a loan by its id."""
         loan = Loan.find(id)
@@ -107,6 +140,9 @@ class Loan:
             """
             CREATE TABLE loans (
                 id INT AUTO_INCREMENT,
+                status ENUM('active', 'overdue', 'returned')
+                    NOT NULL
+                    DEFAULT 'active',
                 user_id INT NOT NULL,
                 book_copy_id INT NOT NULL,
                 PRIMARY KEY (id),
@@ -121,14 +157,16 @@ class Loan:
         )
 
         payload = [
-            {"id": 1, "user_id": 1, "book_copy_id": 2},
-            {"id": 2, "user_id": 2, "book_copy_id": 4},
+            {"id": 1, "status": "active", "user_id": 1, "book_copy_id": 1},
+            {"id": 2, "status": "returned", "user_id": 1, "book_copy_id": 2},
+            {"id": 3, "status": "active", "user_id": 2, "book_copy_id": 3},
+            {"id": 4, "status": "returned", "user_id": 2, "book_copy_id": 4},
         ]
 
         cursor.executemany(
             """
-            INSERT INTO loans (id, user_id, book_copy_id)
-            VALUES (%(id)s,  %(user_id)s, %(book_copy_id)s)
+            INSERT INTO loans (id, status, user_id, book_copy_id)
+            VALUES (%(id)s, %(status)s, %(user_id)s, %(book_copy_id)s)
             """,
             payload,
         )

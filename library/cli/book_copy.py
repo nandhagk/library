@@ -1,4 +1,4 @@
-from click import argument, group
+from click import group, option
 
 from library.models.book_copy import BookCopy
 
@@ -9,7 +9,7 @@ def book_copy() -> None:
 
 
 @book_copy.command()
-@argument("book_id", type=int)
+@option("--book-id", type=int, required=True, help="ID of the book")
 def add(book_id: int) -> None:
     """Adds a copy of a book by its book id."""
     book_copy = BookCopy.create(book_id)
@@ -17,7 +17,7 @@ def add(book_id: int) -> None:
 
 
 @book_copy.command()
-@argument("id", type=int)
+@option("--id", type=int, required=True, help="ID of the book copy")
 def find(id: int) -> None:
     """Finds a copy of a book by its id."""
     book_copy = BookCopy.find(id)
@@ -30,7 +30,7 @@ def find(id: int) -> None:
 
 
 @book_copy.command()
-@argument("id", type=int)
+@option("--id", type=int, required=True, help="ID of the book copy")
 def delete(id: int) -> None:
     """Deletes a copy of a book by its id."""
     book_copy = BookCopy.delete(id)
