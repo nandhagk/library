@@ -1,31 +1,20 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import Literal, TypeAlias, TypedDict, cast
+from typing import Final, Literal, TypeAlias, cast
 
 from library.database import connection, cursor
 from library.models.book_copy import BookCopy
 from library.models.user import User
 
+LOANS: Final = [
+    {"id": 1, "status": "active", "user_id": 1, "book_copy_id": 1},
+    {"id": 2, "status": "returned", "user_id": 1, "book_copy_id": 2},
+    {"id": 3, "status": "active", "user_id": 2, "book_copy_id": 3},
+    {"id": 4, "status": "returned", "user_id": 2, "book_copy_id": 4},
+]
+
 LoanStatus: TypeAlias = Literal["active", "overdue", "returned"]
-
-
-class CreateLoanPayload(TypedDict):
-    user_id: int
-    book_copy_id: int
-
-
-class UpdateLoanPayload(TypedDict):
-    id: int
-    status: LoanStatus
-
-
-class FindLoanPayload(TypedDict):
-    id: int
-
-
-class DeleteLoanPayload(TypedDict):
-    id: int
 
 
 @dataclass(frozen=True)
@@ -45,7 +34,10 @@ class Loan:
     @staticmethod
     def create(user_id: int, book_copy_id: int) -> Loan:
         """Creates a loan."""
-        payload: CreateLoanPayload = {"user_id": user_id, "book_copy_id": book_copy_id}
+        payload = {
+            "user_id": user_id,
+            "book_copy_id": book_copy_id,
+        }
 
         cursor.execute(
             """
@@ -65,11 +57,13 @@ class Loan:
     @staticmethod
     def find(id: int, /) -> Loan | None:
         """Finds a loan by its id."""
-        payload: FindLoanPayload = {"id": id}
+        payload = {"id": id}
 
         cursor.execute(
             """
-            SELECT * FROM loans WHERE id = %(id)s
+            SELECT * FROM loans
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -89,15 +83,18 @@ class Loan:
         if loan is None:
             return
 
-        payload = cast(UpdateLoanPayload, asdict(loan))
+        payload = asdict(loan)
 
         if status is not None:
             payload["status"] = status
 
         cursor.execute(
             """
-            UPDATE loans SET status = %(status)s
-            WHERE id = %(id)s
+            UPDATE loans
+            SET
+                status = %(status)s
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -114,11 +111,13 @@ class Loan:
         if loan is None:
             return
 
-        payload: DeleteLoanPayload = {"id": loan.id}
+        payload = {"id": loan.id}
 
         cursor.execute(
             """
-            DELETE FROM loans WHERE id = %(id)s
+            DELETE FROM loans
+            WHERE
+                id = %(id)s
             """,
             payload,
         )
@@ -156,12 +155,7 @@ class Loan:
             """
         )
 
-        payload = [
-            {"id": 1, "status": "active", "user_id": 1, "book_copy_id": 1},
-            {"id": 2, "status": "returned", "user_id": 1, "book_copy_id": 2},
-            {"id": 3, "status": "active", "user_id": 2, "book_copy_id": 3},
-            {"id": 4, "status": "returned", "user_id": 2, "book_copy_id": 4},
-        ]
+        payload = LOANS
 
         cursor.executemany(
             """

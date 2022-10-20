@@ -1,6 +1,7 @@
 from click import group, option
 
 from library.cli.book_copy import book_copy
+from library.cli.book_tag import book_tag
 from library.models.book import Book
 
 
@@ -58,3 +59,4 @@ def delete(id: int) -> None:
 
 
 book.add_command(book_copy)
+book.add_command(book_tag)

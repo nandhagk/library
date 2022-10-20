@@ -2,11 +2,14 @@ from click import group
 
 from library.cli.book import book
 from library.cli.loan import loan
+from library.cli.tag import tag
 from library.cli.user import user
 from library.database import cursor
 from library.models.book import Book
 from library.models.book_copy import BookCopy
+from library.models.book_tag import BookTag
 from library.models.loan import Loan
+from library.models.tag import Tag
 from library.models.user import User
 
 
@@ -36,8 +39,10 @@ def init() -> None:
         """
     )
 
+    Tag.init()
     Book.init()
     User.init()
+    BookTag.init()
     BookCopy.init()
     Loan.init()
 
@@ -47,3 +52,4 @@ def init() -> None:
 main.add_command(book)
 main.add_command(user)
 main.add_command(loan)
+main.add_command(tag)

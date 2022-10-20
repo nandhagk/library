@@ -5,25 +5,25 @@ from typing import Final, cast
 
 from library.database import connection, cursor
 
-USERS: Final = [
-    {"id": 1, "name": "John Doe"},
-    {"id": 2, "name": "Jane Doe"},
+TAGS: Final = [
+    {"id": 1, "name": "Action"},
+    {"id": 2, "name": "Adventure"},
 ]
 
 
 @dataclass(frozen=True)
-class User:
+class Tag:
     id: int
     name: str
 
     @staticmethod
-    def create(name: str) -> User:
-        """Creates a user."""
+    def create(name: str) -> Tag:
+        """Creates a tag."""
         payload = {"name": name}
 
         cursor.execute(
             """
-            INSERT INTO users (name)
+            INSERT INTO tags (name)
             VALUES (%(name)s)
             """,
             payload,
@@ -32,18 +32,18 @@ class User:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        user = cast(User, User.find(id))
+        tag = cast(Tag, Tag.find(id))
 
-        return user
+        return tag
 
     @staticmethod
-    def find(id: int, /) -> User | None:
-        """Finds a user by their id."""
+    def find(id: int, /) -> Tag | None:
+        """Finds a tag by its id."""
         payload = {"id": id}
 
         cursor.execute(
             """
-            SELECT * FROM users
+            SELECT * FROM tags
             WHERE
                 id = %(id)s
             """,
@@ -55,24 +55,24 @@ class User:
         if result is None:
             return
 
-        return User(*result)
+        return Tag(*result)
 
     @staticmethod
-    def update(id: int, /, name: str | None = None) -> User | None:
-        """Updates a user by their id."""
-        user = User.find(id)
+    def update(id: int, /, name: str | None = None) -> Tag | None:
+        """Updates a tag by its id."""
+        tag = Tag.find(id)
 
-        if user is None:
+        if tag is None:
             return
 
-        payload = asdict(user)
+        payload = asdict(tag)
 
         if name is not None:
             payload["name"] = name
 
         cursor.execute(
             """
-            UPDATE users
+            UPDATE tags
             SET
                 name = %(name)s
             WHERE
@@ -83,21 +83,21 @@ class User:
 
         connection.commit()
 
-        return cast(User, User.find(id))
+        return cast(Tag, Tag.find(id))
 
     @staticmethod
-    def delete(id: int, /) -> User | None:
-        """Deletes a user by their id."""
-        user = User.find(id)
+    def delete(id: int, /) -> Tag | None:
+        """Deletes a tag by its id."""
+        tag = Tag.find(id)
 
-        if user is None:
+        if tag is None:
             return
 
-        payload = {"id": user.id}
+        payload = {"id": tag.id}
 
         cursor.execute(
             """
-            DELETE FROM users
+            DELETE FROM tags
             WHERE
                 id = %(id)s
             """,
@@ -106,20 +106,20 @@ class User:
 
         connection.commit()
 
-        return user
+        return tag
 
     @staticmethod
     def init() -> None:
-        """Initializes the users table."""
+        """Initializes the tags table."""
         cursor.execute(
             """
-            DROP TABLE IF EXISTS users
+            DROP TABLE IF EXISTS tags
             """
         )
 
         cursor.execute(
             """
-            CREATE TABLE users (
+            CREATE TABLE tags (
                 id INT AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
                 PRIMARY KEY (id)
@@ -127,11 +127,11 @@ class User:
             """
         )
 
-        payload = USERS
+        payload = TAGS
 
         cursor.executemany(
             """
-            INSERT INTO users (id, name)
+            INSERT INTO tags (id, name)
             VALUES (%(id)s, %(name)s)
             """,
             payload,

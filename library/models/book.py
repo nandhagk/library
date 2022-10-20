@@ -1,26 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import TypedDict, cast
+from typing import Final, cast
 
 from library.database import connection, cursor
 
-
-class CreateBookPayload(TypedDict):
-    title: str
-
-
-class FindBookPayload(TypedDict):
-    id: int
-
-
-class UpdateBookPayload(TypedDict):
-    id: int
-    title: str
-
-
-class DeleteBookPayload(TypedDict):
-    id: int
+BOOKS: Final = [
+    {"id": 1, "title": "Great Expectations"},
+    {"id": 2, "title": "David Copperfield"},
+]
 
 
 @dataclass(frozen=True)
@@ -31,7 +19,7 @@ class Book:
     @staticmethod
     def create(title: str) -> Book:
         """Creates a book."""
-        payload: CreateBookPayload = {"title": title}
+        payload = {"title": title}
 
         cursor.execute(
             """
@@ -51,7 +39,7 @@ class Book:
     @staticmethod
     def find(id: int, /) -> Book | None:
         """Finds a book by its id."""
-        payload: FindBookPayload = {"id": id}
+        payload = {"id": id}
 
         cursor.execute(
             """
@@ -77,7 +65,7 @@ class Book:
         if book is None:
             return
 
-        payload = cast(UpdateBookPayload, asdict(book))
+        payload = asdict(book)
 
         if title is not None:
             payload["title"] = title
@@ -105,7 +93,7 @@ class Book:
         if book is None:
             return
 
-        payload: DeleteBookPayload = {"id": book.id}
+        payload = {"id": book.id}
 
         cursor.execute(
             """
@@ -139,10 +127,7 @@ class Book:
             """
         )
 
-        payload = [
-            {"id": 1, "title": "Great Expectations"},
-            {"id": 2, "title": "David Copperfield"},
-        ]
+        payload = BOOKS
 
         cursor.executemany(
             """

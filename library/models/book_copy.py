@@ -1,26 +1,18 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TypedDict, cast
+from typing import Final, cast
 
 from library.database import connection, cursor
 from library.models.book import Book
 
-
-class CreateBookCopyPayload(TypedDict):
-    book_id: int
-
-
-class FindBookCopyPayload(TypedDict):
-    id: int
-
-
-class FindAvailableToLoanBookCopyPayload(TypedDict):
-    book_id: int
-
-
-class DeleteBookCopyPayload(TypedDict):
-    id: int
+BOOK_COPIES: Final = [
+    {"id": 1, "book_id": 1},
+    {"id": 2, "book_id": 1},
+    {"id": 3, "book_id": 2},
+    {"id": 4, "book_id": 2},
+    {"id": 5, "book_id": 2},
+]
 
 
 @dataclass(frozen=True)
@@ -35,7 +27,7 @@ class BookCopy:
     @staticmethod
     def create(book_id: int) -> BookCopy:
         """Adds a copy of a book by its book id."""
-        payload: CreateBookCopyPayload = {"book_id": book_id}
+        payload = {"book_id": book_id}
 
         cursor.execute(
             """
@@ -55,7 +47,7 @@ class BookCopy:
     @staticmethod
     def find(id: int, /) -> BookCopy | None:
         """Finds a copy of a book by its id."""
-        payload: FindBookCopyPayload = {"id": id}
+        payload = {"id": id}
 
         cursor.execute(
             """
@@ -76,7 +68,7 @@ class BookCopy:
     @staticmethod
     def find_available_to_loan(book_id: int, /) -> BookCopy | None:
         """Finds a copy of a book that is available to loan by its book id."""
-        payload: FindAvailableToLoanBookCopyPayload = {"book_id": book_id}
+        payload = {"book_id": book_id}
 
         # https://stackoverflow.com/a/15389141
         cursor.execute(
@@ -108,7 +100,7 @@ class BookCopy:
         if book_copy is None:
             return
 
-        payload: DeleteBookCopyPayload = {"id": book_copy.id}
+        payload = {"id": book_copy.id}
 
         cursor.execute(
             """
@@ -145,13 +137,7 @@ class BookCopy:
             """
         )
 
-        payload = [
-            {"id": 1, "book_id": 1},
-            {"id": 2, "book_id": 1},
-            {"id": 3, "book_id": 2},
-            {"id": 4, "book_id": 2},
-            {"id": 5, "book_id": 2},
-        ]
+        payload = BOOK_COPIES
 
         cursor.executemany(
             """
