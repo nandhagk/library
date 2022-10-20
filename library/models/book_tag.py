@@ -102,7 +102,7 @@ class BookTag:
             CREATE TABLE book_tags (
                 tag_id INT NOT NULL,
                 book_id INT NOT NULL,
-                PRIMARY KEY (book_id, tag_Id),
+                PRIMARY KEY (book_id, tag_id),
                 FOREIGN KEY (book_id)
                     REFERENCES books(id)
                     ON DELETE CASCADE,
