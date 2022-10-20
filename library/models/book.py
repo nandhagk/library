@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from typing import cast
+from typing import TypedDict, cast
 
 from library.database import connection, cursor
 
@@ -11,10 +11,42 @@ class CreateBookPayload:
     title: str
 
 
+class UpdateBookPayload(TypedDict, total=False):
+    title: str
+
+
 @dataclass
 class Book:
     id: int
     title: str
+
+    def delete(self) -> None:
+        """Deletes the book."""
+        cursor.execute(
+            """
+            DELETE FROM books WHERE id = %(id)s
+            """,
+            {"id": self.id},
+        )
+
+        connection.commit()
+
+    def update(self, payload: UpdateBookPayload) -> None:
+        """Updates the book."""
+        data = asdict(self) | payload
+
+        cursor.execute(
+            """
+            UPDATE books SET title = %(title)s
+            WHERE id = %(id)s
+            """,
+            data,
+        )
+
+        connection.commit()
+
+        for field, value in data.items():
+            setattr(self, field, value)
 
     @staticmethod
     def create(payload: CreateBookPayload) -> Book:
@@ -52,25 +84,6 @@ class Book:
             return
 
         return Book(*result)
-
-    @staticmethod
-    def delete(id: int) -> Book | None:
-        """Deletes a book by its id."""
-        book = Book.find(id)
-
-        if book is None:
-            return
-
-        cursor.execute(
-            """
-            DELETE FROM books WHERE id = %(id)s
-            """,
-            {"id": id},
-        )
-
-        connection.commit()
-
-        return book
 
     @staticmethod
     def init() -> None:

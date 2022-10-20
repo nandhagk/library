@@ -1,6 +1,6 @@
 from click import group, option
 
-from library.models.book import Book, CreateBookPayload
+from library.models.book import Book, CreateBookPayload, UpdateBookPayload
 
 
 @group()
@@ -28,7 +28,33 @@ def find(id: int) -> None:
 
 @book.command()
 @option("--id", required=True, type=int)
+@option("--title")
+def update(id: int, title: str | None) -> None:
+    """Delete a book by its id."""
+    book = Book.find(id)
+
+    if book is None:
+        print("Book not found!")
+        return
+
+    payload: UpdateBookPayload = {}
+
+    if title is not None:
+        payload["title"] = title
+
+    book.update(payload)
+    print(book)
+
+
+@book.command()
+@option("--id", required=True, type=int)
 def delete(id: int) -> None:
     """Delete a book by its id."""
-    book = Book.delete(id)
+    book = Book.find(id)
+
+    if book is None:
+        print("Book not found!")
+        return
+
+    book.delete()
     print(book)
