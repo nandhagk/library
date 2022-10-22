@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Final, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 from library.models.book import Book
@@ -24,8 +24,8 @@ class BookCopy:
     def book(self) -> Book:
         return cast(Book, Book.find(self.id))
 
-    @staticmethod
-    def create(book_id: int) -> BookCopy:
+    @classmethod
+    def create(cls, book_id: int) -> Self:
         """Adds a copy of a book by its book id."""
         payload = {"book_id": book_id}
 
@@ -40,12 +40,12 @@ class BookCopy:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        book_copy = cast(BookCopy, BookCopy.find(id))
+        book_copy = cast(cls, cls.find(id))
 
         return book_copy
 
-    @staticmethod
-    def find(id: int, /) -> BookCopy | None:
+    @classmethod
+    def find(cls, id: int, /) -> Self | None:
         """Finds a copy of a book by its id."""
         payload = {"id": id}
 
@@ -63,10 +63,10 @@ class BookCopy:
         if result is None:
             return
 
-        return BookCopy(*result)
+        return cls(*result)
 
-    @staticmethod
-    def find_available_to_loan(book_id: int, /) -> BookCopy | None:
+    @classmethod
+    def find_available_to_loan(cls, book_id: int, /) -> Self | None:
         """Finds a copy of a book that is available to loan by its book id."""
         payload = {"book_id": book_id}
 
@@ -90,12 +90,12 @@ class BookCopy:
         if result is None:
             return
 
-        return BookCopy(*result)
+        return cls(*result)
 
-    @staticmethod
-    def delete(id: int, /) -> BookCopy | None:
+    @classmethod
+    def delete(cls, id: int, /) -> Self | None:
         """Deletes a book copy by its id."""
-        book_copy = BookCopy.find(id)
+        book_copy = cls.find(id)
 
         if book_copy is None:
             return
@@ -115,8 +115,8 @@ class BookCopy:
 
         return book_copy
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the book_copies table."""
         cursor.execute(
             """

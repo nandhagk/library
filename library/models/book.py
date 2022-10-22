@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import asdict, dataclass
 from typing import Final, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 
@@ -16,8 +16,8 @@ class Book:
     id: int
     title: str
 
-    @staticmethod
-    def create(title: str) -> Book:
+    @classmethod
+    def create(cls, title: str) -> Self:
         """Creates a book."""
         payload = {"title": title}
 
@@ -32,12 +32,12 @@ class Book:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        book = cast(Book, Book.find(id))
+        book = cast(cls, cls.find(id))
 
         return book
 
-    @staticmethod
-    def find(id: int, /) -> Book | None:
+    @classmethod
+    def find(cls, id: int, /) -> Self | None:
         """Finds a book by its id."""
         payload = {"id": id}
 
@@ -55,12 +55,35 @@ class Book:
         if result is None:
             return
 
-        return Book(*result)
+        return cls(*result)
 
-    @staticmethod
-    def update(id: int, /, title: str | None = None) -> Book | None:
+    @classmethod
+    def find_by_tag_id(cls, tag_id: int, /) -> list[Self]:
+        """Finds the books for a tag by its id."""
+        payload = {"tag_id": tag_id}
+
+        cursor.execute(
+            """
+            SELECT books.* from books
+            JOIN book_tags ON
+                books.id = book_tags.book_id
+            WHERE
+                book_tags.tag_id = %(tag_id)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+
+        if results is None:
+            return []
+
+        return [cls(*result) for result in results]
+
+    @classmethod
+    def update(cls, id: int, /, title: str | None = None) -> Self | None:
         """Updates a book by its id."""
-        book = Book.find(id)
+        book = cls.find(id)
 
         if book is None:
             return
@@ -83,12 +106,12 @@ class Book:
 
         connection.commit()
 
-        return cast(Book, Book.find(id))
+        return cast(cls, cls.find(id))
 
-    @staticmethod
-    def delete(id: int, /) -> Book | None:
+    @classmethod
+    def delete(cls, id: int, /) -> Self | None:
         """Deletes a book by its id."""
-        book = Book.find(id)
+        book = cls.find(id)
 
         if book is None:
             return
@@ -108,8 +131,8 @@ class Book:
 
         return book
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the books table."""
         cursor.execute(
             """

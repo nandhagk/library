@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import asdict, dataclass
 from typing import Final, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 
@@ -16,8 +16,8 @@ class Tag:
     id: int
     name: str
 
-    @staticmethod
-    def create(name: str) -> Tag:
+    @classmethod
+    def create(cls, name: str) -> Self:
         """Creates a tag."""
         payload = {"name": name}
 
@@ -32,12 +32,12 @@ class Tag:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        tag = cast(Tag, Tag.find(id))
+        tag = cast(cls, cls.find(id))
 
         return tag
 
-    @staticmethod
-    def find(id: int, /) -> Tag | None:
+    @classmethod
+    def find(cls, id: int, /) -> Self | None:
         """Finds a tag by its id."""
         payload = {"id": id}
 
@@ -55,12 +55,35 @@ class Tag:
         if result is None:
             return
 
-        return Tag(*result)
+        return cls(*result)
 
-    @staticmethod
-    def update(id: int, /, name: str | None = None) -> Tag | None:
+    @classmethod
+    def find_by_book_id(cls, book_id: int, /) -> list[Self]:
+        """Finds the tags for a book by its id."""
+        payload = {"book_id": book_id}
+
+        cursor.execute(
+            """
+            SELECT tags.* from tags
+            JOIN book_tags ON
+                tags.id = book_tags.tag_id
+            WHERE
+                book_tags.book_id = %(book_id)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+
+        if results is None:
+            return []
+
+        return [cls(*result) for result in results]
+
+    @classmethod
+    def update(cls, id: int, /, name: str | None = None) -> Self | None:
         """Updates a tag by its id."""
-        tag = Tag.find(id)
+        tag = cls.find(id)
 
         if tag is None:
             return
@@ -83,12 +106,12 @@ class Tag:
 
         connection.commit()
 
-        return cast(Tag, Tag.find(id))
+        return cast(cls, cls.find(id))
 
-    @staticmethod
-    def delete(id: int, /) -> Tag | None:
+    @classmethod
+    def delete(cls, id: int, /) -> Self | None:
         """Deletes a tag by its id."""
-        tag = Tag.find(id)
+        tag = cls.find(id)
 
         if tag is None:
             return
@@ -108,8 +131,8 @@ class Tag:
 
         return tag
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the tags table."""
         cursor.execute(
             """
