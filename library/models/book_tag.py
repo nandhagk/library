@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Final, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 from library.models.book import Book
@@ -25,8 +25,8 @@ class BookTag:
     def book(self) -> Book:
         return cast(Book, Book.find(self.book_id))
 
-    @staticmethod
-    def create(book_id: int, tag_id: int) -> BookTag:
+    @classmethod
+    def create(cls, book_id: int, tag_id: int) -> Self:
         """Creates a book tag."""
         payload = {"book_id": book_id, "tag_id": tag_id}
 
@@ -40,10 +40,10 @@ class BookTag:
 
         connection.commit()
 
-        return cast(BookTag, BookTag.find(book_id=book_id, tag_id=tag_id))
+        return cast(cls, cls.find(book_id=book_id, tag_id=tag_id))
 
-    @staticmethod
-    def find(book_id: int, tag_id: int) -> BookTag | None:
+    @classmethod
+    def find(cls, book_id: int, tag_id: int) -> Self | None:
         """Finds a book tag by its book id and tag id."""
         payload = {"book_id": book_id, "tag_id": tag_id}
 
@@ -62,12 +62,12 @@ class BookTag:
         if result is None:
             return
 
-        return BookTag(*result)
+        return cls(*result)
 
-    @staticmethod
-    def delete(book_id: int, tag_id: int) -> BookTag | None:
+    @classmethod
+    def delete(cls, book_id: int, tag_id: int) -> Self | None:
         """Deletes a book tag by its book id and tag id."""
-        book_tag = BookTag.find(book_id=book_id, tag_id=tag_id)
+        book_tag = cls.find(book_id=book_id, tag_id=tag_id)
 
         if book_tag is None:
             return
@@ -88,8 +88,8 @@ class BookTag:
 
         return book_tag
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the book_tags table."""
         cursor.execute(
             """

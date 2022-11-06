@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import asdict, dataclass
 from typing import Final, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 
@@ -16,8 +16,8 @@ class User:
     id: int
     name: str
 
-    @staticmethod
-    def create(name: str) -> User:
+    @classmethod
+    def create(cls, name: str) -> Self:
         """Creates a user."""
         payload = {"name": name}
 
@@ -32,12 +32,12 @@ class User:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        user = cast(User, User.find(id))
+        user = cast(cls, cls.find(id))
 
         return user
 
-    @staticmethod
-    def find(id: int, /) -> User | None:
+    @classmethod
+    def find(cls, id: int, /) -> Self | None:
         """Finds a user by their id."""
         payload = {"id": id}
 
@@ -55,12 +55,12 @@ class User:
         if result is None:
             return
 
-        return User(*result)
+        return cls(*result)
 
-    @staticmethod
-    def update(id: int, /, name: str | None = None) -> User | None:
+    @classmethod
+    def update(cls, id: int, /, name: str | None = None) -> Self | None:
         """Updates a user by their id."""
-        user = User.find(id)
+        user = cls.find(id)
 
         if user is None:
             return
@@ -83,12 +83,12 @@ class User:
 
         connection.commit()
 
-        return cast(User, User.find(id))
+        return cast(cls, cls.find(id))
 
-    @staticmethod
-    def delete(id: int, /) -> User | None:
+    @classmethod
+    def delete(cls, id: int, /) -> Self | None:
         """Deletes a user by their id."""
-        user = User.find(id)
+        user = cls.find(id)
 
         if user is None:
             return
@@ -108,8 +108,8 @@ class User:
 
         return user
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the users table."""
         cursor.execute(
             """

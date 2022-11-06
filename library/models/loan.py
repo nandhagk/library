@@ -1,7 +1,7 @@
-from __future__ import annotations
-
 from dataclasses import asdict, dataclass
 from typing import Final, Literal, TypeAlias, cast
+
+from typing_extensions import Self
 
 from library.database import connection, cursor
 from library.models.book_copy import BookCopy
@@ -31,8 +31,8 @@ class Loan:
     def book_copy(self) -> BookCopy:
         return cast(BookCopy, BookCopy.find(self.book_copy_id))
 
-    @staticmethod
-    def create(user_id: int, book_copy_id: int) -> Loan:
+    @classmethod
+    def create(cls, user_id: int, book_copy_id: int) -> Self:
         """Creates a loan."""
         payload = {
             "user_id": user_id,
@@ -50,12 +50,12 @@ class Loan:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        loan = cast(Loan, Loan.find(id))
+        loan = cast(cls, cls.find(id))
 
         return loan
 
-    @staticmethod
-    def find(id: int, /) -> Loan | None:
+    @classmethod
+    def find(cls, id: int, /) -> Self | None:
         """Finds a loan by its id."""
         payload = {"id": id}
 
@@ -73,12 +73,77 @@ class Loan:
         if result is None:
             return
 
-        return Loan(*result)
+        return cls(*result)
 
-    @staticmethod
-    def update(id: int, /, status: LoanStatus | None = None) -> Loan | None:
+    @classmethod
+    def find_by_user_id(cls, user_id: int, /) -> list[Self]:
+        """Finds the loans for a user by their id."""
+        payload = {"user_id": user_id}
+
+        cursor.execute(
+            """
+            SELECT * from loans
+            WHERE
+                user_id = %(user_id)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+
+        if results is None:
+            return []
+
+        return [cls(*result) for result in results]
+
+    @classmethod
+    def find_by_book_copy_id(cls, book_copy_id: int, /) -> list[Self]:
+        """Finds the loans for a copy of a book by its id."""
+        payload = {"book_copy_id": book_copy_id}
+
+        cursor.execute(
+            """
+            SELECT * from loans
+            WHERE
+                book_copy_id = %(book_copy_id)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+
+        if results is None:
+            return []
+
+        return [cls(*result) for result in results]
+
+    @classmethod
+    def find_by_book_id(cls, book_id: int, /) -> list[Self]:
+        """Finds the loans for a book by its id."""
+        payload = {"book_id": book_id}
+
+        cursor.execute(
+            """
+            SELECT loans.* from loans
+            JOIN book_copies ON
+                loans.book_copy_id = book_copies.id
+            WHERE
+                book_copies.book_id = %(book_id)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+
+        if results is None:
+            return []
+
+        return [cls(*result) for result in results]
+
+    @classmethod
+    def update(cls, id: int, /, status: LoanStatus | None = None) -> Self | None:
         """Updates a loan by its id."""
-        loan = Loan.find(id)
+        loan = cls.find(id)
 
         if loan is None:
             return
@@ -101,12 +166,12 @@ class Loan:
 
         connection.commit()
 
-        return cast(Loan, Loan.find(id))
+        return cast(cls, cls.find(id))
 
-    @staticmethod
-    def delete(id: int, /) -> Loan | None:
+    @classmethod
+    def delete(cls, id: int, /) -> Self | None:
         """Deletes a loan by its id."""
-        loan = Loan.find(id)
+        loan = cls.find(id)
 
         if loan is None:
             return
@@ -126,8 +191,8 @@ class Loan:
 
         return loan
 
-    @staticmethod
-    def init() -> None:
+    @classmethod
+    def init(cls) -> None:
         """Initializes the loans table."""
         cursor.execute(
             """
