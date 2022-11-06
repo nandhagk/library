@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+    <link rel="stylesheet" href="styles/general.css">
+    <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/book-search.css">
+    <pyscript src="scripts/sidebar.py"></pyscript>
+    <pyscript src="scripts/search.py"></pyscript>
+    <pyscript src="scripts/book-search.py"></pyscript>
+</head>
+<body>
+    <div id="sidebar">
+        <div class="sidebar__item" destination="browse">
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+            <span class="sidebar__item-text">Browse</span>
+        </div>
+        <div class="sidebar__item" destination="lends">
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+            <span class="sidebar__item-text">Lends</span>
+        </div>
+        <div class="sidebar__item" destination="book-search" current>
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+            <span class="sidebar__item-text">Books</span>
+        </div>
+        <div class="sidebar__item" destination="people-search">
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+            <span class="sidebar__item-text">People</span>
+        </div>
+        <div class="sidebar__item" destination="add">
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+            <span class="sidebar__item-text">Add</span>
+        </div>
+        <!-- <div class="sidebar__item sidebar__item-bottom" id="sidebar-menu">
+            <img class="sidebar__item-icon" src="./resources/library.png" alt="">
+        </div> -->
+    </div>
+    <div id="content">
+        <div id="search-params">
+            <div class="search-param">
+                <span class="search-param__label">Title</span>
+                <div class="search-param__input-container">
+                    <div class="search-param__input-overflowhandler">
+                        <span class="search-param__input">Book Bame</span>
+                    </div>
+                </div>
+            </div>
+            <div class="search-param">
+                <span class="search-param__label">Author</span>
+                <div class="search-param__input-container">
+                    <div class="search-param__input-overflowhandler">
+                        <span class="search-param__input">King</span>
+                    </div>
+                </div>
+            </div>
+            <div class="search-param">
+                <!-- TODO: Change this to a better thing :) (with chips and shit) -->
+                <span class="search-param__label">Tags</span>
+                <div class="search-param__input-container">
+                    <div class="search-param__input-overflowhandler">
+                        <span class="search-param__input">none lmao</span>
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: Add an icon maybe -->
+            <div class="search-submit"><span class="search-submit__text">Search</span></div>
+        </div>
+        <div id="search-results">
+            <!-- <div class="search-result">
+                <div class="book-info__name-container"><span class="book-info__name-text">Book Name</span></div>
+                <div class="book-info__author-container"><span class="book-info__author-text">Author</span></div>
+                TODO:
+                <div class="book-info__tagchip-container"></div>
+            </div> -->
+        </div>
+    </div>
+</body>
+</html>

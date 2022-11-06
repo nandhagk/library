@@ -1,0 +1,35 @@
+Loans:
+    issued_time: date
+    returned_time: date
+    due_time: date
+    damaged: bool
+    person: id
+    book: id
+
+Books:
+    id:
+    active_copies: int
+    total_copies: int
+    published_date: date
+    publisher: string
+    pages
+    name: string
+    author: string
+    number_of_pages: int
+    description: string
+    cover_url: string
+
+BookCopy:
+    id:
+    book_id:
+
+Tag:
+    id
+    name: string
+    description: string
+    cover_url: string
+
+Users:
+    id
+    name: string
+    status: int (automatic change)

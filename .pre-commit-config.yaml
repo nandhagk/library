@@ -18,21 +18,21 @@ repos:
       - id: shed
         args: [--refactor, --py310-plus]
         types_or: [python, markdown, rst]
-  - repo: local
-    hooks:
-      - id: pyright
-        name: pyright
-        entry: pyright
-        language: node
-        pass_filenames: false
-        types: [python]
-        additional_dependencies: ["pyright"]
-  - repo: local
-    hooks:
-      - id: flake8
-        name: Flake8
-        description: This hook runs flake8 within our project's poetry environment.
-        entry: poetry run flake8
-        language: system
-        types: [python]
-        require_serial: true
+  # - repo: local
+  #   hooks:
+  #     - id: pyright
+  #       name: pyright
+  #       entry: pyright
+  #       language: node
+  #       pass_filenames: false
+  #       types: [python]
+  #       additional_dependencies: ["pyright"]
+  # - repo: local
+  #   hooks:
+  #     - id: flake8
+  #       name: Flake8
+  #       description: This hook runs flake8 within our project's poetry environment.
+  #       entry: poetry run flake8
+  #       language: system
+  #       types: [python]
+  #       require_serial: true

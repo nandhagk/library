@@ -1,0 +1,34 @@
+person search (name, book status)
+	- person info
+		-- Lend + Return
+book search (tags, author title)
+	- book info *curr_stock
+browse
+home
+	> sort lends
+	> by time (recent, oldest)
+	> by status (all, lended, returned, overtime)
+add
+	- add book
+	- add tag
+	- add info
+
+# TODOLIST:
+
+# Sidebar-icons
+# Basically copy paste this page onto person search (we can search by lended, no books taken, time overdone)
+-------------
+# Create the book info page (note books in stock is needed to be shown)
+# Copy paste this basically into the person info page
+# Add the lending and borrowing features onto the person page itself (book id has to be inputted) * later on add a camera feature :)
+# Let the home page be the page to search lends (filter by time inc time dec | time, filter by overlended, lended, returned etc. | status)
+# Create the browse page
+
+# Possibly create a login system so the bottom left of sidebar can have profile
+
+# TODO: Elements added thru script are ignoring z index wtf
+# figure out the tk.raise thing
+# EEEEEEEEEEEEEEEEZ -< TODO NOW TODO >-
+# Whenever an element is created (only if repaint was requested), while setting
+# heirarchy we must go all the way back to the root and start a 'raise' call where
+# basically we cas tk.raise() based on our slave master heirarchy until everything comes to their correct level
