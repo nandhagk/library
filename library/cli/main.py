@@ -1,16 +1,16 @@
 from click import group
 
-from library.cli.book import book
-from library.cli.loan import loan
-from library.cli.tag import tag
-from library.cli.user import user
-from library.database import cursor
-from library.models.book import Book
-from library.models.book_copy import BookCopy
-from library.models.book_tag import BookTag
-from library.models.loan import Loan
-from library.models.tag import Tag
-from library.models.user import User
+from library.src.cli.book import book
+from library.src.cli.loan import loan
+from library.src.cli.tag import tag
+from library.src.cli.user import user
+from library.src.database import cursor
+from library.src.models.book import Book
+from library.src.models.book_copy import BookCopy
+from library.src.models.book_tag import BookTag
+from library.src.models.loan import Loan
+from library.src.models.tag import Tag
+from library.src.models.user import User
 
 
 @group()

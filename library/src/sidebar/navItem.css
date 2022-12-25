@@ -1,0 +1,30 @@
+.container{
+    height:2rem;
+    margin-bottom:0.5rem;
+    border-radius:0.5rem;
+    opacity:0.5;
+}
+
+
+.container:hover{
+    opacity: 0.8;
+}
+.container:active{
+    background-color: #9e97dd;
+    /* COLOR-SCHEME: todo; */
+    opacity: 0.5;
+}
+
+svg{
+    background-color: #9e97dd;
+    /* COLOR-SCHEME: todo; */
+    width: 1.5rem;
+    margin: 0.25rem;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+text{
+    display: inline-block;
+    padding: 0.25rem 0;
+}

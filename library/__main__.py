@@ -1,3 +1,3 @@
-from library.cli.main import main
+from library.src.cli.main import main
 
 main()

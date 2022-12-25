@@ -1,0 +1,49 @@
+.container{
+    padding: 1rem;
+}
+
+.section{
+    padding: 0.5rem;
+    margin: 1rem;
+}
+
+.section-title{
+    font-size: 1.5rem;
+}
+
+.booksContainer{
+    overflow-x: scroll;
+}
+
+.book{
+    margin-right: 1rem;
+    display: inline-only;
+    padding-bottom: 0.5rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    padding-bottom: -2.5rem;
+}
+img{
+    height: 9rem;
+    width: 7rem;
+    display: block;
+}
+.infoContainer{
+    position: relative;
+    top: -2.5rem;
+    background-color: black;
+    opacity: 0.5;
+    width: 7rem;
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+}
+.name{
+    display: block-inline;
+    font-size: 0.7rem;
+    opacity: 1;
+}
+.author{
+    display: block-inline;
+    font-size: 0.5rem;
+    opacity: 0.8;
+}

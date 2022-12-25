@@ -1,0 +1,13 @@
+.container{
+    width:3rem;
+    height:100vh;
+    padding:0.5rem;
+    opacity: 1;
+    background-color:#333237;
+    /* COLOR-SCHEME: todo; */
+    display: inline-block;
+}
+.container:focus-within{
+    /* COLOR-SCHEME: todo; */
+    width:10rem;
+}

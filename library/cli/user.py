@@ -1,6 +1,6 @@
 from click import group, option
 
-from library.models.user import User
+from library.src.models.user import User
 
 
 @group()

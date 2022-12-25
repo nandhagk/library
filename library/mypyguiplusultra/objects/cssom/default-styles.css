@@ -1,0 +1,83 @@
+* {
+    position: static;
+    display: none;
+    box-sizing: border-box;
+    color: #f0f0f1;
+    opacity: 1;
+    z-index: 1;
+    border-style: solid;
+    overflow: none;
+    text-overflow: nowrap;
+}
+
+svg{
+    aspect-ratio: 1;
+}
+input{
+    font-family: "Montserrat";
+    font-size: 1rem;
+    font-weight: 640;
+}
+text{
+    font-family: "Montserrat";
+    font-size: 1rem;
+    font-weight: 640;
+    text-overflow: clip;
+    text-align: left;
+}
+
+body{
+    overflow: scroll;
+    position: absolute;
+    background-color: #1e1e1e;
+}
+
+img{
+    display: inline-block;
+    background-color: lightgray;
+}
+
+span{
+    display: inline;
+    font-size: 1em;
+    text-align: left;
+    font-weight: 1;
+    font-family: 'Montserrat';
+}
+
+html, svg, text, body, div, form, h1, h2, h3, h4, h5, h6 {
+    display: block;
+}
+
+h1 {
+    font-size: 2em;
+    margin: .67em 0;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: .75em 0;
+}
+
+h3 {
+    font-size: 1.17em;
+    margin: .83em 0;
+}
+
+h4 {
+    margin: 1.12em 0;
+}
+
+h5 {
+    font-size: .83em;
+    margin: 1.5em 0;
+}
+
+h6 {
+    font-size: .75em;
+    margin: 1.67em 0;
+}
+
+button, input {
+    display: inline-block;
+}

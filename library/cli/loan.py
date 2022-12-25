@@ -1,7 +1,7 @@
 from click import group, option
 
-from library.models.book_copy import BookCopy
-from library.models.loan import Loan
+from library.src.models.book_copy import BookCopy
+from library.src.models.loan import Loan
 
 
 @group()

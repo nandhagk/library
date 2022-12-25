@@ -1,6 +1,6 @@
 from click import group, option
 
-from library.models.book_copy import BookCopy
+from library.src.models.book_copy import BookCopy
 
 
 @group("copy")
