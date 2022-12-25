@@ -6,6 +6,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+library/mypygui.config.json
+
+library/src/**/*.py
+!library/src/models/**/*.py
+
 # C extensions
 *.so
 
