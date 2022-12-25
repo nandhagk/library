@@ -1,3 +1,0 @@
-Browse:
-    categroy name, 10 books, see more
-    (6 tags links to tag search)
