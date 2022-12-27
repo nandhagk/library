@@ -9,8 +9,8 @@ from PyQt6.QtCore import QSize, QUrl, Qt
 class ImageRenderWorker(RenderWorker):
     def __init__(self):
         super().__init__()
-        self.paintedNode = False
         self.pixmap = QPixmap()
+        self.src = QUrl()
 
     def _update(self, updateSlaves=True):
         node = self.node()
@@ -30,12 +30,12 @@ class ImageRenderWorker(RenderWorker):
                 # print("need to rmap")
 
     def handleResponse(self, response):
-        print("response is came")
+        # print("response is came")
         if self.node() is None or self.node().domNode() is None:return
         if response.error() == QtNetwork.QNetworkReply.NetworkError.NoError:
             self.pixmap.loadFromData(response.readAll())
             self.mainQ.setPixmap(self.pixmap)
-            if self.paintedNode:self._update()
+            self._update()
         else:
             print(response.error())
             print("ERROR IN LOADING RESOURCE")
@@ -45,17 +45,17 @@ class ImageRenderWorker(RenderWorker):
         self.nam.deleteLater()
 
 
-    def loadImageFromSource(self, src):
-        # TODO: Fix the lag prodyced frmo getting over here
-        req = QtNetwork.QNetworkRequest(QUrl(src))
-        print("requesting resource")
+    def loadImageFromSource(self):
+        # The bug of some images not loading seems to have been resolved
+        req = QtNetwork.QNetworkRequest(self.src)
         self.nam = QtNetwork.QNetworkAccessManager()
         self.nam.finished.connect(self.handleResponse)
         self.nam.get(req)
 
+    def setImageSource(self, src):
+        self.src = QUrl(src)
 
     def _paint(self, qparent = None):
-        self.paintedNode = True
         node = self.node() # The renderNode
         if node is None: # If reference to the node does not exist, we cannot paint it
             print('Node is no longer alive boss')
@@ -68,3 +68,4 @@ class ImageRenderWorker(RenderWorker):
         self._connectEvents() # Connect events to the eventListener
 
         self._update(updateSlaves=False) # Basically just draws it :)
+        self.loadImageFromSource()

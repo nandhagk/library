@@ -10,8 +10,13 @@ def requestData(loanId, callback):
         'bookId' : '123',
         'bookName' : "Harry Potter",
         'personName' : "Kaushik G Iyer",
-        'personId' : '1234'
+        'personId' : '1234',
+        'issuedDate' : '23-12-2022',
+        'dueDate' : '01-01-2023',
+        'status' : 'Damaged'
     })
+
+    # TODO: UI| add a button to return the loan
 
 @styles
 class LoanInfo(pyx.Component):
@@ -25,6 +30,9 @@ class LoanInfo(pyx.Component):
             'personId' : createRef(),
             'bookLink' : createRef(),
             'personLink' : createRef(),
+            'dueDate' : createRef(),
+            'status' : createRef(),
+            'issuedDate' : createRef()
         }
         requestData(self.glob.data, self.handleData)
 
@@ -53,6 +61,12 @@ class LoanInfo(pyx.Component):
                 <div class="infoContainer">
                     <text class="label">LoanID</text>
                     <text class="info" ref={self.refs['loanId']}>Loading....</text>
+                    <text class="label">Issued Date</text>
+                    <text class="info" ref={self.refs['issuedDate']}>Loading....</text>
+                    <text class="label">Due Date</text>
+                    <text class="info" ref={self.refs['dueDate']}>Loading....</text>
+                    <text class="label">Status</text>
+                    <text class="info" ref={self.refs['status']}>Loading....</text>
                 </div>
                 <div class="infoContainer">
                     <text class="label">BookID</text>

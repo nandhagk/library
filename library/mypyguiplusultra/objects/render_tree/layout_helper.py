@@ -722,7 +722,7 @@ class LayoutHelper:
         if node.renderInformation.text_align == 'center':
             node.renderInformation.text_x_offset += (node.renderInformation.width - node.renderInformation.scroll_region_x) / 2
             node.renderInformation.text_y_offset += (node.renderInformation.height - node.renderInformation.scroll_region_y) / 2
-        node.renderInformation.mask_children = node.renderInformation.text_overflow == css_enums.TextOverflow.clip
+        node.renderInformation.mask_children = node.renderInformation.text_overflow == css_enums.TextOverflow.clip or node.renderInformation.text_overflow == css_enums.TextOverflow.ellipsis
         return xs
 
     @staticmethod
@@ -886,9 +886,9 @@ class LayoutHelper:
         if styleHints.text_overflow == css_enums.TextOverflow.clip or styleHints.text_overflow == css_enums.TextOverflow.nowrap:
             size = fm.size(0, node.domNode().content)
             return size.width(), size.height()
-        if styleHints.text_overflow ==css_enums.TextOverflow.wrap:
+        if styleHints.text_overflow ==css_enums.TextOverflow.wrap or styleHints.text_overflow ==css_enums.TextOverflow.ellipsis:
             from PyQt6.QtCore import Qt
-            size = fm.boundingRect(0, 0, int(node.layoutInformation.content_width), 0, Qt.TextFlag.TextWordWrap, node.domNode().content)
+            size = fm.boundingRect(0, 0, int(node.layoutInformation.content_width), 0, Qt.TextFlag.TextWrapAnywhere, node.domNode().content)
             return size.width(), size.height()
 
         return 32, 32

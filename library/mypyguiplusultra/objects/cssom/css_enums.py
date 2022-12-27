@@ -47,7 +47,7 @@ class TextOverflow(Enum):
     nowrap = Enum.auto(first=True)
     wrap = Enum.auto()
     clip = Enum.auto()
-    ellipses = Enum.auto()
+    ellipsis = Enum.auto()
 
 class Visibility(Enum):
     visible = Enum.auto(first=True)

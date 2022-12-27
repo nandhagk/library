@@ -28,7 +28,8 @@
     font-size: 0.8rem;
     display: block;
     background-color: #333237;
-    border-radius: 0.5rem;   
+    border-radius: 0.5rem;
+    text-overflow: ellipsis;
 }
 
 .link{

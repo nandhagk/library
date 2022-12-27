@@ -3,21 +3,40 @@
     margin:1rem;
     background-color:#26262a;
     padding:1rem;
+    padding-bottom: 0;
 }
 
-.leftBox{
-    display: inline;
+.infoContainer{
+    margin-bottom: 1rem;
+    padding: 1rem;
+    padding-bottom: 0;
+    border: solid 2px #333237;
+    border-radius: 1rem;
 }
 
-.rightBox{
-    display: inline-block;
+.label{
+    font-size: 0.5rem;
+    display: block;
+    padding-left: 0.2rem;
+    opacity: 0.7;
 }
+
+
+.info{
+    margin-bottom: 1rem;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+    display: block;
+    background-color: #333237;
+    border-radius: 0.5rem;   
+    text-overflow: ellipsis;
+}
+
+.leftBox{display: inline; margin-right: 1rem;margin-bottom: 1rem;}
+.rightBox{display: inline-block; margin-bottom: 1rem;}
 
 img{
     height: 11rem;
     width: 8.5rem;
-}
-
-.title{
-    display: block-inline;
+    display: block;
 }

@@ -7,7 +7,8 @@ def requestData(personId, callback):
     print("Requesting for", personId)
     callback({
         'personId' : '109678',
-        'personName' : 'Shyam Prakash'
+        'personName' : 'Shyam Prakash',
+        'status' : 'Overdue'
     })
 
 @styles
@@ -16,7 +17,8 @@ class PersonInfo(pyx.Component):
         self.data = None
         self.refs = {
             'personName' : createRef(),
-            'personId' : createRef()
+            'personId' : createRef(),
+            'status' : createRef(),
         }
         self.searchResult = createRef()
         requestData(self.glob.data, self.handleData)
@@ -29,6 +31,7 @@ class PersonInfo(pyx.Component):
     def onMount(self): # TODO: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
         for key in self.data:
             self.refs[key]().content = self.data[key]
+
 
     def onPaint(self):
         self.searchResult().updateQuery({
@@ -48,7 +51,9 @@ class PersonInfo(pyx.Component):
                     <text class="info" ref={self.refs['personId']}>Loading....</text>
                     <text class="label">PersonName</text>
                     <text class="info" ref={self.refs['personName']}>Loading....</text>
-                </div>            
+                    <text class="label">Staus</text>
+                    <text class="info" ref={self.refs['status']}>Loading....</text>
+                </div>        
             </div>
             <SearchResult ref={self.searchResult} heading="Loans:" redirect={self.props['redirect']} />
         </div>

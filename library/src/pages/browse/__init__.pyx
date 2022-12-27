@@ -9,8 +9,8 @@ class Browse(pyx.Component):
         xs = <div class="book" clickable={True} id={book['id']}>
             <img source={book['src']} />
             <div class="infoContainer" qflags={(QGraphicsItem.GraphicsItemFlag.ItemDoesntPropagateOpacityToChildren,)}>
-                <text class="name">{book['title']}</text>
-                <text class="author">{book['author']}</text>
+                <text class="name">{book['title'][:16] + ("..." if book['title'][16:] else '')}</text>
+                <text class="author">{book['author'][:17] + ("..." if book['author'][17:] else '')}</text>
             </div>
         </div>
 
@@ -30,7 +30,7 @@ class Browse(pyx.Component):
             </div>) for category in categories)
 
     def body(self):
-        values = {"Trending": [{"id":"1","src":"https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg","title":"Black Pangher", "author":"ransgm"}], "New":[], "Magazines":[], "Classics":[]}
+        values = {"Trending": [{"id":"1","src":"https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg","title":"Harry Potter and the Goblet of Fire", "author":"J K Rowling"}], "New":[], "Magazines":[], "Classics":[]}
         return <div class="container">
             {*(self.hydrate( values ))}
         </div>
