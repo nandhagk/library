@@ -1,0 +1,23 @@
+.allContainer{
+    border-radius:1rem;
+    margin:1rem;
+    background-color:#26262a;
+    padding:1rem;
+}
+
+.leftBox{
+    display: inline;
+}
+
+.rightBox{
+    display: inline-block;
+}
+
+img{
+    height: 11rem;
+    width: 8.5rem;
+}
+
+.title{
+    display: block-inline;
+}

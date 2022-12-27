@@ -18,6 +18,8 @@ class Browse(pyx.Component):
 
         return xs
 
+        
+
 
     def hydrate(self, categories):
         return (( <div class="section">
@@ -28,7 +30,7 @@ class Browse(pyx.Component):
             </div>) for category in categories)
 
     def body(self):
-        values = {"Trending": [{"id":"1","src":"https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg","title":"Black Panther", "author":"ransom"}], "New":[], "Magazines":[], "Classics":[]}
+        values = {"Trending": [{"id":"1","src":"https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg","title":"Black Pangher", "author":"ransgm"}], "New":[], "Magazines":[], "Classics":[]}
         return <div class="container">
             {*(self.hydrate( values ))}
         </div>

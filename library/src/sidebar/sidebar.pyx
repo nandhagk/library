@@ -12,14 +12,22 @@ class Sidebar(pyx.Component):
     def init(self):
         self.activeItem = createRef()
 
-    def navigate(self, item):
-        if item.props['destination'] == self.props['currentPage']():return
-        self.props['currentPage'].set(item.props['destination'])
+
+    def deactivate(self):
+        if self.activeItem() is None:return
         self.activeItem().bodyNode().state.remove('active')
         self.activeItem().bodyNode().renderNode.renderWorker.setClickable(True)
+        self.activeItem.set(None)
+
+    def navigate(self, item):
+        if item.props.destination == self.glob.currentPage():return
+        self.glob.data = None
+        self.glob.currentPage.set(item.props.destination)
+        
+        self.deactivate()
         self.activeItem.set(item)
-        self.activeItem().bodyNode().state.add('active')
-        self.activeItem().bodyNode().renderNode.renderWorker.setClickable(False)
+        item.bodyNode().state.add('active')
+        item.bodyNode().renderNode.renderWorker.setClickable(False)
 
 
     def body(self):

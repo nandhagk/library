@@ -1,6 +1,5 @@
 from mypyguiplusultra.core import createRef, createDependancy
-from .searchResult import SearchResult
-from src.components import Toggle, SearchInput
+from src.components import Toggle, SearchInput, SearchResult
 
 class Search(pyx.Component):
     def init(self):
@@ -38,7 +37,7 @@ class Search(pyx.Component):
         return <div class="container">
             <Toggle searchFilter={self.searchFilter} items={['Loans', 'Books', 'People']}/>
             <SearchInput ref={self.searchInput} submitText={"Search"} submit={self.search} expect={self.getParams()}/>
-            <SearchResult ref={self.searchResult}/>
+            <SearchResult ref={self.searchResult} redirect={self.props['redirect']} />
         </div>
 
     def search(self, query):

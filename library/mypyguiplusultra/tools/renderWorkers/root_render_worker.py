@@ -58,3 +58,4 @@ class RootRenderWorker(RenderWorker):
         window.setCentralWidget(self.qgv)
 
         self._paintSlaves()
+        self.notifyNodeOfPaint()

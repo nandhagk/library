@@ -5,7 +5,10 @@ class Component:
     scopedStyleSheet = None
 
     def __init__(self, props, slots):
+        self.glob = props.globalObject
+        del props.globalObject
         self.props = props
+
         self.slots = slots
         self.parentNode = createRef()
         self.bodyNode = createRef()
@@ -16,6 +19,10 @@ class Component:
 
     def onMount(self):
         '''Called after the component has been mounted'''
+        pass
+
+    def onPaint(self):
+        '''Called after painting has finished'''
         pass
 
     def onUnmount(self):

@@ -1,0 +1,13 @@
+{
+    "emmet.includeLanguages": {
+        "pyx": "html"
+    },
+    "emmet.syntaxProfiles": {
+        "Python XML" : "html"
+    },
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "files.exclude": {
+        "library/src/**/*.py" : true,
+    }
+}

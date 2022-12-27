@@ -68,7 +68,7 @@ class SearchInput(pyx.Component):
         self.submit().on.click.subscribe(self.submitInput)
 
     def updateParams(self, params):
-        self.props['expect'] = params
+        self.props.expect = params
         container = self.bodyNode()
         for component in container.componentChildren:
             component.unmount(_notifyNode=False)

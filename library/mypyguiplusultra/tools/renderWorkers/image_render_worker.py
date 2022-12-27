@@ -30,12 +30,14 @@ class ImageRenderWorker(RenderWorker):
                 # print("need to rmap")
 
     def handleResponse(self, response):
+        print("response is came")
         if self.node() is None or self.node().domNode() is None:return
         if response.error() == QtNetwork.QNetworkReply.NetworkError.NoError:
             self.pixmap.loadFromData(response.readAll())
             self.mainQ.setPixmap(self.pixmap)
             if self.paintedNode:self._update()
         else:
+            print(response.error())
             print("ERROR IN LOADING RESOURCE")
 
         # TODO: If there are any memoery leaks, consider these two lines :)
@@ -46,6 +48,7 @@ class ImageRenderWorker(RenderWorker):
     def loadImageFromSource(self, src):
         # TODO: Fix the lag prodyced frmo getting over here
         req = QtNetwork.QNetworkRequest(QUrl(src))
+        print("requesting resource")
         self.nam = QtNetwork.QNetworkAccessManager()
         self.nam.finished.connect(self.handleResponse)
         self.nam.get(req)

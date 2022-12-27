@@ -7,6 +7,9 @@ class RenderWorker:
         self.node = createRef()
         self.mainQ = None
 
+    def notifyNodeOfPaint(self):
+        self.node().domNode()._notifyPaint()
+
     def layout(self, *args, **kwargs):
         return LayoutHelper.layoutBoxNode(self.node(), *args, **kwargs)
 
@@ -50,7 +53,7 @@ class RenderWorker:
 
         if self.node().domNode().attrs.get('qflags') is not None:
             self.mainQ.setFlags(*self.node().domNode().attrs.get('qflags'))
-        # TODO: Link all the events
+            
         # NOTE: If errors in this are like not fine, consider having references return like a `RecursiveNone` instead of normal None
         self.mainQ.mousePressEvent = lambda e:(self.mainQ.__class__.mousePressEvent(self.mainQ, e) if getattr(self, 'mainQ', None) is not None else 0) is None and self.node().domNode().on.click.resolve((e, self.node().domNode()))
         self.mainQ.hoverEnterEvent = lambda e:(self.mainQ.__class__.hoverEnterEvent(self.mainQ, e) if getattr(self, 'mainQ', None) is not None else 0) is None and self.node().domNode().on.hoverStart.resolve((e, self.node().domNode()))
@@ -60,8 +63,6 @@ class RenderWorker:
         self.mainQ.wheelEvent = lambda e:(self.mainQ.__class__.wheelEvent(self.mainQ, e) if getattr(self, 'mainQ', None) is not None else 0) is None and self.node().domNode().on.scroll.resolve((e, self.node().domNode()))
         self.mainQ.keyPressEvent = lambda e:(self.mainQ.__class__.keyPressEvent(self.mainQ, e) if getattr(self, 'mainQ', None) is not None else 0) is None and self.node().domNode().on.key.resolve((e, self.node().domNode()))
 
-        # TODO: Find a way to also call super().xxxEvent
-        # Cause some events like focus in and out are like kinda important to not break shit (especially for text)
 
     def handleScroll(self, delta, modifiers):
         return False

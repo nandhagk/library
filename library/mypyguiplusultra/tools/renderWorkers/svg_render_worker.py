@@ -34,3 +34,4 @@ class SVGRenderWorker(RenderWorker):
         self._connectEvents() # Connect events to the eventListener
 
         self._update(updateSlaves=False) # Basically just draws it :)
+        self.notifyNodeOfPaint()

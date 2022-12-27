@@ -70,7 +70,6 @@ class CSS(List):
 import runpy
 def parseRaw(raw, stylesheet):
     '''Parses all rules in raw and adds them to stylesheet'''
-    # TODO: Use tinycss2 instead of peg
     # print((tinycss2.parse_stylesheet(raw, skip_whitespace=True, skip_comments=True)[0].prelude))
     xs = parse(raw.strip(), CSS, whitespace=None)
     # print(compose(xs))

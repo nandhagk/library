@@ -24,7 +24,7 @@ class DOMNode:
         # Descriptors
         self.tag        = tag
         '''The tag name of the element'''
-        self.id         = attrs.get('id')
+        self.id         = attrs.id
         '''The id of this element (as specified in the html)'''
         self.classList = ClassList(createRef(self), attrs.get('class', "").split())
         '''A collection of classes associated with the element'''
@@ -44,11 +44,6 @@ class DOMNode:
         '''
         The textual content in the element
         '''
-
-
-        # In Events we can set ignore() to propogate the event to parent (dont propoaget hover start and hover end)
-        # https://doc.qt.io/qt-6/qgraphicsitem.html#protected-functions
-        # TODO: Link all of these events (qelem_handler._connectEvents)
         self.on = EventEmitter()
 
         self.on.key = Event('key')
@@ -171,6 +166,9 @@ class DOMNode:
             if _relayout:
                 currNode.layout()
                 child.renderNode.renderWorker.paint()
+                for i in _parent_components:
+                    i.onPaint()
+                    
                 currNode.renderWorker.update()
 
     def _onStateChange(self, added=None, removed=None, updateStyles=True):
@@ -194,3 +192,7 @@ class DOMNode:
         attrs = ' '.join(f'{key}="{value}"' for key, value in self.attrs.items())
         attrs = (' ' + attrs) if attrs else ''
         return f'<{self.tag}{attrs}>{f"...({len(self.children)})..." if self.children else ""}</{self.tag}>'
+
+    def _notifyPaint(self):
+        for component in self.componentChildren:
+            component.onPaint()

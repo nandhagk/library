@@ -172,7 +172,7 @@ class LayoutHelper:
         styleHints = LayoutHelper.getStyleHints(node)
 
         # TODO: This should not be here bastard
-        node.renderInformation.font = styleHints.font
+        #node.renderInformation.font = styleHints.font
 
         if styleHints.display == css_enums.Display.none:
             return 0, 0, 0, 0, False

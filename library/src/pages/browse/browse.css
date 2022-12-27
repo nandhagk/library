@@ -21,25 +21,25 @@
     padding-bottom: 0.5rem;
     overflow: hidden;
     border-radius: 1rem;
-    padding-bottom: -2.5rem;
+    padding-bottom: -3rem;
 }
 img{
-    height: 9rem;
-    width: 7rem;
+    height: 11rem;
+    width: 8.5rem;
     display: block;
 }
 .infoContainer{
     position: relative;
-    top: -2.5rem;
+    top: -3rem;
     background-color: black;
     opacity: 0.5;
-    width: 7rem;
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
+    width: 8.5rem;
+    padding-left: 0.75rem;
+    padding-top: 0.3rem;
 }
 .name{
     display: block-inline;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     opacity: 1;
 }
 .author{

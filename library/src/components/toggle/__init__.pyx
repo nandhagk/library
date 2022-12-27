@@ -39,7 +39,7 @@ class Toggle(pyx.Component):
             item.on.click.subscribe(self.onClick)
 
     def onClick(self, e):
-        if e[1].content == self.activeItem().content:return
+        if e[1] is self.activeItem():return
         self.activeItem().state.remove('active')
         self.activeItem().renderNode.renderWorker.setClickable(True)
         self.activeItem.set(e[1])
@@ -49,6 +49,6 @@ class Toggle(pyx.Component):
 
     def body(self):
         return <div class="container">
-            <text class="option" ref={self.activeItem}>{self.props['items'][0]}</text>
-            {*( <text class="option">{i}</text> for i in self.props['items'][1:])}
+            <text class="option" ref={self.activeItem}>{self.props.items[0]}</text>
+            {*( <text class="option">{i}</text> for i in self.props.items[1:])}
         </div>
