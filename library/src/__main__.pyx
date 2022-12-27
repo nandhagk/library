@@ -25,7 +25,6 @@ app.render(
     </Body>
 )
 # TODO:
-# Do the add pages bro
 # Make the edit pages
 
 # TODO:

@@ -12,22 +12,26 @@ class Add(pyx.Component):
     def getParams(self):
         if self.addFilter() == 'books':
             return SearchInput.Parameters(
-                Title       = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
-                Author      = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                Tags        = SearchInput.Parameters.ChipsInput(),
-                Description = SearchInput.Parameters.LongText()
+                Title         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
+                Author        = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
+                CoverURL      = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
+                Tags          = SearchInput.Parameters.ChipsInput(),
+                Description   = SearchInput.Parameters.LongText(),
+                Pages         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
+                TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
+                Publisher     = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
+                PublishedDate = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip())
             )
         elif self.addFilter() == 'people':
             return SearchInput.Parameters(
-                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                Status = SearchInput.Parameters.SwtichBoxInput(values=('Overdue', 'Lent', 'Returned', 'Damaged Before'))
+                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip())
             )
         elif self.addFilter() == 'loans':
             return SearchInput.Parameters(
-                BookID = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                PersonID = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                Status = SearchInput.Parameters.SwtichBoxInput(values=('Overdue', 'Lent', 'Returned')),
-                Date = SearchInput.Parameters.DateInput()
+                BookID     = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
+                PersonID   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
+                IssuedDate = SearchInput.Parameters.DateInput(),
+                DueDate    = SearchInput.Parameters.DateInput(),
             )
         elif self.addFilter() == 'tags':
             return SearchInput.Parameters(
@@ -44,6 +48,8 @@ class Add(pyx.Component):
         print("ADDING VALUES", values)
         # NOTE: Editing can basically just be a copy of this same page :)
         self.searchInput().updateParams(self.getParams())
+
+        # TODO: UI| Redirect to required info page :)
 
     def body(self):
         return <div class="container">

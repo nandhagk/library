@@ -37,6 +37,7 @@ class LoanInfo(pyx.Component):
         requestData(self.glob.data, self.handleData)
 
         # TODO: UI| Add delete and edit options
+        # TODO: Add return option
 
     def handleData(self, data):
         self.data = data
