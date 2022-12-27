@@ -65,7 +65,7 @@ class LayoutHelper:
 
 
         # Apply offset
-        # TODO: Apply offsets
+        # TODsO: Apply offsets
 
         node.setRenderInformation()
 
@@ -147,7 +147,7 @@ class LayoutHelper:
             node.layoutInformation.y = suggestedYPosition + parentContentYStart + max(styleHints.margin_top - providedMarginTop, 0)
 
         # Apply offset
-        # TODO: Apply offsets
+        # TOsDO: Apply offsets
 
         node.setRenderInformation()
 
@@ -171,7 +171,7 @@ class LayoutHelper:
         '''Layouts a node thats like normal ykwim?'''
         styleHints = LayoutHelper.getStyleHints(node)
 
-        # TODO: This should not be here bastard
+        # TOsDO: This should not be here bastard
         #node.renderInformation.font = styleHints.font
 
         if styleHints.display == css_enums.Display.none:

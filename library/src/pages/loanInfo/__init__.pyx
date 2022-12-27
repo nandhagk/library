@@ -16,8 +16,6 @@ def requestData(loanId, callback):
         'status' : 'Damaged'
     })
 
-    # TODO: UI| add a button to return the loan
-
 @styles
 class LoanInfo(pyx.Component):
     def init(self):

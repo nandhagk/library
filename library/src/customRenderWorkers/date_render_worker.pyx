@@ -36,7 +36,6 @@ class DateRenderWorker(RenderWorker):
             border-bottom-width:{node.renderInformation.border_width};
         {'}'}
         """)
-        # TODO: Remove bacground color of QGraphicsPRoxyItem
         self.calendarEditWidget.setFont(node.renderInformation.font)
         with QElemHelper.use(self.mainQ, node.renderInformation) as helper:
             # helper.setPath()

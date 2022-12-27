@@ -7,8 +7,6 @@ class Add(pyx.Component):
 
         self.searchInput = createRef()
 
-        # TODO: UI| Proper inputs as needed (refer to the todo.txts to see what all inputs are actually required)
-
     def getParams(self):
         if self.addFilter() == 'books':
             return SearchInput.Parameters(

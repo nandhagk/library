@@ -28,7 +28,8 @@ class PersonInfo(pyx.Component):
     def handleData(self, data):
         self.data = data
         
-    def onMount(self): # TODO: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
+    def onMount(self): 
+        # TODO: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
         for key in self.data:
             self.refs[key]().content = self.data[key]
 

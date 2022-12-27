@@ -40,7 +40,7 @@ class ImageRenderWorker(RenderWorker):
             print(response.error())
             print("ERROR IN LOADING RESOURCE")
 
-        # TODO: If there are any memoery leaks, consider these two lines :)
+        # NOTE: If there are any memoery leaks, consider these two lines :)
         self.nam.disconnect()
         self.nam.deleteLater()
 
