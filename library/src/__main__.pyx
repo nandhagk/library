@@ -15,6 +15,10 @@ app = createPyxApp(
     globalObject = glob
 )
 # TODO: Maybe try and implement popups?
+# https://www.pythonguis.com/tutorials/pyqt6-dialogs/
+
+# TODO: Change window title (QWindow.setWindowTitle)
+# TODO: Window Icon
 
 sidebar = createRef()
 glob.currentPage = createDependancy(Destinations.browse)
