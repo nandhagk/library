@@ -5,9 +5,24 @@ from src.models.book import Book
 from src.models.loan import Loan
 from src.models.user import User
 
+@pyx.useStylesheet(
+    """
+    .title{
+        font-size:1.8rem;
+        margin:1rem;
+    }
+    """
+)
 class Edit(pyx.Component):
+    def getTitle(self):
+        if self.glob.data['type'] == 'books':
+            return "Edit Book Info"
+        elif self.glob.data['type'] == 'people':
+            return "Edit User Info"
+        elif self.glob.data['type'] == 'loans':
+            return "Edit Loan Info"
+
     def getParams(self):
-        print(self.glob['data'])
         if self.glob.data['type'] == 'books':
             return SearchInput.Parameters(
                 BookID        = SearchInput.Parameters.SingleLineText(disable=True, value=self.glob['data']['data']['bookId']),
@@ -67,5 +82,6 @@ class Edit(pyx.Component):
 
     def body(self):
         return <div class="container">
+            <text class="title">{self.getTitle()}</text>
             <SearchInput submit={self.update} submitText={"Update"} expect={self.getParams()}/>
         </div>

@@ -14,13 +14,7 @@ app = createPyxApp(
     suppressQtWarnings=True,
     globalObject = glob
 )
-# TODO: Chips were overflowing
-# TODO: Some height problems when secondary text is empty
-# TODO: Clear results when switching tabs
-# TODO: Show loans in book info
-# TODO: Add a title for edit page
-# TODO: Paginator when 0 entries bugs out
-# TODO: Paginator show number of entries
+# TODO: Maybe try and implement popups?
 
 sidebar = createRef()
 glob.currentPage = createDependancy(Destinations.browse)

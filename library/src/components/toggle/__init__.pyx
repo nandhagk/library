@@ -50,5 +50,5 @@ class Toggle(pyx.Component):
     def body(self):
         return <div class="container">
             <text class="option" ref={self.activeItem}>{self.props.items[0]}</text>
-            {*( <text class="option">{i}</text> for i in self.props.items[1:])}
+            {*( <text class="option" clickable={True}>{i}</text> for i in self.props.items[1:])}
         </div>

@@ -32,6 +32,8 @@ class Search(pyx.Component):
 
     def searchFilterChange(self):
         self.searchInput().updateParams(self.getParams())
+        self.searchResult().clearResults()
+        self.searchResult().bodyNode().renderNode.reflow().renderWorker.update()
 
     def body(self):
         return <div class="container">

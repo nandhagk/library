@@ -35,6 +35,7 @@ class Paginator(pyx.Component):
     def init(self):
         self.currentPage = 1
         self.totalPages = 1
+        self.totalItems = 0
         self.labelSpan = createRef()
         self.backSVG = createRef()
         self.frontSVG = createRef()
@@ -78,7 +79,7 @@ class Paginator(pyx.Component):
         self.props['searchCommand']((self.currentPage - 1) * self.props['setSize'])
 
     def getLabelText(self):
-        return f"Page {self.currentPage} of {self.totalPages}"
+        return f"{repr(self.totalItems)} items | Page {self.currentPage} of {self.totalPages}"
 
     def body(self):
         return <div class="container">
@@ -88,6 +89,7 @@ class Paginator(pyx.Component):
         </div>
 
     def setTotalPages(self, n):
-        self.totalPages = ceil(n / self.props['setSize'])
+        self.totalItems = n
+        self.totalPages = max(ceil(n / self.props['setSize']), 1)
         self.currentPage = 1
         self.onPageChange()

@@ -1,6 +1,8 @@
 import styles from 'bookInfo.css'
 from mypyguiplusultra.core import createRef
 from src.models.book import Book
+from src.components import SearchResult
+
 def deleteRecord(id):
     Book.delete(id)
 
@@ -42,6 +44,7 @@ class BookInfo(pyx.Component):
         self.deleteButton = createRef()
         self.chipsViewer = createRef()
         self.editButton = createRef()
+        self.searchResult = createRef()
         requestData(self.glob.data, self.handleData)
 
     def linkToEdit(self, *e):
@@ -76,6 +79,11 @@ class BookInfo(pyx.Component):
     def onPaint(self):
         self.coverImg().renderNode.renderWorker.setImageSource(self.data['coverURL'])
         self.coverImg().renderNode.renderWorker.loadImageFromSource()
+        self.searchResult().updateQuery({
+            'resource':'loans',
+            'PersonID' : '',
+            'BookID' : self.data['bookId']
+        })
 
         
     def body(self):
@@ -126,4 +134,5 @@ class BookInfo(pyx.Component):
                     </button>
                 </div>     
             </div>
+            <SearchResult ref={self.searchResult} heading="Loans:" redirect={self.props['redirect']} />
         </div>

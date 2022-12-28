@@ -32,8 +32,8 @@ class Add(pyx.Component):
             )
         elif self.addFilter() == 'loans':
             return SearchInput.Parameters(
-                BookID     = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                PersonID   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
+                BookID     = SearchInput.Parameters.SingleLineText(validate=lambda t:BookCopy.find_available_to_loan(t) is not None),
+                PersonID   = SearchInput.Parameters.SingleLineText(validate=lambda t:User.exists(t)),
                 IssuedDate = SearchInput.Parameters.DateInput(),
                 DueDate    = SearchInput.Parameters.DateInput(),
             )
@@ -49,7 +49,6 @@ class Add(pyx.Component):
 
     def add(self, values):
         # TODO: SQL Later
-        print("ADDING VALUES", values) # Just do it in the validate function (on unfocus)
         # NOTE: Editing can basically just be a copy of this same page :)
         from ..destinations import Destinations
         if self.addFilter() == 'books':
@@ -57,17 +56,12 @@ class Add(pyx.Component):
             # TODO: ALl the other shit
             # {'Title': 'sdf', 'Author': 'sdf', 'CoverURL': 'sdf', 'Tags': set(), 'Description': ' dfsdf', 'Pages': '123', 'TotalCopies': '2', 'Publisher': 'dsf', 'PublishedDate': (28, 12, 2022)}
             book = Book.create(values['Title'], values['Author'], values['CoverURL'], values['Description'], [])   
-            print(book)     
             self.props['redirect'](Destinations.bookInfo, book.id)
         elif self.addFilter() == 'people':
             user = User.create(values['Name'])
             self.props['redirect'](Destinations.personInfo, user.id)
         elif self.addFilter() == 'loans':
             book_copy = BookCopy.find_available_to_loan(values['BookID'])
-            if book_copy is None:
-                # TODO: Relay this in the ui (no book copies left for lending)
-                print("BOOK COPY DOES NOT EXIST")
-                return
             loan = Loan.create(values['PersonID'], book_copy.id, values['IssuedDate'], values['DueDate'])
             self.props['redirect'](Destinations.loanInfo, loan.id)
         elif self.addFilter() == 'tags':
