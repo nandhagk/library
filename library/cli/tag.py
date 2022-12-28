@@ -18,9 +18,9 @@ def create(name: str) -> None:
 
 @tag.command()
 @option("--id", type=int, required=True, help="ID of the tag")
-def find(id: int) -> None:
+def find_by_id(id: int) -> None:
     """Finds a tag by its id."""
-    tag = Tag.find(id)
+    tag = Tag.find_by_id(id)
 
     if tag is None:
         print("Tag not found!")

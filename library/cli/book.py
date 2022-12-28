@@ -12,17 +12,27 @@ def book() -> None:
 
 @book.command()
 @option("--title", required=True, help="Title of the book")
-def create(title: str) -> None:
+@option("--author", required=True, help="Author of the book")
+@option("--cover-url", required=True, help="Cover URL of the book")
+@option("--description", required=True, help="Description of the book")
+def create(title: str, author: str, cover_url: str, description: str) -> None:
     """Creates a book."""
-    book = Book.create(title=title)
+    book = Book.create(
+        title=title,
+        author=author,
+        cover_url=cover_url,
+        description=description,
+        tag_ids=[],
+    )
+
     print(book)
 
 
 @book.command()
 @option("--id", type=int, required=True, help="ID of the book")
-def find(id: int) -> None:
+def find_by_id(id: int) -> None:
     """Finds a book by its id."""
-    book = Book.find(id)
+    book = Book.find_by_id(id)
 
     if book is None:
         print("Book not found!")

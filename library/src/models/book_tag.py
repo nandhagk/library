@@ -3,7 +3,7 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.src.database import connection, cursor
+from library.database import connection, cursor
 from library.src.models.book import Book
 from library.src.models.tag import Tag
 
@@ -20,10 +20,10 @@ class BookTag:
     book_id: int
 
     def tag(self) -> Tag:
-        return cast(Tag, Tag.find(self.tag_id))
+        return cast(Tag, Tag.find_by_id(self.tag_id))
 
     def book(self) -> Book:
-        return cast(Book, Book.find(self.book_id))
+        return cast(Book, Book.find_by_id(self.book_id))
 
     @classmethod
     def create(cls, book_id: int, tag_id: int) -> Self:
@@ -40,10 +40,10 @@ class BookTag:
 
         connection.commit()
 
-        return cast(cls, cls.find(book_id=book_id, tag_id=tag_id))
+        return cast(cls, cls.find_by_id(book_id=book_id, tag_id=tag_id))
 
     @classmethod
-    def find(cls, book_id: int, tag_id: int) -> Self | None:
+    def find_by_id(cls, book_id: int, tag_id: int) -> Self | None:
         """Finds a book tag by its book id and tag id."""
         payload = {"book_id": book_id, "tag_id": tag_id}
 
@@ -67,7 +67,7 @@ class BookTag:
     @classmethod
     def delete(cls, book_id: int, tag_id: int) -> Self | None:
         """Deletes a book tag by its book id and tag id."""
-        book_tag = cls.find(book_id=book_id, tag_id=tag_id)
+        book_tag = cls.find_by_id(book_id=book_id, tag_id=tag_id)
 
         if book_tag is None:
             return

@@ -3,7 +3,7 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.src.database import connection, cursor
+from library.database import connection, cursor
 
 TAGS: Final = [
     {"id": 1, "name": "Action"},
@@ -32,12 +32,12 @@ class Tag:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        tag = cast(cls, cls.find(id))
+        tag = cast(cls, cls.find_by_id(id))
 
         return tag
 
     @classmethod
-    def find(cls, id: int, /) -> Self | None:
+    def find_by_id(cls, id: int, /) -> Self | None:
         """Finds a tag by its id."""
         payload = {"id": id}
 
@@ -83,7 +83,7 @@ class Tag:
     @classmethod
     def update(cls, id: int, /, name: str | None = None) -> Self | None:
         """Updates a tag by its id."""
-        tag = cls.find(id)
+        tag = cls.find_by_id(id)
 
         if tag is None:
             return
@@ -106,12 +106,12 @@ class Tag:
 
         connection.commit()
 
-        return cast(cls, cls.find(id))
+        return cast(cls, cls.find_by_id(id))
 
     @classmethod
     def delete(cls, id: int, /) -> Self | None:
         """Deletes a tag by its id."""
-        tag = cls.find(id)
+        tag = cls.find_by_id(id)
 
         if tag is None:
             return

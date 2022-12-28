@@ -18,9 +18,9 @@ def add(book_id: int) -> None:
 
 @book_copy.command()
 @option("--id", type=int, required=True, help="ID of the book copy")
-def find(id: int) -> None:
+def find_by_id(id: int) -> None:
     """Finds a copy of a book by its id."""
-    book_copy = BookCopy.find(id)
+    book_copy = BookCopy.find_by_id(id)
 
     if book_copy is None:
         print("Book Copy not found!")

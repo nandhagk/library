@@ -3,7 +3,7 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.src.database import connection, cursor
+from library.database import connection, cursor
 from library.src.models.book import Book
 
 BOOK_COPIES: Final = [
@@ -22,7 +22,7 @@ class BookCopy:
     book_id: int
 
     def book(self) -> Book:
-        return cast(Book, Book.find(self.id))
+        return cast(Book, Book.find_by_id(self.id))
 
     @classmethod
     def create(cls, book_id: int) -> Self:
@@ -40,12 +40,12 @@ class BookCopy:
         connection.commit()
 
         id = cast(int, cursor.lastrowid)
-        book_copy = cast(cls, cls.find(id))
+        book_copy = cast(cls, cls.find_by_id(id))
 
         return book_copy
 
     @classmethod
-    def find(cls, id: int, /) -> Self | None:
+    def find_by_id(cls, id: int, /) -> Self | None:
         """Finds a copy of a book by its id."""
         payload = {"id": id}
 
@@ -95,7 +95,7 @@ class BookCopy:
     @classmethod
     def delete(cls, id: int, /) -> Self | None:
         """Deletes a book copy by its id."""
-        book_copy = cls.find(id)
+        book_copy = cls.find_by_id(id)
 
         if book_copy is None:
             return

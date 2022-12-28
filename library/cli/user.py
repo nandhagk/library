@@ -18,9 +18,9 @@ def create(name: str) -> None:
 
 @user.command()
 @option("--id", type=int, required=True, help="ID of the user")
-def find(id: int) -> None:
+def find_by_id(id: int) -> None:
     """Finds a user by their id."""
-    user = User.find(id)
+    user = User.find_by_id(id)
 
     if user is None:
         print("User not found!")

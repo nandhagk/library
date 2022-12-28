@@ -4,7 +4,7 @@ from library.cli.book import book
 from library.cli.loan import loan
 from library.cli.tag import tag
 from library.cli.user import user
-from library.src.database import cursor
+from library.database import cursor
 from library.src.models.book import Book
 from library.src.models.book_copy import BookCopy
 from library.src.models.book_tag import BookTag

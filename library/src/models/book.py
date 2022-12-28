@@ -3,11 +3,23 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.src.database import connection, cursor
+from library.database import connection, cursor
 
 BOOKS: Final = [
-    {"id": 1, "title": "Great Expectations"},
-    {"id": 2, "title": "David Copperfield"},
+    {
+        "id": 1,
+        "title": "Great Expectations",
+        "author": "Charles Dickens",
+        "cover_url": "https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg",
+        "description": "Story book",
+    },
+    {
+        "id": 2,
+        "title": "David Copperfield",
+        "author": "Charles Dickens",
+        "cover_url": "https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg",
+        "description": "Story book",
+    },
 ]
 
 
@@ -15,29 +27,76 @@ BOOKS: Final = [
 class Book:
     id: int
     title: str
+    author: str
+    cover_url: str
+    description: str
 
     @classmethod
-    def create(cls, title: str) -> Self:
+    def create(
+        cls,
+        title: str,
+        author: str,
+        cover_url: str,
+        description: str,
+        tag_ids: list[int],
+    ) -> Self:
         """Creates a book."""
-        payload = {"title": title}
+        payload = {
+            "title": title,
+            "author": author,
+            "cover_url": cover_url,
+            "description": description,
+        }
 
         cursor.execute(
             """
-            INSERT INTO books (title)
-            VALUES (%(title)s)
+            INSERT INTO books (title, author, cover_url, description)
+            VALUES (%(title)s, %(author)s, %(cover_url)s, %(description)s)
+            """,
+            payload,
+        )
+
+        id = cast(int, cursor.lastrowid)
+        payload = [{"book_id": id, "tag_id": tag_id} for tag_id in tag_ids]
+
+        cursor.executemany(
+            """
+            INSERT INTO book_tags (book_id, tag_id)
+            VALUES (%(book_id)s, %(tag_id)s)
             """,
             payload,
         )
 
         connection.commit()
 
-        id = cast(int, cursor.lastrowid)
-        book = cast(cls, cls.find(id))
+        book = cast(cls, cls.find_by_id(id))
 
         return book
 
     @classmethod
-    def find(cls, id: int, /) -> Self | None:
+    def exists(cls, id: int, /) -> bool:
+        return bool(cls.find_by_id(id))
+
+    @classmethod
+    def search(cls, title: str, author: str) -> list[Self]:
+        """Searches books."""
+        payload = {"title": f"%{title}%", "author": f"%{author}%"}
+
+        cursor.execute(
+            """
+            SELECT * from books
+            WHERE
+                title ILIKE %(title)s
+                OR author ILIKE %(author)s
+            """,
+            payload,
+        )
+
+        results = cursor.fetchall()
+        return [cls(*result) for result in results]  # type: ignore
+
+    @classmethod
+    def find_by_id(cls, id: int, /) -> Self | None:
         """Finds a book by its id."""
         payload = {"id": id}
 
@@ -81,9 +140,17 @@ class Book:
         return [cls(*result) for result in results]
 
     @classmethod
-    def update(cls, id: int, /, title: str | None = None) -> Self | None:
+    def update(
+        cls,
+        id: int,
+        /,
+        title: str | None = None,
+        author: str | None = None,
+        cover_url: str | None = None,
+        description: str | None = None,
+    ) -> Self | None:
         """Updates a book by its id."""
-        book = cls.find(id)
+        book = cls.find_by_id(id)
 
         if book is None:
             return
@@ -93,11 +160,23 @@ class Book:
         if title is not None:
             payload["title"] = title
 
+        if author is not None:
+            payload["author"] = author
+
+        if cover_url is not None:
+            payload["cover_url"] = cover_url
+
+        if description is not None:
+            payload["description"] = description
+
         cursor.execute(
             """
             UPDATE books
             SET
                 title = %(title)s
+                author = %(author)s
+                cover_url = %(cover_url)s
+                description = %(description)s
             WHERE
                 id = %(id)s
             """,
@@ -106,12 +185,12 @@ class Book:
 
         connection.commit()
 
-        return cast(cls, cls.find(id))
+        return cast(cls, cls.find_by_id(id))
 
     @classmethod
     def delete(cls, id: int, /) -> Self | None:
         """Deletes a book by its id."""
-        book = cls.find(id)
+        book = cls.find_by_id(id)
 
         if book is None:
             return
@@ -145,6 +224,9 @@ class Book:
             CREATE TABLE books (
                 id INT AUTO_INCREMENT,
                 title VARCHAR(255) NOT NULL,
+                author VARCHAR(255) NOT NULL,
+                cover_Url TEXT NOT NULL,
+                description VARCHAR(255) NOT NULL,
                 PRIMARY KEY (id)
             )
             """
@@ -154,8 +236,8 @@ class Book:
 
         cursor.executemany(
             """
-            INSERT INTO books (id, title)
-            VALUES (%(id)s, %(title)s)
+            INSERT INTO books (id, title, author, cover_url, description)
+            VALUES (%(id)s, %(title)s, %(author)s, %(cover_url)s, %(description)s)
             """,
             payload,
         )
