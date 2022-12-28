@@ -28,7 +28,7 @@ class SVGRenderWorker(RenderWorker):
             return
 
         qparent = self._getParent()
-        self.mainQ = QGraphicsSvgItem(node.domNode().attrs['src'], qparent)
+        self.mainQ = QGraphicsSvgItem(node.domNode().attrs['source'], qparent)
         if node.domNode().attrs.get("clickable"):
             self.setClickable(True)
         self._connectEvents() # Connect events to the eventListener

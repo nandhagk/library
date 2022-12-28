@@ -2,7 +2,7 @@
 from PyQt6.QtWidgets import QGraphicsProxyWidget, QDateEdit , QStyle
 from mypyguiplusultra.tools.renderWorkers.render_worker import RenderWorker
 from mypyguiplusultra.tools.renderWorkers.qelem_helper import QElemHelper
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
 from mypyguiplusultra.objects.render_tree.layout_helper import LayoutHelper
 
 
@@ -57,8 +57,11 @@ class DateRenderWorker(RenderWorker):
     def updateTextContent(self, t):
         self.node().domNode().content = t
 
-    def setText(self, t):
-        self.calendarEditWidget.setText(t)
+    def handleScroll(self, delta, modifiers):
+        return True
+
+    def setDate(self, datestr):
+        self.calendarEditWidget.setDate(QDate.fromString(datestr, "dd-MMM-yyyy"))
 
     def _paint(self, qparent = None):
         node = self.node() # The renderNode
@@ -69,7 +72,8 @@ class DateRenderWorker(RenderWorker):
         qparent = self._getParent()
 
         self.mainQ = QGraphicsProxyWidget(qparent) # Create the QGraphicsItem
-        self.calendarEditWidget = QDateEdit ()
+        self.calendarEditWidget = QDateEdit()
+        self.calendarEditWidget.setDisplayFormat("dd-MMM-yyyy")
         # self.calendarEditWidget.setPlaceholderText(self.node().domNode().attrs.get('placeholder', ''))
         self.mainQ.setWidget(self.calendarEditWidget)
 
@@ -77,3 +81,4 @@ class DateRenderWorker(RenderWorker):
         # self.calendarEditWidget.textChanged.connect(self.updateTextContent)
 
         self._update(updateSlaves=False) # Basically just draws it :)
+        self.notifyNodeOfPaint()

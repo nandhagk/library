@@ -12,6 +12,9 @@ class DateInput(pyx.Component):
     def validate(self, *e):
         return True
 
+    def onPaint(self):
+        self.input().renderNode.renderWorker.setDate(self.props['options']['value'])
+
     def body(self):
         return <div class="inputContainer">
             <text class="label">{self.props['inputName']}</text>

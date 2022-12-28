@@ -15,6 +15,10 @@ class InputRenderWorker(RenderWorker):
 
     def layout(self, *args, **kwargs):
         return LayoutHelper.layoutTextNode(self.node(), *args, **kwargs)
+
+    def setEnabled(self, enabled):
+        self.lineEditWidget.setEnabled(enabled)
+
     def _update(self, updateSlaves=True):
         node = self.node()
         if node is None: # If reference to the node does not exist, we cannot update it

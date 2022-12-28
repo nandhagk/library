@@ -24,12 +24,11 @@ app.render(
         <Content sidebar={sidebar}></Content>
     </Body>
 )
-# TODO:
-# Make the edit pages
+# TODO NOW NOW:
+# ASYNC!! SQL!! QUERIES!!
 
-# TODO:
-# Edit pages for each info (just the same as the add pages) (Or should we make it the same as info page?)
+# TODO: Think of the flow of how actually a new loan is made (cause right now the user has to remember the personId and bookId)
+# Maybe just keep some kind of validation that is done on unfocus that shows like person name and book name once id is put?
 
-# After that do the edit pages
 
 print('Execution finis ho gaya')

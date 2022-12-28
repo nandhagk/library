@@ -20,7 +20,7 @@ class LayoutHelper:
         parentContentYStart=0,
 
         reflowedElement=None,
-        contentSize=(0, 0) # TODO: Make this contentSizeFunction
+        contentSize=(0, 0)
     ):
         '''Layouts nodes with `display:block`'''
 

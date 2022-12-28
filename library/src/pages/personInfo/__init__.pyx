@@ -2,6 +2,11 @@ import styles from 'personInfo.css'
 from mypyguiplusultra.core import createRef
 from src.components import SearchResult
 
+def deleteRecord(id):
+    # TODO: SQL
+    print("Deleting record")
+
+
 def requestData(personId, callback):
     # TODO: SQL
     print("Requesting for", personId)
@@ -20,10 +25,11 @@ class PersonInfo(pyx.Component):
             'personId' : createRef(),
             'status' : createRef(),
         }
+        self.deleteButton = createRef()
+        self.editButton = createRef()
         self.searchResult = createRef()
         requestData(self.glob.data, self.handleData)
 
-        # TODO: UI| Add delete and edit options
 
     def handleData(self, data):
         self.data = data
@@ -32,17 +38,21 @@ class PersonInfo(pyx.Component):
         # TODO: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
         for key in self.data:
             self.refs[key]().content = self.data[key]
-
+        self.deleteButton().on.click.subscribe(self.deleteRecord)
+        self.editButton().on.click.subscribe(self.linkToEdit)
 
     def onPaint(self):
         self.searchResult().updateQuery({
             'personId' : 123
         })
 
-        # TODO: Think of the flow of how actually a new loan is made (cause right now the user has to remember the personId and bookId)
-        # Maybe just keep some kind of validation that is done on unfocus that shows like person name and book name once id is put?
-
-        # The edit pages will be easier than the info pages for sure
+    def linkToEdit(self, *e):
+        from ..destinations import Destinations
+        self.props['redirect'](Destinations.edit, {'type':'people', 'data' : self.data})
+    def deleteRecord(self, *e):
+        deleteRecord(self.data['personId'])
+        from ..destinations import Destinations
+        self.props['redirect'](Destinations.search, {})
 
     def body(self):
         return <div class="container">
@@ -54,7 +64,20 @@ class PersonInfo(pyx.Component):
                     <text class="info" ref={self.refs['personName']}>Loading....</text>
                     <text class="label">Staus</text>
                     <text class="info" ref={self.refs['status']}>Loading....</text>
-                </div>        
+                </div>
+                <div class="absoluteBox">
+                    <button class="delete" ref={self.deleteButton}>
+                        <svg src="../../commonMedia/delete.svg"></svg>
+                        <span class="del">Delete</span>
+                    </button>
+                    <button class="edit" ref={self.editButton}>
+                        <svg src="../../commonMedia/edit.svg"></svg>
+                        <span class="edi">Edit</span>
+                    </button>
+                </div>  
             </div>
+            
+           
+             
             <SearchResult ref={self.searchResult} heading="Loans:" redirect={self.props['redirect']} />
         </div>

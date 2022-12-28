@@ -18,7 +18,7 @@ class Add(pyx.Component):
                 Pages         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
                 TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
                 Publisher     = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
-                PublishedDate = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip())
+                PublishedDate = SearchInput.Parameters.DateInput()
             )
         elif self.addFilter() == 'people':
             return SearchInput.Parameters(
@@ -44,10 +44,17 @@ class Add(pyx.Component):
     def add(self, values):
         # TODO: SQL
         print("ADDING VALUES", values)
+        id = "ID"
         # NOTE: Editing can basically just be a copy of this same page :)
-        self.searchInput().updateParams(self.getParams())
-
-        # TODO: UI| Redirect to required info page :)
+        from ..destinations import Destinations
+        if self.addFilter() == 'books':
+            self.props['redirect'](Destinations.bookInfo, id)
+        elif self.addFilter() == 'people':
+            self.props['redirect'](Destinations.personInfo, id)
+        elif self.addFilter() == 'loans':
+            self.props['redirect'](Destinations.loanInfo, id)
+        else:
+            self.searchInput().updateParams(self.getParams())
 
     def body(self):
         return <div class="container">

@@ -7,28 +7,33 @@ from .dateInput import DateInput
 from mypyguiplusultra.core import createRef
 from mypyguiplusultra.tools.renderWorkers import TextRenderWorker
 
+from datetime import datetime
+
 @styles
 class SearchInput(pyx.Component):
+
     class Parameters:
         _SingleLineText = 0
         _ChipsInput     = 1
         _SwtichBoxInput = 2
         _LongText       = 3
         _DateInput      = 4
-
         @staticmethod
-        def DateInput():
-            return (SearchInput.Parameters._DateInput, {})
+        def DateInput(value = datetime.today().strftime("%d-%b-%Y")):
+            return (SearchInput.Parameters._DateInput, {'value':value})
         @staticmethod
-        def SingleLineText(placeholder='', validate=lambda t:True):
+        def SingleLineText(placeholder='', validate=lambda t:True, disable=False, value=''):
             return (SearchInput.Parameters._SingleLineText, {
                 'placeholder':placeholder,
-                'validate':validate
+                'validate':validate,
+                'disable' : disable,
+                'value': value
             })
         @staticmethod
-        def ChipsInput(placeholder=''):
+        def ChipsInput(placeholder='', value=set()):
             return (SearchInput.Parameters._ChipsInput, {
-                'placeholder':placeholder
+                'placeholder':placeholder,
+                'value' : value
             })
         @staticmethod
         def SwtichBoxInput(values=()):
@@ -36,9 +41,9 @@ class SearchInput(pyx.Component):
                 'values':values
             })
         @staticmethod
-        def LongText():
+        def LongText(value = ''):
             return (SearchInput.Parameters._LongText, {
-
+                'value' : value
             })
 
         def __init__(self, **params):
@@ -85,6 +90,8 @@ class SearchInput(pyx.Component):
         xs = container.renderNode.reflow()
         for child in container.children:
             child.renderNode.renderWorker.paint()
+        for component in container.componentChildren:
+            component.onPaint()
         xs.renderWorker.update()
     def body(self):
         return <div class="container">

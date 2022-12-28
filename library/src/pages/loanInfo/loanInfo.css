@@ -3,7 +3,8 @@
     margin:1rem;
     background-color:#26262a;
     padding:1rem;
-    padding-bottom: 0;
+    padding-bottom: 3.5rem;
+    position: relative;
 }
 
 .infoContainer{
@@ -39,4 +40,51 @@
 }
 .link:hover{
     color: #9e97dd;
+}
+
+button{
+    display: inline-only;
+    margin: 0.75rem;
+    border-radius: 1rem;
+    padding: 0.5rem;
+    border: solid 2px #333237;
+}
+.absoluteBox{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    display: inline;
+}
+span{
+    display: inline-only;
+    font-size: 0.7rem;
+    font-weight: 640;
+    margin-left: 0.5rem;
+}
+
+svg{
+    width: 1rem;
+    display: inline-block;
+    aspect-ratio: 1;
+}
+
+.edit:hover{
+    border: solid 2px #9e97dd;
+}
+.delete:hover{
+    border: solid 2px red;
+}
+.return:hover{
+    border: solid 2px #60dba4;
+}
+
+.del{
+    color:red;
+}
+.edi{
+    color: #9e97dd;
+}
+.ret{
+    color: #60dba4;
 }

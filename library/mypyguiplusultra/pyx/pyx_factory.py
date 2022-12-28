@@ -12,10 +12,8 @@ def setGlobalObject(obj):
 
 def createElement(elem, attrs, *children):
     global globalObject
-    try:
-        attrs = Object(**attrs)
-    except:
-        print(attrs)
+    
+    attrs = Object(**attrs)
 
     ref = attrs.ref
     if ref is not None:

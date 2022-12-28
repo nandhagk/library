@@ -67,8 +67,8 @@ class Content(pyx.Component):
             return <Search ref={self.content} redirect={self.redirect}/>
         elif cp == Destinations.add:
             return <Add ref={self.content} redirect={self.redirect}/>
-        # elif cp == Destinations.edit:
-        #     return <Edit ref={self.content} redirect={self.redirect}/>
+        elif cp == Destinations.edit:
+            return <Edit ref={self.content} redirect={self.redirect}/>
         elif cp == Destinations.loanInfo:
             return <LoanInfo ref={self.content} redirect={self.redirect}/>
         elif cp == Destinations.bookInfo:
