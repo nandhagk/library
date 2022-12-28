@@ -20,6 +20,9 @@ from math import ceil
         margin-right:1rem;
         margin-left:-0.2rem;
     }
+    .right{
+        display:inline-block-only;
+    }
     svg:hover{
         opacity:0.5;
     }
@@ -81,7 +84,7 @@ class Paginator(pyx.Component):
         return <div class="container">
             <span ref={self.labelSpan}>{self.getLabelText()}</span>
             <svg ref={self.backSVG} src="./back.svg"/>
-            <svg ref={self.frontSVG} src="./forward.svg"/>
+            <svg ref={self.frontSVG} class="right" src="./forward.svg"/>
         </div>
 
     def setTotalPages(self, n):

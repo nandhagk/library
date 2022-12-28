@@ -32,9 +32,9 @@ def linkNode(node, parent, gss, wp):
     node.renderNode = RenderNode(node, wp, renderWorker=qh)
 
     if node.tag == 'button':
-        node.attrs['clickable'] = node.attrs.get('clickable', True)
+        node.attrs.clickable = node.attrs.get('clickable', True)
     elif node.tag == 'img':
-        node.renderNode.renderWorker.loadImageFromSource(node.attrs['source'])
+        node.renderNode.renderWorker.setImageSource(node.attrs['source'])
 
 
 def linkDom(root, gss, wp):

@@ -20,7 +20,7 @@ class LayoutHelper:
         parentContentYStart=0,
 
         reflowedElement=None,
-        contentSize=(0, 0) # TODO: Make this contentSizeFunction
+        contentSize=(0, 0)
     ):
         '''Layouts nodes with `display:block`'''
 
@@ -65,7 +65,7 @@ class LayoutHelper:
 
 
         # Apply offset
-        # TODO: Apply offsets
+        # TODsO: Apply offsets
 
         node.setRenderInformation()
 
@@ -147,7 +147,7 @@ class LayoutHelper:
             node.layoutInformation.y = suggestedYPosition + parentContentYStart + max(styleHints.margin_top - providedMarginTop, 0)
 
         # Apply offset
-        # TODO: Apply offsets
+        # TOsDO: Apply offsets
 
         node.setRenderInformation()
 
@@ -171,8 +171,8 @@ class LayoutHelper:
         '''Layouts a node thats like normal ykwim?'''
         styleHints = LayoutHelper.getStyleHints(node)
 
-        # TODO: This should not be here bastard
-        node.renderInformation.font = styleHints.font
+        # TOsDO: This should not be here bastard
+        #node.renderInformation.font = styleHints.font
 
         if styleHints.display == css_enums.Display.none:
             return 0, 0, 0, 0, False

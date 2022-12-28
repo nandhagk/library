@@ -11,13 +11,11 @@
 }
 .container:active{
     background-color: #9e97dd;
-    /* COLOR-SCHEME: todo; */
     opacity: 0.5;
 }
 
 svg{
     background-color: #9e97dd;
-    /* COLOR-SCHEME: todo; */
     width: 1.5rem;
     margin: 0.25rem;
     display: inline-block;

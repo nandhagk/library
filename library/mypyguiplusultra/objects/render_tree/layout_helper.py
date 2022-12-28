@@ -186,6 +186,99 @@ class LayoutHelper:
             )
 
     @staticmethod
+    def layoutInlineBlockOnlyNode(
+        node, styleHints,
+
+        suggestedXPosition=0, # The suggested X position
+        suggestedYPosition=0, # The suggested Y position
+
+        lineWidth=0, # The maximum width suggested
+        lineHeight=0, # The height of the current line
+
+        providedMarginLeft=0, # The margin already provided towards the left (i.e. the right of the sibling element)
+        providedMarginTop=0, # The margin already provided towards the top
+        providedMarginBottom=0, # The margin provided already on the next line towards the top (i.e bottom of the current line)
+
+        parentContentXStart=0, # Coordinate of top left of content box (wrt parent)
+        parentContentYStart=0,
+
+        hidden=False, # Whether the current node must be hidden or not
+        contentSizeCalculator=lambda n:(0,0) # Function that calculates the size of the node's content
+    ) -> (
+        float, # Space taken in x direction
+        float, # Spave taken in y direction
+        float, # Margin provided to the node's right
+        float, # Margin provided to the node's bottom
+        bool,  # Whether the node was positioned on a new line or not
+        bool,  # Whether the next node is forced to be on new line or not
+    ):
+        '''`display:inline-block-only`'''
+        isOnNewLine = False
+
+        if styleHints.width is None: # Block elements will extend their width as much as possible if their width isnt specified
+            node.layoutInformation.width = LayoutHelper.validatedWidth(lineWidth - suggestedXPosition - max(styleHints.margin_left - providedMarginLeft, 0) - styleHints.margin_right, styleHints)
+        else:
+            node.layoutInformation.width = LayoutHelper.validatedWidth(styleHints.width, styleHints)
+
+        # Set the content_width (i.e the maximum space suggested for children to take)
+        node.layoutInformation.content_width = LayoutHelper.getContentWidthFromWidth(node.layoutInformation.width, styleHints)
+
+        if styleHints.height is not None: # If the height was stated, set it
+            node.layoutInformation.height = LayoutHelper.validatedHeight(styleHints.height, styleHints)
+
+        if styleHints.height is None and styleHints.aspect_ratio is not None: # If an aspect ratio is specified and height is not explicitly set, explicitly set the height
+            node.layoutInformation.height = LayoutHelper.validatedHeight(node.layoutInformation.width * styleHints.aspect_ratio[1] / styleHints.aspect_ratio[0], styleHints) # height = width * (y/x)
+
+        # NOTE: This content size is the actual size the content takes while layoutInformation.content_height and layoutInformation.content_width specify the 'maximum size' of content
+        contentWidth, contentHeight = contentSizeCalculator(node)
+        node.layoutInformation.scroll_region_x = contentWidth
+        node.layoutInformation.scroll_region_y = contentHeight
+
+        if styleHints.height is None and styleHints.aspect_ratio is None: # i.e if the height wasnt set before
+            node.layoutInformation.height = LayoutHelper.validatedHeight(LayoutHelper.getHeightFromContentHeight(contentHeight, styleHints), styleHints)
+            # Note that the validatedHeight might not conform with the contentHeight but that ok :) (and thats also why im recalculating the content height in the next line)
+
+        # Set the content_height (it isnt really that important, just defining it for consistency)
+        node.layoutInformation.content_height = LayoutHelper.getContentHeightFromHeight(node.layoutInformation.height, styleHints)
+
+        # Layout the slaves that arent my children
+        LayoutHelper.layoutOrphanedSlaves(node)
+
+        # Set position
+        if isOnNewLine:
+            node.layoutInformation.x = styleHints.margin_left + parentContentXStart
+            node.layoutInformation.y = lineHeight + suggestedYPosition + max(styleHints.margin_top-providedMarginBottom, 0) + parentContentYStart
+        else:
+            node.layoutInformation.x = suggestedXPosition + parentContentXStart + max(styleHints.margin_left - providedMarginLeft, 0)
+            node.layoutInformation.y = suggestedYPosition + parentContentYStart + max(styleHints.margin_top - providedMarginTop, 0)
+
+        # Apply offset
+        dx, dy = LayoutHelper.getOffset(node, styleHints)
+        node.layoutInformation.x += dx
+        node.layoutInformation.y += dy
+
+        if styleHints.isAbsolute:
+            node.layoutInformation.x, node.layoutInformation.y = LayoutHelper.getAbsoluteyPosition(node, styleHints)
+
+        node.setRenderInformation()
+
+        if isOnNewLine:
+            return (
+                node.layoutInformation.width + styleHints.margin_right + styleHints.margin_left,
+                node.layoutInformation.height + styleHints.margin_bottom + max(styleHints.margin_top - providedMarginTop, 0),
+                styleHints.margin_right, styleHints.margin_bottom,
+                isOnNewLine, False
+            )
+        else:
+            return (
+                node.layoutInformation.width + styleHints.margin_right + max(styleHints.margin_left - providedMarginLeft, 0),
+                node.layoutInformation.height + styleHints.margin_bottom + max(styleHints.margin_top - providedMarginTop, 0),
+                styleHints.margin_right, styleHints.margin_bottom,
+                isOnNewLine, False
+            )
+
+
+    @staticmethod
     def layoutInlineNode(
         node, styleHints,
 
@@ -477,6 +570,20 @@ class LayoutHelper:
                 parentContentYStart = parentContentYStart,
                 contentSizeCalculator = contentSizeCalculator
             )
+        elif styleHints.display == css_enums.Display.inline_block_only:
+            return LayoutHelper.layoutInlineBlockOnlyNode(
+                node, styleHints,
+                suggestedXPosition = suggestedXPosition,
+                suggestedYPosition = suggestedYPosition,
+                lineWidth = lineWidth,
+                lineHeight = lineHeight,
+                providedMarginLeft = providedMarginLeft,
+                providedMarginTop = providedMarginTop,
+                providedMarginBottom = providedMarginBottom,
+                parentContentXStart = parentContentXStart,
+                parentContentYStart = parentContentYStart,
+                contentSizeCalculator = contentSizeCalculator
+            )
         elif styleHints.display == css_enums.Display.flex:
             return LayoutHelper.layoutFlexNode(
                 node, styleHints,
@@ -615,7 +722,7 @@ class LayoutHelper:
         if node.renderInformation.text_align == 'center':
             node.renderInformation.text_x_offset += (node.renderInformation.width - node.renderInformation.scroll_region_x) / 2
             node.renderInformation.text_y_offset += (node.renderInformation.height - node.renderInformation.scroll_region_y) / 2
-        node.renderInformation.mask_children = node.renderInformation.text_overflow == css_enums.TextOverflow.clip
+        node.renderInformation.mask_children = node.renderInformation.text_overflow == css_enums.TextOverflow.clip or node.renderInformation.text_overflow == css_enums.TextOverflow.ellipsis
         return xs
 
     @staticmethod
@@ -779,9 +886,9 @@ class LayoutHelper:
         if styleHints.text_overflow == css_enums.TextOverflow.clip or styleHints.text_overflow == css_enums.TextOverflow.nowrap:
             size = fm.size(0, node.domNode().content)
             return size.width(), size.height()
-        if styleHints.text_overflow ==css_enums.TextOverflow.wrap:
+        if styleHints.text_overflow ==css_enums.TextOverflow.wrap or styleHints.text_overflow ==css_enums.TextOverflow.ellipsis:
             from PyQt6.QtCore import Qt
-            size = fm.boundingRect(0, 0, int(node.layoutInformation.content_width), 0, Qt.TextFlag.TextWordWrap, node.domNode().content)
+            size = fm.boundingRect(0, 0, int(node.layoutInformation.content_width), 0, Qt.TextFlag.TextWrapAnywhere, node.domNode().content)
             return size.width(), size.height()
 
         return 32, 32

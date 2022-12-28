@@ -1,16 +1,31 @@
 from mypyguiplusultra.objects import DOMNode
 from mypyguiplusultra.pyx import Component
+from mypyguiplusultra.core.util import Object
+
+globalObject = Object()
+
+
+def setGlobalObject(obj):
+    global globalObject
+    globalObject = obj
+
 
 def createElement(elem, attrs, *children):
-    ref = attrs.get('ref')
+    global globalObject
+    
+    attrs = Object(**attrs)
+
+    ref = attrs.ref
     if ref is not None:
-        del attrs['ref']
+        del attrs.ref
 
     if type(elem) == str: # String element
         element = DOMNode(elem, attrs, children)
     elif isinstance(elem, type) and issubclass(elem, Component): # Create component
+        attrs.globalObject = globalObject
         element = elem(attrs, children)
     else: # The elem is a macro
+        attrs.globalObject = globalObject
         element = elem(attrs, children)
 
     if ref is not None:ref.set(element)

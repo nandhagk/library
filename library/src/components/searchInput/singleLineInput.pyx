@@ -16,11 +16,15 @@ class SingleLineInput(pyx.Component):
         self.input().state.add('invalid')
         return False
 
+    def onPaint(self):
+        if self.props['options']['disable']:
+            self.input().state.add('disabled')
+            self.input().renderNode.renderWorker.setEnabled(False)
 
     def onMount(self):
         self.input().on.unfocus.subscribe(self.validate)
     def body(self):
         return <div class="inputContainer">
             <text class="label">{self.props['inputName']}</text>
-            <input ref={self.input} renderWorker={InputRenderWorker()} placeholder={self.props['options']['placeholder']}></input>
+            <input ref={self.input} renderWorker={InputRenderWorker()} placeholder={self.props['options']['placeholder']}>{self.props['options']['value']}</input>
         </div>

@@ -150,14 +150,14 @@ class Attribute:
             if key != 'src':
                 res[key] = self.value
                 return res
-            res[key] = EscapeString(f"Path(__file__).parent.joinpath(r\"{self.value}\").as_posix()")
+            res['source'] = EscapeString(f"Path(__file__).parent.joinpath(r\"{self.value}\").as_posix()")
             return res
 
         if isinstance(self.value, InlineCode):
             if key != 'src':
                 res[key] = self.value.to_code()
                 return res
-            res[key] = EscapeString(f"Path(__file__).parent.joinpath({self.value.to_code()}).as_posix()")
+            res['source'] = EscapeString(f"Path(__file__).parent.joinpath({self.value.to_code()}).as_posix()")
             return res
         
 

@@ -27,6 +27,10 @@ class ChipsInput(pyx.Component):
         self.chips.remove(chip.content.lower())
         chip.remove()
 
+    def onPaint(self):
+        for chip in self.props['options']['value']:
+            self.addChip(chip)
+
     def addChip(self, chipText):
         if not chipText or chipText.lower() in self.chips:return
         self.chips.add(chipText.lower())

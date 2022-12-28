@@ -32,6 +32,7 @@ class Display(Enum):
     flex = Enum.auto()
     block_inline = Enum.auto() # width is width of content and foces sibling on next (opposite of inline block)
     inline_only = Enum.auto() # Same as inline but does not move to next line if width is too much
+    inline_block_only = Enum.auto() # Same as inline-block but does not move to next line if width is too much
     #inlineFlex = Enum.auto()
     # grid = Enum.auto() # not implemented
     #inlineGrid = Enum.auto()
@@ -46,7 +47,7 @@ class TextOverflow(Enum):
     nowrap = Enum.auto(first=True)
     wrap = Enum.auto()
     clip = Enum.auto()
-    ellipses = Enum.auto()
+    ellipsis = Enum.auto()
 
 class Visibility(Enum):
     visible = Enum.auto(first=True)

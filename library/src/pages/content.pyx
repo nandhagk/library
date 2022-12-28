@@ -42,31 +42,40 @@ class ErrorPage(pyx.Component):
 )
 class Content(pyx.Component):
     def init(self):
-        self.props['currentPage'].consequence = createRef(self.onPageChange)
+        self.glob.currentPage.consequence = createRef(self.onPageChange)
         self.content = createRef()
+        self.glob.data = None
 
     def onPageChange(self):
         self.content().unmount() # Remove the current one
         self.parentNode().appendChild(self) # Remount the content to the dom
 
+    def redirect(self, page, data):
+        # Redirect is only called for pages not accesable by the sidebar
+        self.glob.data = data
+        self.props.sidebar().deactivate()
+        if page != Destinations.browse:
+            return self.glob.currentPage.set(page) # Yes it is ugly. But it works
+        self.props.sidebar().navigate(self.props.sidebar().bodyNode().componentChildren[0])
+
     def body(self):
-        cp = self.props['currentPage']() # Get the current page
+        cp = self.glob.currentPage() # Get the current page
 
         # if cp == Destinations.home:
         #     return <Home ref={self.content}/>
         if cp == Destinations.browse:
-            return <Browse ref={self.content}/>
+            return <Browse ref={self.content} redirect={self.redirect}/>
         elif cp == Destinations.search:
-            return <Search ref={self.content}/>
+            return <Search ref={self.content} redirect={self.redirect}/>
         elif cp == Destinations.add:
-            return <Add ref={self.content}/>
-        # elif cp == Destinations.edit:
-        #     return <Edit ref={self.content}/>
-        # elif cp == Destinations.loanInfo:
-        #     return <LoanInfo ref={self.content}/>
-        # elif cp == Destinations.bookInfo:
-        #     return <BookInfo ref={self.content}/>
-        # elif cp == Destinations.personInfo:
-        #     return <PersonInfo ref={self.content}/>
+            return <Add ref={self.content} redirect={self.redirect}/>
+        elif cp == Destinations.edit:
+            return <Edit ref={self.content} redirect={self.redirect}/>
+        elif cp == Destinations.loanInfo:
+            return <LoanInfo ref={self.content} redirect={self.redirect}/>
+        elif cp == Destinations.bookInfo:
+            return <BookInfo ref={self.content} redirect={self.redirect}/>
+        elif cp == Destinations.personInfo:
+            return <PersonInfo ref={self.content} redirect={self.redirect}/>
         else:
-            return <ErrorPage ref={self.content}/>
+            return <ErrorPage ref={self.content} redirect={self.redirect}/>

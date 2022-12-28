@@ -55,6 +55,9 @@ input:invalid{
 input:focus{
     border-color: #9e97dd;
 }
+input:disabled{
+    border-color: #333237;
+}
 
 .chip{
     background-color: #333237;

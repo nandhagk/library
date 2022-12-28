@@ -6,8 +6,8 @@ from pathlib import Path
 class Body(Component):
     def body(self):
         from ..tools.renderWorkers import RootRenderWorker
-        if self.props.get('renderWorker') is None:
-            self.props['renderWorker'] = RootRenderWorker()
-        return createElement('body', self.props, *self.slots)
+        if self.props.renderWorker is None:
+            self.props.renderWorker = RootRenderWorker()
+        return createElement('body', self.props.__dict__, *self.slots)
 
 defaultStyles = StyleSheet.fromPath(Path(__file__).parent.parent.joinpath("objects/cssom/default-styles.css"))

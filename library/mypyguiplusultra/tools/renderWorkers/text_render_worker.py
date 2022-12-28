@@ -6,8 +6,6 @@ from .render_worker import RenderWorker
 from .qelem_helper import QElemHelper
 from mypyguiplusultra.objects.render_tree.layout_helper import LayoutHelper
 
-# TODO: layoutTextNode
-# TODO:
 
 class TextItem(QGraphicsTextItem):
     def paint(self, *args): # Apparently overriding in python is like mad slow so lets not do that :)
@@ -68,3 +66,4 @@ class TextRenderWorker(RenderWorker):
         if node.domNode().attrs.get("clickable"):
             self.setClickable(True)
         self._update(updateSlaves=False) # Basically just draws it :)
+        self.notifyNodeOfPaint()

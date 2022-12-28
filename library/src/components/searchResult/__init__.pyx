@@ -6,15 +6,15 @@ SET_SIZE = 10
 
 def getResultsSize(query):
     # TODO: SQL
-    print("TODO: Get Results Size")
+    print("Get Results Size", query)
     return 31
 
 def getResults(query, start):
     # TODO: SQL
-    print("TODO: Getting results")
+    print("Getting results", query, start)
     return [
-        {'locator' : {123:1}, 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
-        {'locator' : {123:1}, 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
+        {'locator' : (7, "1"), 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
+        {'locator' : (7, "2"), 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
     ]
 
 @styles
@@ -27,8 +27,7 @@ class SearchResult(pyx.Component):
         self.currentQuery = None # The query stored (since new queries must be created on paginate :))
 
     def onClick(self, e):
-        # TODO: Redirect to information page
-        print("TODO: Redirect to info page")
+        self.props['redirect'](e[1].attrs.locator[0], e[1].attrs.locator[1])
 
     def clearResults(self):
         rc = self.resultContainer()
@@ -81,7 +80,7 @@ class SearchResult(pyx.Component):
 
     def body(self):
         return <div class="container">
-            <text class="heading">Results:</text>
+            <text class="heading">{self.props.get('heading', 'Results:')}</text>
             <div class="resultContainer" ref={self.resultContainer} />
             <Paginator ref={self.paginator} setSize={SET_SIZE} searchCommand={self.showSubResults}/>
         </div>

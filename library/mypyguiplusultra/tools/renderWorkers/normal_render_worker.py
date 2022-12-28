@@ -4,16 +4,6 @@ from .render_worker import RenderWorker
 from .qelem_helper import QElemHelper
 from PyQt6.QtCore import Qt
 
-# TODO LIST:
-#     - Now just get started on the project
-
-#     - Z index handling can be done in the future only if needed (worst case we can explitly set z index)
-#     - (we can even have something rudimentary like zindex = master.zindex + relative z index)
-
-#     - Text rendering
-
-#     - Flags like scroll and maskChildElements
-
 class NormalRenderWorker(RenderWorker):
     def _update(self, updateSlaves=True):
         node = self.node()
@@ -52,20 +42,23 @@ class NormalRenderWorker(RenderWorker):
         self._update(updateSlaves=False) # Basically just draws it :)
 
         self._paintSlaves() # Paint our slaves
+        self.notifyNodeOfPaint()
 
     def handleScroll(self, delta, modifiers):
         delta /= 5
         node = self.node()
         ri = node.renderInformation
         if not (ri.allow_scroll[0] or ri.allow_scroll[1]):return False # This element does not have scrolling enabled
-        if all(ri.allow_scroll): # If the element expects scrolling in both directions,
-            yDir = Qt.KeyboardModifier.ShiftModifier not in modifiers
-        else:yDir = ri.allow_scroll[1] # Otherwise the direction of scroll is whatever it allows
+
+        yDir = Qt.KeyboardModifier.ShiftModifier not in modifiers and ri.allow_scroll[1]
+        xDir = Qt.KeyboardModifier.ShiftModifier in modifiers and ri.allow_scroll[0]
 
         if yDir: # Scrolling done in y direction
             node.updateScrollOffset(dy=delta)
-        else: # Scrolling done in x direction
+        elif xDir: # Scrolling done in x direction
             node.updateScrollOffset(dx=delta)
+        else:
+            return False
         node.renderWorker.update()
 
 
