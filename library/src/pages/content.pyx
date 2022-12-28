@@ -54,7 +54,9 @@ class Content(pyx.Component):
         # Redirect is only called for pages not accesable by the sidebar
         self.glob.data = data
         self.props.sidebar().deactivate()
-        self.glob.currentPage.set(page)
+        if page != Destinations.browse:
+            return self.glob.currentPage.set(page) # Yes it is ugly. But it works
+        self.props.sidebar().navigate(self.props.sidebar().bodyNode().componentChildren[0])
 
     def body(self):
         cp = self.glob.currentPage() # Get the current page

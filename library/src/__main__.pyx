@@ -16,7 +16,7 @@ app = createPyxApp(
 )
 
 sidebar = createRef()
-glob.currentPage = createDependancy(Destinations.loanInfo)
+glob.currentPage = createDependancy(Destinations.browse)
 
 app.render(
     <Body>

@@ -68,7 +68,7 @@ class LoanInfo(pyx.Component):
     def deleteRecord(self, *e):
         deleteRecord(self.data['loanId'])
         from ..destinations import Destinations
-        self.props['redirect'](Destinations.search, {})
+        self.props['redirect'](Destinations.browse, {})
 
         
     def onMount(self): 

@@ -52,7 +52,7 @@ class PersonInfo(pyx.Component):
     def deleteRecord(self, *e):
         deleteRecord(self.data['personId'])
         from ..destinations import Destinations
-        self.props['redirect'](Destinations.search, {})
+        self.props['redirect'](Destinations.browse, {})
 
     def body(self):
         return <div class="container">

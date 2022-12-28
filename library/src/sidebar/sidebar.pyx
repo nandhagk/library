@@ -32,7 +32,7 @@ class Sidebar(pyx.Component):
 
     def body(self):
         return <div class="container" qflags={(QGraphicsItem.GraphicsItemFlag.ItemIsFocusable,)}>
-            <NavItem destination={Destinations.search} callback={self.navigate} active={True} ref={self.activeItem}/>
-            <NavItem destination={Destinations.browse} callback={self.navigate}/>
+            <NavItem destination={Destinations.browse} callback={self.navigate} active={True} ref={self.activeItem}/>
+            <NavItem destination={Destinations.search} callback={self.navigate}/>
             <NavItem destination={Destinations.add}    callback={self.navigate}/>
         </div>

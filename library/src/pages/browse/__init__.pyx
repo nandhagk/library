@@ -3,7 +3,8 @@ from PyQt6.QtWidgets import QGraphicsItem
 @styles
 class Browse(pyx.Component):
     def onClick(self, e):
-        print(e[1].attrs['id'])
+        from ..destinations import Destinations        
+        self.props['redirect'](Destinations.bookInfo, e[1].attrs['id'])
 
     def getBook(self, book):
         xs = <div class="book" clickable={True} id={book['id']}>

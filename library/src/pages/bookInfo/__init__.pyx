@@ -53,7 +53,7 @@ class BookInfo(pyx.Component):
     def deleteRecord(self, *e):
         deleteRecord(self.data['bookId'])
         from ..destinations import Destinations
-        self.props['redirect'](Destinations.search, {})
+        self.props['redirect'](Destinations.browse, {})
         
     def handleData(self, data):
         self.data = data
