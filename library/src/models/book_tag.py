@@ -3,9 +3,9 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.database import connection, cursor
-from library.src.models.book import Book
-from library.src.models.tag import Tag
+from src.database import connection, cursor
+from src.models.book import Book
+from src.models.tag import Tag
 
 BOOK_TAGS: Final = [
     {"book_id": 1, "tag_id": 1},

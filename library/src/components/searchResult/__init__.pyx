@@ -1,21 +1,29 @@
 import styles from './searchResult.css'
 from mypyguiplusultra.core import createRef
-
+from src.models.book import Book
+from src.models.loan import Loan
+from src.models.user import User
 from .paginator import Paginator
 SET_SIZE = 10
 
 def getResultsSize(query):
-    # TODO: SQL
-    print("Get Results Size", query)
-    return 31
+    if query['resource'] == 'books':
+        # TODO: Consider tags
+        return Book.searchCount(query['Title'], query['Author'])
+    elif query['resource'] == 'loans':
+        return Loan.searchCount(query['BookID'], query['PersonID'])
+    elif query['resource'] == 'people':
+        return User.searchCount(query['Name'])
 
 def getResults(query, start):
-    # TODO: SQL
-    print("Getting results", query, start)
-    return [
-        {'locator' : (7, "1"), 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
-        {'locator' : (7, "2"), 'primaryText' : "Hello", 'secondaryText' : 'world', 'chips' : ['yo', 'mama', 'gae']},
-    ]
+    if query['resource'] == 'books':
+        return Book.search(query['Title'], query['Author'], start, )
+    elif query['resource'] == 'loans':
+        return Loan.search(query['BookID'], query['PersonID'], start )
+    elif query['resource'] == 'people':
+        return User.search(query['Name'], start, )
+    else:
+        print("???")
 
 @styles
 class SearchResult(pyx.Component):

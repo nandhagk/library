@@ -1,28 +1,26 @@
 import styles from 'loanInfo.css'
 from mypyguiplusultra.core import createRef
-
+from src.models.loan import Loan
+from datetime import date
 
 def deleteRecord(id):
-    # TODO: SQL
-    print("Deleting record")
+    Loan.delete(id)
 
 def returnLoan(id):
-    # TODO: SQL
-    print("Returning loan")
+    Loan.update(id, status="returned", returned_at=date.today())
 
 def requestData(loanId, callback):
-    # TODO: SQL
-    print("Requesting for", loanId)
+    res = Loan.find_for_ui(loanId)
     callback({
-        'loanId' : '109678',
-        'bookId' : '123',
-        'bookName' : "Harry Potter",
-        'personName' : "Kaushik G Iyer",
-        'personId' : '1234',
-        'issuedDate' : '23-Dec-2022',
-        #'returnedDate' : '23-Dec-2022',
-        'dueDate' : '01-Jan-2023',
-        'status' : 'Overdue'
+        'loanId' : str(res[0]),
+        'bookId' : str(res[1]),
+        'bookName' : res[2],
+        'personName' : res[3],
+        'personId' : str(res[4]),
+        'issuedDate' : res[5].strftime("%d-%b-%Y"),
+        'returnedDate' : res[6].strftime("%d-%b-%Y") if res[6] is not None else None,
+        'dueDate' : res[7].strftime("%d-%b-%Y"),
+        'status' : res[8],
     })
 
 @styles
@@ -53,7 +51,7 @@ class LoanInfo(pyx.Component):
 
     def linkToBook(self, *e):
         from ..destinations import Destinations
-        self.props['redirect'](Destinations.bookInfo, {'id' : self.data['bookId']})
+        self.props['redirect'](Destinations.bookInfo, self.data['bookId'])
     def returnLoan(self, *e):
         from ..destinations import Destinations
         returnLoan(self.data['loanId'])
@@ -61,7 +59,7 @@ class LoanInfo(pyx.Component):
 
     def linkToPerson(self, *e):
         from ..destinations import Destinations
-        self.props['redirect'](Destinations.personInfo, {'id' : self.data['personId']})
+        self.props['redirect'](Destinations.personInfo, self.data['personId'])
     def linkToEdit(self, *e):
         from ..destinations import Destinations
         self.props['redirect'](Destinations.edit, {'type':'loans', 'data' : self.data})
@@ -71,8 +69,7 @@ class LoanInfo(pyx.Component):
         self.props['redirect'](Destinations.browse, {})
 
         
-    def onMount(self): 
-        # TODO: According to whether sql queries are asynchronous or not we might need to change this
+    def onMount(self):
         for key in self.data:
             self.refs[key]().content = self.data[key]
 

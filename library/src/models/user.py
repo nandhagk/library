@@ -1,9 +1,9 @@
 from dataclasses import asdict, dataclass
 from typing import Final, cast
-
+from src.pages import Destinations
 from typing_extensions import Self
 
-from library.database import connection, cursor
+from src.database import connection, cursor
 
 USERS: Final = [
     {"id": 1, "name": "John Doe"},
@@ -41,21 +41,39 @@ class User:
         return bool(cls.find_by_id(id))
 
     @classmethod
-    def search(cls, name: str) -> list[Self]:
+    def search(cls, name: str, start : int) -> list[Self]:
         """Searches users."""
-        payload = {"name": f"%{name}%"}
+        payload = {"name": f"%{name}%", "start" : start}
 
         cursor.execute(
             """
-            SELECT * from users
+            SELECT name, id from users
             WHERE
-                name ILIKE %(name)s
+                name LIKE %(name)s
+            LIMIT 10 OFFSET %(start)s
             """,
             payload,
         )
 
         results = cursor.fetchall()
-        return [cls(*result) for result in results]  # type: ignore
+        
+        return [{"primaryText":result[0], "secondaryText":"", "chips":[], "locator": (Destinations.personInfo, result[1])} for result in results]
+    @classmethod
+    def searchCount(cls, name: str) -> list[Self]:
+        """Searches users."""
+        payload = {"name": f"%{name}%"}
+
+        cursor.execute(
+            """
+            SELECT count(*) from users
+            WHERE
+                name LIKE %(name)s
+            """,
+            payload,
+        )
+
+        result = cursor.fetchone()
+        return result[0]  # type: ignore
 
     @classmethod
     def find_by_id(cls, id: int, /) -> Self | None:

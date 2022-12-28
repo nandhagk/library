@@ -10,6 +10,7 @@ library/mypygui.config.json
 
 library/src/**/*.py
 !library/src/models/**/*.py
+!library/src/cli/**/*.py
 
 # C extensions
 *.so

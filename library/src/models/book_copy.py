@@ -3,8 +3,8 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.database import connection, cursor
-from library.src.models.book import Book
+from src.database import connection, cursor
+from src.models.book import Book
 
 BOOK_COPIES: Final = [
     {"id": 1, "book_id": 1},

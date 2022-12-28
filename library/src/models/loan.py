@@ -1,29 +1,32 @@
+from src.pages.destinations import Destinations
 from dataclasses import asdict, dataclass
 from datetime import date
 from typing import Final, Literal, TypeAlias, cast
 
 from typing_extensions import Self
 
-from library.database import connection, cursor
-from library.src.models.book_copy import BookCopy
-from library.src.models.user import User
+from src.database import connection, cursor
+from src.models.book_copy import BookCopy
+from src.models.user import User
 
 LOANS: Final = [
-    {"id": 1, "status": "active", "user_id": 1, "book_copy_id": 1, "returned_at": None},
+    {"id": 1, "status": "active", "user_id": 1, "book_copy_id": 1, "returned_at": None, "due_at": "2023-01-27", "created_at": "2023-01-27"},
     {
         "id": 2,
         "status": "returned",
         "user_id": 1,
         "book_copy_id": 2,
         "returned_at": "2022-12-28",
+        "due_at": "2023-01-27", "created_at": "2023-01-27"
     },
-    {"id": 3, "status": "active", "user_id": 2, "book_copy_id": 3, "returned_at": None},
+    {"id": 3, "status": "active", "user_id": 2, "book_copy_id": 3, "returned_at": None, "due_at": "2023-01-27", "created_at": "2023-01-27"},
     {
         "id": 4,
         "status": "returned",
         "user_id": 2,
         "book_copy_id": 4,
         "returned_at": "2022-12-28",
+        "due_at": "2023-01-27", "created_at": "2023-01-27"
     },
 ]
 
@@ -38,6 +41,7 @@ class Loan:
     user_id: int
     book_copy_id: int
     created_at: date
+    due_at: date
     returned_at: date | None = None
 
     def user(self) -> User:
@@ -47,17 +51,19 @@ class Loan:
         return cast(BookCopy, BookCopy.find_by_id(self.book_copy_id))
 
     @classmethod
-    def create(cls, user_id: int, book_copy_id: int) -> Self:
+    def create(cls, user_id: int, book_copy_id: int, created_at, due_at : date) -> Self:
         """Creates a loan."""
         payload = {
             "user_id": user_id,
             "book_copy_id": book_copy_id,
+            "due_at" : due_at,
+            "created_at" : created_at,
         }
 
         cursor.execute(
             """
-            INSERT INTO loans (user_id, book_copy_id)
-            VALUES (%(user_id)s, %(book_copy_id)s)
+            INSERT INTO loans (user_id, book_copy_id, created_at, due_at)
+            VALUES (%(user_id)s, %(book_copy_id)s, %(created_at)s, %(due_at)s)
             """,
             payload,
         )
@@ -74,24 +80,48 @@ class Loan:
         return bool(cls.find_by_id(id))
 
     @classmethod
-    def search(cls, book_id: int, user_id: int) -> list[Self]:
+    def search(cls, book_id: int, user_id: int, start) -> list[Self]:
         """Searches loans."""
-        payload = {"book_id": book_id, "user_id": user_id}
-
+        payload = {"book_id": book_id, "user_id": user_id, "start" : start}
         cursor.execute(
             """
-            SELECT loans.* from loans
+            SELECT books.title, users.name, loans.status, loans.id from loans
             JOIN book_copies ON
                 loans.book_copy_id = book_copies.id
+            JOIN users ON
+                loans.user_id = users.id
+            JOIN books ON
+                book_copies.book_id = books.id
             WHERE
-                book_copies.book_id = %(book_id)s
-                OR loans.user_id = %(user_id)s
+                book_copies.book_id = IFNULL(NULLIF(%(book_id)s, ''), book_copies.book_id)
+                AND loans.user_id = IFNULL(NULLIF(%(user_id)s, ''), loans.user_id)
+            LIMIT 10 OFFSET %(start)s
             """,
             payload,
         )
 
         results = cursor.fetchall()
-        return [cls(*result) for result in results]  # type: ignore
+        return [{"primaryText":result[1], "secondaryText":result[0], "chips":[result[2]], "locator":(Destinations.loanInfo, result[3])} for result in results]
+
+    @classmethod
+    def searchCount(cls, book_id: int, user_id: int) -> int:
+        """Searches loans."""
+        payload = {"book_id": book_id, "user_id": user_id}
+
+        cursor.execute(
+            """
+            SELECT count(*) from loans
+            JOIN book_copies ON
+                loans.book_copy_id = book_copies.id
+            WHERE
+                book_copies.book_id = IFNULL(NULLIF(%(book_id)s, ''), book_copies.book_id)
+                AND loans.user_id = IFNULL(NULLIF(%(user_id)s, ''), loans.user_id)
+            """,
+            payload,
+        )
+
+        result = cursor.fetchone()
+        return result[0]  # type: ignore
 
     @classmethod
     def find_by_id(cls, id: int, /) -> Self | None:
@@ -113,6 +143,29 @@ class Loan:
             return
 
         return cls(*result)
+
+    @classmethod
+    def find_for_ui(cls, id):
+        payload = {"id": id}
+
+        cursor.execute(
+            """
+            SELECT loans.id, books.id, books.title, users.name, users.id, loans.created_at, loans.returned_at, loans.due_at, loans.status from loans
+            JOIN book_copies ON
+                loans.book_copy_id = book_copies.id
+            JOIN users ON
+                loans.user_id = users.id
+            JOIN books ON
+                book_copies.book_id = books.id
+            WHERE loans.id = %(id)s
+            """,
+            payload,
+        )
+
+        result = cursor.fetchone()
+
+        return result
+        
 
     @classmethod
     def find_by_user_id(cls, user_id: int, /) -> list[Self]:
@@ -185,6 +238,8 @@ class Loan:
         id: int,
         /,
         status: LoanStatus | None = None,
+        created_at = None,
+        due_at = None,
         returned_at: date | None = None,
     ) -> Self | None:
         """Updates a loan by its id."""
@@ -199,14 +254,20 @@ class Loan:
             payload["status"] = status
 
         if returned_at is not None:
-            payload["returned_at"] = returned_at.isoformat()
+            payload["returned_at"] = returned_at
+        if due_at is not None:
+            payload["due_at"] = due_at
+        if created_at is not None:
+            payload["created_at"] = created_at
 
         cursor.execute(
             """
             UPDATE loans
             SET
-                status = %(status)s
-                returned_at = %(returned_at)s
+                status = %(status)s,
+                returned_at = %(returned_at)s,
+                due_at = %(due_at)s,
+                created_at = %(created_at)s
             WHERE
                 id = %(id)s
             """,
@@ -258,7 +319,8 @@ class Loan:
                     DEFAULT 'active',
                 user_id INT NOT NULL,
                 book_copy_id INT NOT NULL,
-                created_at DATE NOT NULL DEFAULT (CURRENT_DATE),
+                created_at DATE NOT NULL,
+                due_at DATE NOT NULL,
                 returned_at DATE,
                 PRIMARY KEY (id),
                 FOREIGN KEY (user_id)
@@ -275,8 +337,8 @@ class Loan:
 
         cursor.executemany(
             """
-            INSERT INTO loans (id, status, user_id, book_copy_id, returned_at)
-            VALUES (%(id)s, %(status)s, %(user_id)s, %(book_copy_id)s, %(returned_at)s)
+            INSERT INTO loans (id, status, user_id, book_copy_id, created_at, returned_at, due_at)
+            VALUES (%(id)s, %(status)s, %(user_id)s, %(book_copy_id)s, %(created_at)s, %(returned_at)s, %(due_at)s)
             """,
             payload,
         )

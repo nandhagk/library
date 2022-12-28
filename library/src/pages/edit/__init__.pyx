@@ -1,6 +1,10 @@
 from mypyguiplusultra.core import createRef
 from src.components import SearchInput
 
+from src.models.book import Book
+from src.models.loan import Loan
+from src.models.user import User
+
 class Edit(pyx.Component):
     def getParams(self):
         print(self.glob['data'])
@@ -46,16 +50,18 @@ class Edit(pyx.Component):
             print("INVALID ADDFILTER")
 
     def update(self, values):
-        # TODO: SQL
         print("UPDATING VALUES", values)
-        id = "ID"
         from ..destinations import Destinations
         if self.glob.data['type'] == 'books':
-            self.props['redirect'](Destinations.bookInfo, id)
+            Book.update(self.glob['data']['data']['bookId'], title=values['Title'], author=values['Author'], cover_url=values['CoverURL'],description= values['Description'])
+            self.props['redirect'](Destinations.bookInfo, self.glob['data']['data']['bookId'])
         elif self.glob.data['type'] == 'people':
-            self.props['redirect'](Destinations.personInfo, id)
+            User.update(self.glob['data']['data']['personId'], name=values['Name'])
+            self.props['redirect'](Destinations.personInfo, self.glob['data']['data']['personId'])
         elif self.glob.data['type'] == 'loans':
-            self.props['redirect'](Destinations.loanInfo, id)
+
+            Loan.update(self.glob['data']['data']['loanId'], created_at=values['IssuedDate'], due_at=values['DueDate'], returned_at=values.get('returnedDate'))
+            self.props['redirect'](Destinations.loanInfo, self.glob['data']['data']['loanId'])
         else:
             self.searchInput().updateParams(self.getParams())
 

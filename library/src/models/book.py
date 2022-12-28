@@ -1,9 +1,10 @@
 from dataclasses import asdict, dataclass
 from typing import Final, cast
+from src.pages import Destinations
 
 from typing_extensions import Self
 
-from library.database import connection, cursor
+from src.database import connection, cursor
 
 BOOKS: Final = [
     {
@@ -32,6 +33,27 @@ class Book:
     description: str
 
     @classmethod
+    def get_trending_books(self):
+        # id, src, title, author
+        # By number of active loans
+        pass
+    @classmethod
+    def get_new_books(self):
+        # id, src, title, author
+        # By published date
+        pass
+    @classmethod
+    def get_magazines_books(self):
+        # id, src, title, author
+        # By tag
+        # find_by_tag_id
+        pass
+    @classmethod
+    def get_classics_books(self):
+        # id, src, title, author
+        # By nymber of loans (lifetime)
+        pass
+    @classmethod
     def create(
         cls,
         title: str,
@@ -55,6 +77,7 @@ class Book:
             """,
             payload,
         )
+        connection.commit()
 
         id = cast(int, cursor.lastrowid)
         payload = [{"book_id": id, "tag_id": tag_id} for tag_id in tag_ids]
@@ -78,22 +101,44 @@ class Book:
         return bool(cls.find_by_id(id))
 
     @classmethod
-    def search(cls, title: str, author: str) -> list[Self]:
+    def search(cls, title: str, author: str, start : int) -> list[Self]:
+        """Searches books."""
+        payload = {"title": f"%{title}%", "author": f"%{author}%", "start":start}
+
+        cursor.execute(
+            """
+            SELECT title, author, books.id, IFNULL(GROUP_CONCAT(name), '') from books 
+            LEFT JOIN book_tags ON 
+                books.id = book_tags.book_id
+            LEFT JOIN tags ON
+                book_tags.tag_id = tags.id
+            WHERE
+                title LIKE %(title)s
+                AND author LIKE %(author)s
+            GROUP BY books.id
+            LIMIT 10 OFFSET %(start)s
+            """,
+            payload,
+        )
+        results = cursor.fetchall()
+        return [{"primaryText":result[0], "secondaryText":result[1], "chips":result[3].strip().split(",") if result[3].strip() else [], "locator": (Destinations.bookInfo, result[2])} for result in results]  # type: ignore
+    @classmethod
+    def searchCount(cls, title: str, author: str) -> int:
         """Searches books."""
         payload = {"title": f"%{title}%", "author": f"%{author}%"}
 
         cursor.execute(
             """
-            SELECT * from books
+            SELECT count(*) from books
             WHERE
-                title ILIKE %(title)s
-                OR author ILIKE %(author)s
+                title LIKE %(title)s
+                AND author LIKE %(author)s
             """,
             payload,
         )
 
-        results = cursor.fetchall()
-        return [cls(*result) for result in results]  # type: ignore
+        result = cursor.fetchone()
+        return result[0]  # type: int
 
     @classmethod
     def find_by_id(cls, id: int, /) -> Self | None:
@@ -173,9 +218,9 @@ class Book:
             """
             UPDATE books
             SET
-                title = %(title)s
-                author = %(author)s
-                cover_url = %(cover_url)s
+                title = %(title)s,
+                author = %(author)s,
+                cover_url = %(cover_url)s,
                 description = %(description)s
             WHERE
                 id = %(id)s

@@ -1,8 +1,8 @@
 from click import group, option
 
-from library.cli.book_copy import book_copy
-from library.cli.book_tag import book_tag
-from library.src.models.book import Book
+from src.cli.book_copy import book_copy
+from src.cli.book_tag import book_tag
+from src.models.book import Book
 
 
 @group()

@@ -1,24 +1,23 @@
 import styles from 'bookInfo.css'
 from mypyguiplusultra.core import createRef
-
+from src.models.book import Book
 def deleteRecord(id):
-    # TODO: SQL
-    print("Deleting record")
+    Book.delete(id)
+
 def requestData(bookId, callback):
-    # TODO: SQL
-    print("Requesting for", bookId)
+    book = Book.find_by_id(bookId)
     callback({
-        'title' : "Harry Potter and the Goblet of Fire",
-        'author' : "J K Rowling",
-        'bookId' : '108756',
-        'description' : "Lorem ipsum dolor sit, amet consectetur adipisicing elit.Cumque repellat consequatur ipsum. Officiis ab eius asperiores, a suscipit beatae dolor!",
+        'title' : book.title,
+        'author' :book.author,
+        'bookId' : str(book.id),
+        'description' : book.description,
         'publisher' : "Ram Publishers",
         'publishedDate' : "20-Oct-2020",
         'pages' : '1433',
         'totalCopies' : "19",
         'tags' : ['horror', 'mystery', 'fantasy', 'detective'],
         'activeCopies' : "7",
-        'coverURL' : 'https://lh3.googleusercontent.com/AtjQKneFRMLZyLUSeLvDkYpB0Zj8ltEoA5LUhqEpT60hvWaaMSlmE-dQ_mkpdEdcSkDe_jx4ImKKfhGl=w544-h544-l90-rj'
+        'coverURL' : book.cover_url
     })
     
 
@@ -43,7 +42,6 @@ class BookInfo(pyx.Component):
         self.deleteButton = createRef()
         self.chipsViewer = createRef()
         self.editButton = createRef()
-        
         requestData(self.glob.data, self.handleData)
 
     def linkToEdit(self, *e):

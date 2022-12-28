@@ -3,7 +3,7 @@ from typing import Final, cast
 
 from typing_extensions import Self
 
-from library.database import connection, cursor
+from src.database import connection, cursor
 
 TAGS: Final = [
     {"id": 1, "name": "Action"},

@@ -1,18 +1,16 @@
 import styles from 'personInfo.css'
 from mypyguiplusultra.core import createRef
 from src.components import SearchResult
-
+from src.models.user import User
 def deleteRecord(id):
-    # TODO: SQL
-    print("Deleting record")
+    User.delete(id)
 
 
 def requestData(personId, callback):
-    # TODO: SQL
-    print("Requesting for", personId)
+    user = User.find_by_id(personId)
     callback({
-        'personId' : '109678',
-        'personName' : 'Shyam Prakash',
+        'personId' : str(user.id),
+        'personName' : user.name,
         'status' : 'Overdue'
     })
 
@@ -34,8 +32,7 @@ class PersonInfo(pyx.Component):
     def handleData(self, data):
         self.data = data
         
-    def onMount(self): 
-        # TODO: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
+    def onMount(self):
         for key in self.data:
             self.refs[key]().content = self.data[key]
         self.deleteButton().on.click.subscribe(self.deleteRecord)
@@ -43,7 +40,9 @@ class PersonInfo(pyx.Component):
 
     def onPaint(self):
         self.searchResult().updateQuery({
-            'personId' : 123
+            'resource':'loans',
+            'PersonID' : self.data['personId'],
+            'BookID' : ''
         })
 
     def linkToEdit(self, *e):

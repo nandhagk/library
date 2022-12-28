@@ -1,5 +1,11 @@
 from mypyguiplusultra.core import createDependancy, createRef
 from src.components import Toggle, SearchInput
+from src.models.book import Book
+from src.models.book_copy import BookCopy
+from src.models.loan import Loan
+from src.models.user import User
+from src.models.tag import Tag
+
 
 class Add(pyx.Component):
     def init(self):
@@ -42,17 +48,31 @@ class Add(pyx.Component):
         self.searchInput().updateParams(self.getParams())
 
     def add(self, values):
-        # TODO: SQL
-        print("ADDING VALUES", values)
-        id = "ID"
+        # TODO: SQL Later
+        print("ADDING VALUES", values) # Just do it in the validate function (on unfocus)
         # NOTE: Editing can basically just be a copy of this same page :)
         from ..destinations import Destinations
         if self.addFilter() == 'books':
-            self.props['redirect'](Destinations.bookInfo, id)
+            # TODO: Enter tags
+            # TODO: ALl the other shit
+            # {'Title': 'sdf', 'Author': 'sdf', 'CoverURL': 'sdf', 'Tags': set(), 'Description': ' dfsdf', 'Pages': '123', 'TotalCopies': '2', 'Publisher': 'dsf', 'PublishedDate': (28, 12, 2022)}
+            book = Book.create(values['Title'], values['Author'], values['CoverURL'], values['Description'], [])   
+            print(book)     
+            self.props['redirect'](Destinations.bookInfo, book.id)
         elif self.addFilter() == 'people':
-            self.props['redirect'](Destinations.personInfo, id)
+            user = User.create(values['Name'])
+            self.props['redirect'](Destinations.personInfo, user.id)
         elif self.addFilter() == 'loans':
-            self.props['redirect'](Destinations.loanInfo, id)
+            book_copy = BookCopy.find_available_to_loan(values['BookID'])
+            if book_copy is None:
+                # TODO: Relay this in the ui (no book copies left for lending)
+                print("BOOK COPY DOES NOT EXIST")
+                return
+            loan = Loan.create(values['PersonID'], book_copy.id, values['IssuedDate'], values['DueDate'])
+            self.props['redirect'](Destinations.loanInfo, loan.id)
+        elif self.addFilter() == 'tags':
+            tag = Tag.create(values['Name'])
+            self.searchInput().updateParams(self.getParams())
         else:
             self.searchInput().updateParams(self.getParams())
 

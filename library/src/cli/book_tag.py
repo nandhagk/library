@@ -1,6 +1,6 @@
 from click import group, option
 
-from library.src.models.book_tag import BookTag
+from src.models.book_tag import BookTag
 
 
 @group("tag")

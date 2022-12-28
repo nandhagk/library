@@ -41,4 +41,5 @@ class Search(pyx.Component):
         </div>
 
     def search(self, query):
+        query['resource'] = self.searchFilter()
         self.searchResult().updateQuery(query)
