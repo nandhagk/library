@@ -15,7 +15,6 @@ class Window(QMainWindow):
         self.on = EventEmitter()
         # self.nam = QNetworkAccessManager() # This doesnt improve anything :(
         self.on.resize = Event('resize')
-        self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
     def resizeEvent(self, event):
         self.on.resize.resolve(event)
