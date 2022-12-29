@@ -66,16 +66,20 @@ class Edit(pyx.Component):
 
     def update(self, values):
         print("UPDATING VALUES", values)
+        
         from ..destinations import Destinations
         if self.glob.data['type'] == 'books':
             Book.update(self.glob['data']['data']['bookId'], title=values['Title'], author=values['Author'], cover_url=values['CoverURL'],description= values['Description'])
+            self.parentNode().renderNode.windowProvider().inform("Book record has been updated!", "Information")
             self.props['redirect'](Destinations.bookInfo, self.glob['data']['data']['bookId'])
         elif self.glob.data['type'] == 'people':
             User.update(self.glob['data']['data']['personId'], name=values['Name'])
+            self.parentNode().renderNode.windowProvider().inform("User record has been updated!", "Information")
             self.props['redirect'](Destinations.personInfo, self.glob['data']['data']['personId'])
         elif self.glob.data['type'] == 'loans':
 
             Loan.update(self.glob['data']['data']['loanId'], created_at=values['IssuedDate'], due_at=values['DueDate'], returned_at=values.get('returnedDate'))
+            self.parentNode().renderNode.windowProvider().inform("Loan record has been updated!", "Information")
             self.props['redirect'](Destinations.loanInfo, self.glob['data']['data']['loanId'])
         else:
             self.searchInput().updateParams(self.getParams())

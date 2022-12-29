@@ -56,16 +56,20 @@ class Add(pyx.Component):
             # TODO: ALl the other shit
             # {'Title': 'sdf', 'Author': 'sdf', 'CoverURL': 'sdf', 'Tags': set(), 'Description': ' dfsdf', 'Pages': '123', 'TotalCopies': '2', 'Publisher': 'dsf', 'PublishedDate': (28, 12, 2022)}
             book = Book.create(values['Title'], values['Author'], values['CoverURL'], values['Description'], [])   
+            self.parentNode().renderNode.windowProvider().inform("Book record has been created!", "Information")
             self.props['redirect'](Destinations.bookInfo, book.id)
         elif self.addFilter() == 'people':
             user = User.create(values['Name'])
+            self.parentNode().renderNode.windowProvider().inform("User record has been created!", "Information")
             self.props['redirect'](Destinations.personInfo, user.id)
         elif self.addFilter() == 'loans':
             book_copy = BookCopy.find_available_to_loan(values['BookID'])
             loan = Loan.create(values['PersonID'], book_copy.id, values['IssuedDate'], values['DueDate'])
+            self.parentNode().renderNode.windowProvider().inform("Loan record has been created!", "Information")
             self.props['redirect'](Destinations.loanInfo, loan.id)
         elif self.addFilter() == 'tags':
             tag = Tag.create(values['Name'])
+            self.parentNode().renderNode.windowProvider().inform("Tag record has been created!", "Information")
             self.searchInput().updateParams(self.getParams())
         else:
             self.searchInput().updateParams(self.getParams())

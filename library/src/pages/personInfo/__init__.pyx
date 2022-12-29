@@ -49,8 +49,10 @@ class PersonInfo(pyx.Component):
         from ..destinations import Destinations
         self.props['redirect'](Destinations.edit, {'type':'people', 'data' : self.data})
     def deleteRecord(self, *e):
+        if not self.parentNode().renderNode.windowProvider().confirm("Are you sure you want to delete the user record?"):return
         deleteRecord(self.data['personId'])
         from ..destinations import Destinations
+        self.parentNode().renderNode.windowProvider().inform("User record was successfully deleted!")
         self.props['redirect'](Destinations.browse, {})
 
     def body(self):

@@ -53,6 +53,7 @@ class LoanInfo(pyx.Component):
         from ..destinations import Destinations
         self.props['redirect'](Destinations.bookInfo, self.data['bookId'])
     def returnLoan(self, *e):
+        if not self.parentNode().renderNode.windowProvider().confirm("Are you sure you want to return the loan?"):return
         from ..destinations import Destinations
         returnLoan(self.data['loanId'])
         self.props['redirect'](Destinations.loanInfo, self.data['loanId'])
@@ -64,8 +65,10 @@ class LoanInfo(pyx.Component):
         from ..destinations import Destinations
         self.props['redirect'](Destinations.edit, {'type':'loans', 'data' : self.data})
     def deleteRecord(self, *e):
+        if not self.parentNode().renderNode.windowProvider().confirm("Are you sure you want to delete the loan record?"):return
         deleteRecord(self.data['loanId'])
         from ..destinations import Destinations
+        self.parentNode().renderNode.windowProvider().inform("Loan record was successfully deleted!")
         self.props['redirect'](Destinations.browse, {})
 
         

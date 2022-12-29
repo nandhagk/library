@@ -67,6 +67,7 @@ class Content(pyx.Component):
         self.glob.data = None
 
     def onPageChange(self):
+        
         self.content().unmount() # Remove the current one
         self.parentNode().appendChild(self) # Remount the content to the dom
 

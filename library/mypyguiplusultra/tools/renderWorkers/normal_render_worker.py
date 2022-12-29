@@ -32,7 +32,7 @@ class NormalRenderWorker(RenderWorker):
         if node is None: # If reference to the node does not exist, we cannot paint it
             print('Node is no longer alive boss')
             return
-
+        
         qparent = self._getParent()
         self.mainQ = QGraphicsPathItem(qparent) # Create the QGraphicsItem
 

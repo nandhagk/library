@@ -52,8 +52,10 @@ class BookInfo(pyx.Component):
         self.props['redirect'](Destinations.edit, {'type':'books', 'data' : self.data})
 
     def deleteRecord(self, *e):
+        if not self.parentNode().renderNode.windowProvider().confirm("Are you sure you want to delete the book record?"):return
         deleteRecord(self.data['bookId'])
         from ..destinations import Destinations
+        self.parentNode().renderNode.windowProvider().inform("Book record was successfully deleted!")
         self.props['redirect'](Destinations.browse, {})
         
     def handleData(self, data):

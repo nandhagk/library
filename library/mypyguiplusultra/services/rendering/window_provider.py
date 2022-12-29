@@ -1,26 +1,5 @@
 from mypyguiplusultra.core.events import EventEmitter, Event
-from PyQt6.QtWidgets import QApplication, QMainWindow, QGraphicsView
-from PyQt6.QtCore import pyqtSlot
-
-from PyQt6.QtNetwork import QNetworkAccessManager
-
-class App(QApplication):
-    @pyqtSlot(tuple)
-    def invokeFunction(self, tup):
-        tup[0](*tup[1], **tup[2])
-
-class Window(QMainWindow):
-
-    def __init__(self):
-        self.on = EventEmitter()
-        self.nam = QNetworkAccessManager()
-        self.on.resize = Event('resize')
-        super().__init__()
-
-    def resizeEvent(self, event):
-        self.on.resize.resolve(event)
-        super().resizeEvent(event)
-
+from .myqt import Window, App, AlertWindow, ConfirmWindow
 
 class WindowProvider:
     def __init__(self):
@@ -42,6 +21,14 @@ class WindowProvider:
         self.minimumWindowSize = size
         if getattr(self, 'window', None) is not None:
             self._setMinimumWindowSize()
+
+    def inform(self, message, title="Information"):
+        '''Shows a dialog box with some text'''
+        return AlertWindow(self.window, message, title).wait()
+
+    def confirm(self, question, title="Confirmation"):
+        '''Shows a dialog box to confirm some action'''
+        return ConfirmWindow(self.window, question, title).wait()
 
 
 

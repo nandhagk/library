@@ -14,9 +14,6 @@ app = createPyxApp(
     suppressQtWarnings=True,
     globalObject = glob
 )
-# TODO: Maybe try and implement popups?
-# https://www.pythonguis.com/tutorials/pyqt6-dialogs/
-
 # TODO: Window Icon
 
 sidebar = createRef()
