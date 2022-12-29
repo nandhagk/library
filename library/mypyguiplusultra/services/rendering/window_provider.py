@@ -29,6 +29,8 @@ class WindowProvider:
         self.on.end = Event('ready', oneTimeOnly=True)
         self.minimumWindowSize = (None, None)
 
+    def setTitle(self, title):
+        self.window.setWindowTitle(title)
 
     def _setMinimumWindowSize(self):
         if self.minimumWindowSize[0] is not None:

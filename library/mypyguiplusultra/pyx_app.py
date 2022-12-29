@@ -24,5 +24,6 @@ class PYXApp:
         root.renderNode.layout() # Positions each element
         root.renderNode.renderWorker.paint() # Paints everything (creates QtNodes here)
 
+        # self.windowProvider.setTitle(self.initialTitle)
         self.windowProvider.on.end.wait()
         root.remove(_relayout=False, _removeFromParentList=False)

@@ -41,6 +41,26 @@ class ErrorPage(pyx.Component):
     """
 )
 class Content(pyx.Component):
+    def setTitle(self):
+        title = ""
+        cp = self.glob.currentPage()
+        # if cp == Destinations.home:
+        #     title = "Library - Home"
+        if cp == Destinations.browse:
+            title = "Library - Browse"
+        elif cp == Destinations.search:
+            title = "Library - Search"
+        elif cp == Destinations.add:
+            title = "Library - Add"
+        elif cp == Destinations.edit:
+            title = "Library - Edit"
+        elif cp == Destinations.loanInfo:
+            title = "Library - Loan Info"
+        elif cp == Destinations.bookInfo:
+            title = "Library - Book Info"
+        elif cp == Destinations.personInfo:
+            title = "Library - Person Info"
+        self.parentNode().renderNode.windowProvider().setTitle(title)
     def init(self):
         self.glob.currentPage.consequence = createRef(self.onPageChange)
         self.content = createRef()
@@ -49,6 +69,9 @@ class Content(pyx.Component):
     def onPageChange(self):
         self.content().unmount() # Remove the current one
         self.parentNode().appendChild(self) # Remount the content to the dom
+
+    def onPaint(self):
+        self.setTitle()
 
     def redirect(self, page, data):
         # Redirect is only called for pages not accesable by the sidebar
