@@ -5,7 +5,7 @@ from src.models.book_copy import BookCopy
 from src.models.loan import Loan
 from src.models.user import User
 from src.models.tag import Tag
-
+from datetime import date
 
 class Add(pyx.Component):
     def init(self):
@@ -55,7 +55,7 @@ class Add(pyx.Component):
             # TODO: Enter tags
             # TODO: ALl the other shit
             # {'Title': 'sdf', 'Author': 'sdf', 'CoverURL': 'sdf', 'Tags': set(), 'Description': ' dfsdf', 'Pages': '123', 'TotalCopies': '2', 'Publisher': 'dsf', 'PublishedDate': (28, 12, 2022)}
-            book = Book.create(values['Title'], values['Author'], values['CoverURL'], values['Description'], [])   
+            book = Book.create(title=values['Title'], author=values['Author'], cover_url=values['CoverURL'], description=values['Description'],  tags=list(values['Tags']), publisher=values["Publisher"], published_at=values['PublishedDate'], pages=values['Pages'], copies=int(values['TotalCopies']))
             self.parentNode().renderNode.windowProvider().inform("Book record has been created!", "Information")
             self.props['redirect'](Destinations.bookInfo, book.id)
         elif self.addFilter() == 'people':

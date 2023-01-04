@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from typing import Final, cast
 
-from typing_extensions import Self
-
 from src.database import connection, cursor
 from src.models.book import Book
+from typing_extensions import Self
 
 BOOK_COPIES: Final = [
     {"id": 1, "book_id": 1},

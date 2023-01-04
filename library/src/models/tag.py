@@ -1,13 +1,13 @@
 from dataclasses import asdict, dataclass
 from typing import Final, cast
 
-from typing_extensions import Self
-
 from src.database import connection, cursor
+from typing_extensions import Self
 
 TAGS: Final = [
     {"id": 1, "name": "Action"},
     {"id": 2, "name": "Adventure"},
+    {"id": 3, "name": "Magazine"},
 ]
 
 
@@ -144,7 +144,7 @@ class Tag:
             """
             CREATE TABLE tags (
                 id INT AUTO_INCREMENT,
-                name VARCHAR(255) NOT NULL,
+                name VARCHAR(255) UNIQUE NOT NULL,
                 PRIMARY KEY (id)
             )
             """

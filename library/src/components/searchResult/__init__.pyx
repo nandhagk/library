@@ -9,17 +9,17 @@ SET_SIZE = 10
 def getResultsSize(query):
     if query['resource'] == 'books':
         # TODO: Consider tags
-        return Book.searchCount(query['Title'], query['Author'])
+        return Book.searchCount(query['Title'], query['Author'], list(query['Tags']))
     elif query['resource'] == 'loans':
-        return Loan.searchCount(query['BookID'], query['PersonID'])
+        return Loan.searchCount(query['BookID'] or None, query['PersonID'] or None, [ status.lower() for status, value in query["Status"].items() if value])
     elif query['resource'] == 'people':
         return User.searchCount(query['Name'])
 
 def getResults(query, start):
     if query['resource'] == 'books':
-        return Book.search(query['Title'], query['Author'], start, )
+        return Book.search(query['Title'], query['Author'], list(query['Tags']), start, )
     elif query['resource'] == 'loans':
-        return Loan.search(query['BookID'], query['PersonID'], start )
+        return Loan.search(query['BookID'] or None, query['PersonID'] or None,[ status.lower() for status, value in query["Status"].items() if value], start )
     elif query['resource'] == 'people':
         return User.search(query['Name'], start, )
     else:

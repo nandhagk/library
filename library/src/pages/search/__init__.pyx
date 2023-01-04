@@ -17,14 +17,12 @@ class Search(pyx.Component):
             )
         elif self.searchFilter() == 'people':
             return SearchInput.Parameters(
-                Name = SearchInput.Parameters.SingleLineText(),
-                Status = SearchInput.Parameters.SwtichBoxInput(values=('Overdue', 'Lent', 'Returned', 'Damaged Before'))
-            )
+                Name = SearchInput.Parameters.SingleLineText()            )
         elif self.searchFilter() == 'loans':
             return SearchInput.Parameters(
                 BookID = SearchInput.Parameters.SingleLineText(),
                 PersonID = SearchInput.Parameters.SingleLineText(),
-                Status = SearchInput.Parameters.SwtichBoxInput(values=('Overdue', 'Lent', 'Returned'))
+                Status = SearchInput.Parameters.SwtichBoxInput(values=('Overdue', 'Active', 'Returned'))
             )
         else:
             print("INVALID SEARCHFILTER")

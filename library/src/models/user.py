@@ -1,9 +1,9 @@
 from dataclasses import asdict, dataclass
 from typing import Final, cast
-from src.pages import Destinations
-from typing_extensions import Self
 
 from src.database import connection, cursor
+from src.pages import Destinations
+from typing_extensions import Self
 
 USERS: Final = [
     {"id": 1, "name": "John Doe"},
@@ -41,31 +41,44 @@ class User:
         return bool(cls.find_by_id(id))
 
     @classmethod
-    def search(cls, name: str, start : int) -> list[Self]:
+    def search(cls, name: str = "", start: int = 0) -> list[dict]:
         """Searches users."""
-        payload = {"name": f"%{name}%", "start" : start}
+        payload = {"name": f"%{name}%", "start": start}
 
         cursor.execute(
             """
-            SELECT name, id from users
+            SELECT id, name from users
             WHERE
                 name LIKE %(name)s
-            LIMIT 10 OFFSET %(start)s
+            LIMIT 10
+            OFFSET %(start)s
             """,
             payload,
         )
 
         results = cursor.fetchall()
-        
-        return [{"primaryText":result[0], "secondaryText":"", "chips":[], "locator": (Destinations.personInfo, result[1])} for result in results]
+
+        if results is None:
+            return []
+
+        return [
+            {
+                "primaryText": name,
+                "secondaryText": "",
+                "chips": [],
+                "locator": (Destinations.personInfo, id),
+            }
+            for id, name in results
+        ]
+
     @classmethod
-    def searchCount(cls, name: str) -> list[Self]:
+    def searchCount(cls, name: str = "") -> int:
         """Searches users."""
         payload = {"name": f"%{name}%"}
 
         cursor.execute(
             """
-            SELECT count(*) from users
+            SELECT COUNT(*) from users
             WHERE
                 name LIKE %(name)s
             """,
@@ -73,7 +86,11 @@ class User:
         )
 
         result = cursor.fetchone()
-        return result[0]  # type: ignore
+
+        if result is None:
+            return 0
+
+        return result[0]
 
     @classmethod
     def find_by_id(cls, id: int, /) -> Self | None:

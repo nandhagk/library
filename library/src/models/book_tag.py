@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from typing import Final, cast
 
-from typing_extensions import Self
-
 from src.database import connection, cursor
 from src.models.book import Book
 from src.models.tag import Tag
+from typing_extensions import Self
 
 BOOK_TAGS: Final = [
     {"book_id": 1, "tag_id": 1},
