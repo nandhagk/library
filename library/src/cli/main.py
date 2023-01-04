@@ -47,9 +47,3 @@ def init() -> None:
     Loan.init()
 
     print("Successfully initialized the database!")
-
-
-main.add_command(book)
-main.add_command(user)
-main.add_command(loan)
-main.add_command(tag)

@@ -1,15 +1,17 @@
 import styles from 'loanInfo.css'
 from mypyguiplusultra.core import createRef
-from src.models.loan import Loan
 from datetime import date
 
 def deleteRecord(id):
+    from src.models.loan import Loan
     Loan.delete(id)
 
 def returnLoan(id):
+    from src.models.loan import Loan
     Loan.update(id, status="returned", returned_at=date.today())
 
 def requestData(loanId, callback):
+    from src.models.loan import Loan
     res = Loan.find_for_ui(loanId)
     callback({
         'loanId' : str(res[0]),

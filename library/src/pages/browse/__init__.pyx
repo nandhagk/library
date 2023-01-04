@@ -4,14 +4,14 @@ from PyQt6.QtWidgets import QGraphicsItem
 class Browse(pyx.Component):
     def onClick(self, e):
         from ..destinations import Destinations        
-        self.props['redirect'](Destinations.bookInfo, e[1].attrs['id'])
+        self.props['redirect'](Destinations.bookInfo, e[1].attrs['bid'])
 
     def getBook(self, book):
-        xs = <div class="book" clickable={True} id={book['id']}>
-            <img source={book['src']} />
+        xs = <div class="book" clickable={True} bid={book.id}>
+            <img source={book.cover_url} />
             <div class="infoContainer" qflags={(QGraphicsItem.GraphicsItemFlag.ItemDoesntPropagateOpacityToChildren,)}>
-                <text class="name">{book['title'][:16] + ("..." if book['title'][16:] else '')}</text>
-                <text class="author">{book['author'][:17] + ("..." if book['author'][17:] else '')}</text>
+                <text class="name">{book.title[:16] + ("..." if book.title[16:] else '')}</text>
+                <text class="author">{book.author[:17] + ("..." if book.author[17:] else '')}</text>
             </div>
         </div>
 
@@ -31,7 +31,8 @@ class Browse(pyx.Component):
             </div>) for category in categories)
 
     def body(self):
-        values = {"Trending": [{"id":"1","src":"https://www.gamespot.com/a/uploads/original/1562/15626911/3002108-5033201-49-variant.jpg","title":"Harry Potter and the Goblet of Fire", "author":"J K Rowling"}], "New":[], "Magazines":[], "Classics":[]}
+        from src.models.book import Book
+        values = {"Trending": Book.get_trending_books(), "New": Book.get_new_books(), "Magazines":Book.get_magazines_books(), "Classics":Book.get_classics_books()}
         return <div class="container">
             {*(self.hydrate( values ))}
         </div>

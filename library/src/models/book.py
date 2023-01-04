@@ -3,7 +3,7 @@ from datetime import date
 from typing import Final, cast
 
 from src.database import connection, cursor
-from src.pages import Destinations
+
 from typing_extensions import Self
 
 BOOKS: Final = [
@@ -243,7 +243,7 @@ class Book:
 
         if results is None:
             return []
-
+        from src.pages import Destinations
         return [
             {
                 "primaryText": title,
@@ -414,7 +414,7 @@ class Book:
     ) -> None:
         """Updates a book by its id."""
         book = cls.find_by_id(id)
-
+        # TODO SQL: When total copies have been changed we will need to delete book copies as required
         if tags is None:
             tags = []
 

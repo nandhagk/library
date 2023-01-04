@@ -1,14 +1,13 @@
 import styles from './searchResult.css'
 from mypyguiplusultra.core import createRef
-from src.models.book import Book
-from src.models.loan import Loan
-from src.models.user import User
 from .paginator import Paginator
 SET_SIZE = 10
 
 def getResultsSize(query):
+    from src.models.book import Book
+    from src.models.loan import Loan
+    from src.models.user import User
     if query['resource'] == 'books':
-        # TODO: Consider tags
         return Book.searchCount(query['Title'], query['Author'], list(query['Tags']))
     elif query['resource'] == 'loans':
         return Loan.searchCount(query['BookID'] or None, query['PersonID'] or None, [ status.lower() for status, value in query["Status"].items() if value])
@@ -16,6 +15,9 @@ def getResultsSize(query):
         return User.searchCount(query['Name'])
 
 def getResults(query, start):
+    from src.models.book import Book
+    from src.models.loan import Loan
+    from src.models.user import User
     if query['resource'] == 'books':
         return Book.search(query['Title'], query['Author'], list(query['Tags']), start, )
     elif query['resource'] == 'loans':

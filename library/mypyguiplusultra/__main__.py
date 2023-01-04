@@ -21,6 +21,9 @@ def main(c, b, r, conf):
             import sys
             xs = Path(config[config_constants.SRC_DIRECTORY])
             sys.path.append(xs.parent.as_posix())
+            sys.argv.clear()
+            sys.argv.append(xs.parent.as_posix())
+            sys.argv.append("run")
             runpy.run_module(xs.name)
 
 main()

@@ -1,12 +1,13 @@
 import styles from 'personInfo.css'
 from mypyguiplusultra.core import createRef
 from src.components import SearchResult
-from src.models.user import User
 def deleteRecord(id):
+    from src.models.user import User
     User.delete(id)
 
 
 def requestData(personId, callback):
+    from src.models.user import User
     user = User.find_by_id(personId)
     callback({
         'personId' : str(user.id),
@@ -42,6 +43,7 @@ class PersonInfo(pyx.Component):
         self.searchResult().updateQuery({
             'resource':'loans',
             'PersonID' : self.data['personId'],
+            'status' : {},
             'BookID' : ''
         })
 

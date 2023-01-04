@@ -1,10 +1,6 @@
 from mypyguiplusultra.core import createDependancy, createRef
 from src.components import Toggle, SearchInput
-from src.models.book import Book
-from src.models.book_copy import BookCopy
-from src.models.loan import Loan
-from src.models.user import User
-from src.models.tag import Tag
+
 from datetime import date
 
 class Add(pyx.Component):
@@ -14,6 +10,8 @@ class Add(pyx.Component):
         self.searchInput = createRef()
 
     def getParams(self):
+        from src.models.book_copy import BookCopy
+        from src.models.user import User
         if self.addFilter() == 'books':
             return SearchInput.Parameters(
                 Title         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
@@ -48,13 +46,14 @@ class Add(pyx.Component):
         self.searchInput().updateParams(self.getParams())
 
     def add(self, values):
-        # TODO: SQL Later
+        from src.models.book import Book
+        from src.models.book_copy import BookCopy
+        from src.models.loan import Loan
+        from src.models.user import User
+        from src.models.tag import Tag
         # NOTE: Editing can basically just be a copy of this same page :)
         from ..destinations import Destinations
         if self.addFilter() == 'books':
-            # TODO: Enter tags
-            # TODO: ALl the other shit
-            # {'Title': 'sdf', 'Author': 'sdf', 'CoverURL': 'sdf', 'Tags': set(), 'Description': ' dfsdf', 'Pages': '123', 'TotalCopies': '2', 'Publisher': 'dsf', 'PublishedDate': (28, 12, 2022)}
             book = Book.create(title=values['Title'], author=values['Author'], cover_url=values['CoverURL'], description=values['Description'],  tags=list(values['Tags']), publisher=values["Publisher"], published_at=values['PublishedDate'], pages=values['Pages'], copies=int(values['TotalCopies']))
             self.parentNode().renderNode.windowProvider().inform("Book record has been created!", "Information")
             self.props['redirect'](Destinations.bookInfo, book.id)

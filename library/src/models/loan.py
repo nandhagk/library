@@ -5,7 +5,7 @@ from typing import Final, Literal, TypeAlias, cast
 from src.database import connection, cursor
 from src.models.book_copy import BookCopy
 from src.models.user import User
-from src.pages.destinations import Destinations
+
 from typing_extensions import Self
 
 LOANS: Final = [
@@ -144,7 +144,7 @@ class Loan:
 
         if results is None:
             return []
-
+        from src.pages.destinations import Destinations
         return [
             {
                 "primaryText": user_name,
@@ -302,7 +302,6 @@ class Loan:
 
         if returned_at is not None:
             payload["returned_at"] = returned_at
-
         cursor.execute(
             """
             UPDATE loans

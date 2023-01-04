@@ -1,9 +1,7 @@
 from mypyguiplusultra.core import createRef
 from src.components import SearchInput
 
-from src.models.book import Book
-from src.models.loan import Loan
-from src.models.user import User
+
 
 @pyx.useStylesheet(
     """
@@ -32,8 +30,8 @@ class Edit(pyx.Component):
                 Tags          = SearchInput.Parameters.ChipsInput(value=self.glob['data']['data']['tags']),
                 Description   = SearchInput.Parameters.LongText(value=self.glob['data']['data']['description']),
                 Pages         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit(), value=self.glob['data']['data']['pages']),
-                TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit(), value=self.glob['data']['data']['totalCopies']),
-                ActiveCopies  = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit(), value=self.glob['data']['data']['activeCopies']),
+                TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit() and int(self.glob['data']['data']['totalCopies']) - int(t) <= int(self.glob['data']['data']['activeCopies']), value=self.glob['data']['data']['totalCopies']),
+                ActiveCopies  = SearchInput.Parameters.SingleLineText(disable=True,validate=lambda t:t.strip().isdigit(), value=self.glob['data']['data']['activeCopies']),
                 Publisher     = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip(), value=self.glob['data']['data']['publisher']),
                 PublishedDate = SearchInput.Parameters.DateInput(value=self.glob['data']['data']['publishedDate']),
             )
@@ -65,7 +63,9 @@ class Edit(pyx.Component):
             print("INVALID ADDFILTER")
 
     def update(self, values):
-        print("UPDATING VALUES", values)
+        from src.models.book import Book
+        from src.models.loan import Loan
+        from src.models.user import User
 
         from ..destinations import Destinations
         if self.glob.data['type'] == 'books':
@@ -77,8 +77,7 @@ class Edit(pyx.Component):
             self.parentNode().renderNode.windowProvider().inform("User record has been updated!", "Information")
             self.props['redirect'](Destinations.personInfo, self.glob['data']['data']['personId'])
         elif self.glob.data['type'] == 'loans':
-
-            Loan.update(self.glob['data']['data']['loanId'], created_at=values['IssuedDate'], due_at=values['DueDate'], returned_at=values.get('returnedDate'))
+            Loan.update(self.glob['data']['data']['loanId'], created_at=values['IssuedDate'], due_at=values['DueDate'], returned_at=values.get('ReturnedDate'))
             self.parentNode().renderNode.windowProvider().inform("Loan record has been updated!", "Information")
             self.props['redirect'](Destinations.loanInfo, self.glob['data']['data']['loanId'])
         else:

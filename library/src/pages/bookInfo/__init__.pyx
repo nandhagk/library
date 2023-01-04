@@ -1,12 +1,14 @@
 import styles from 'bookInfo.css'
 from mypyguiplusultra.core import createRef
-from src.models.book import Book
+
 from src.components import SearchResult
 
 def deleteRecord(id):
+    from src.models.book import Book
     Book.delete(id)
 
 def requestData(bookId, callback):
+    from src.models.book import Book
     title, author, cover_url, description, publisher, published_at, pages, total_copies, tags, loaned_copies = Book.find_for_ui(bookId)
     callback({
         'title' : title,
@@ -62,7 +64,6 @@ class BookInfo(pyx.Component):
         self.data = data
 
     def onMount(self):
-        # TODO NOW: According to whether sql queries are asynchronous or not we might need to change this (maybe even move requesting data to onPaint if synchromous)
         for key in self.data:
             if key in {'tags', 'coverURL'}:
                 continue
@@ -84,6 +85,7 @@ class BookInfo(pyx.Component):
         self.searchResult().updateQuery({
             'resource':'loans',
             'PersonID' : '',
+            'Status' : {},
             'BookID' : self.data['bookId']
         })
 
