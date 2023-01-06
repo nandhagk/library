@@ -18,6 +18,10 @@ app = createPyxApp(
 
 # TODO NOW:
     # Remove duplicate entries in the data
+
+    # Clean the data:
+        # Ignore tags like: audiobook etc
+
     # Generate people
     # Generate loans
 
