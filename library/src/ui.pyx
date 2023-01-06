@@ -16,6 +16,12 @@ app = createPyxApp(
 )
 # TODO: Window Icon
 
+# TODO NOW:
+    # Remove duplicate entries in the data
+    # Generate people
+    # Generate loans
+
+
 sidebar = createRef()
 glob.currentPage = createDependancy(Destinations.browse)
 

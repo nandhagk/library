@@ -15,7 +15,7 @@ class ChipsInput(pyx.Component):
         return True
 
     def onKeyPress(self, e):
-        if e[0].text().isspace():
+        if e[0].text() == '\r':
             text = self.input().content
             self.input().renderNode.renderWorker.setText('')
             self.addChip(text.strip())
@@ -34,7 +34,7 @@ class ChipsInput(pyx.Component):
     def addChip(self, chipText):
         if not chipText or chipText.lower() in self.chips:return
         self.chips.add(chipText.lower())
-        chip = <text class="chip">{chipText}</text>
+        chip = <text class="chip">{chipText.title()}</text>
         chip.on.click.subscribe(lambda e:self.removeChip(chip), weakify=False)
         self.chipContainer().appendChild(chip)
 
