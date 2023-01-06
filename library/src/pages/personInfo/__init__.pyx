@@ -43,7 +43,7 @@ class PersonInfo(pyx.Component):
         self.searchResult().updateQuery({
             'resource':'loans',
             'PersonID' : self.data['personId'],
-            'status' : {},
+            'Status' : {},
             'BookID' : ''
         })
 
