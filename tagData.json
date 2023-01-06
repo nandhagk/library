@@ -1,0 +1,1350 @@
+[
+    {
+        "id": 0,
+        "name": "urban"
+    },
+    {
+        "id": 1,
+        "name": "indian literature"
+    },
+    {
+        "id": 2,
+        "name": "french literature"
+    },
+    {
+        "id": 3,
+        "name": "religion"
+    },
+    {
+        "id": 4,
+        "name": "abuse"
+    },
+    {
+        "id": 5,
+        "name": "collections"
+    },
+    {
+        "id": 6,
+        "name": "sports"
+    },
+    {
+        "id": 7,
+        "name": "cozy mystery"
+    },
+    {
+        "id": 8,
+        "name": "erotica"
+    },
+    {
+        "id": 9,
+        "name": "true crime"
+    },
+    {
+        "id": 10,
+        "name": "nature"
+    },
+    {
+        "id": 11,
+        "name": "faith"
+    },
+    {
+        "id": 12,
+        "name": "fantasy"
+    },
+    {
+        "id": 13,
+        "name": "noir"
+    },
+    {
+        "id": 14,
+        "name": "witches"
+    },
+    {
+        "id": 15,
+        "name": "canada"
+    },
+    {
+        "id": 16,
+        "name": "graphic novels comics"
+    },
+    {
+        "id": 17,
+        "name": "love story"
+    },
+    {
+        "id": 18,
+        "name": "civil war"
+    },
+    {
+        "id": 19,
+        "name": "graphic novels"
+    },
+    {
+        "id": 20,
+        "name": "social science"
+    },
+    {
+        "id": 21,
+        "name": "new york"
+    },
+    {
+        "id": 22,
+        "name": "young adult contemporary"
+    },
+    {
+        "id": 23,
+        "name": "plays"
+    },
+    {
+        "id": 24,
+        "name": "sexuality"
+    },
+    {
+        "id": 25,
+        "name": "contemporary romance"
+    },
+    {
+        "id": 26,
+        "name": "womens fiction"
+    },
+    {
+        "id": 27,
+        "name": "aliens"
+    },
+    {
+        "id": 28,
+        "name": "19th century"
+    },
+    {
+        "id": 29,
+        "name": "evolution"
+    },
+    {
+        "id": 30,
+        "name": "sierra leone"
+    },
+    {
+        "id": 31,
+        "name": "neurodiversity"
+    },
+    {
+        "id": 32,
+        "name": "historical romance"
+    },
+    {
+        "id": 33,
+        "name": "bdsm"
+    },
+    {
+        "id": 34,
+        "name": "historical"
+    },
+    {
+        "id": 35,
+        "name": "food and drink"
+    },
+    {
+        "id": 36,
+        "name": "new age"
+    },
+    {
+        "id": 37,
+        "name": "self help"
+    },
+    {
+        "id": 38,
+        "name": "murder mystery"
+    },
+    {
+        "id": 39,
+        "name": "queer"
+    },
+    {
+        "id": 40,
+        "name": "supernatural"
+    },
+    {
+        "id": 41,
+        "name": "film"
+    },
+    {
+        "id": 42,
+        "name": "contemporary"
+    },
+    {
+        "id": 43,
+        "name": "mystery"
+    },
+    {
+        "id": 44,
+        "name": "family"
+    },
+    {
+        "id": 45,
+        "name": "business"
+    },
+    {
+        "id": 46,
+        "name": "unfinished"
+    },
+    {
+        "id": 47,
+        "name": "christian living"
+    },
+    {
+        "id": 48,
+        "name": "american"
+    },
+    {
+        "id": 49,
+        "name": "20th century"
+    },
+    {
+        "id": 50,
+        "name": "poetry"
+    },
+    {
+        "id": 51,
+        "name": "heroic fantasy"
+    },
+    {
+        "id": 52,
+        "name": "fantasy romance"
+    },
+    {
+        "id": 53,
+        "name": "angels"
+    },
+    {
+        "id": 54,
+        "name": "art"
+    },
+    {
+        "id": 55,
+        "name": "design"
+    },
+    {
+        "id": 56,
+        "name": "parenting"
+    },
+    {
+        "id": 57,
+        "name": "medievalism"
+    },
+    {
+        "id": 58,
+        "name": "spanish literature"
+    },
+    {
+        "id": 59,
+        "name": "memoir"
+    },
+    {
+        "id": 60,
+        "name": "short stories"
+    },
+    {
+        "id": 61,
+        "name": "cooking"
+    },
+    {
+        "id": 62,
+        "name": "asia"
+    },
+    {
+        "id": 63,
+        "name": "finance"
+    },
+    {
+        "id": 64,
+        "name": "counter culture"
+    },
+    {
+        "id": 65,
+        "name": "asian literature"
+    },
+    {
+        "id": 66,
+        "name": "southern"
+    },
+    {
+        "id": 67,
+        "name": "nobel prize"
+    },
+    {
+        "id": 68,
+        "name": "new adult"
+    },
+    {
+        "id": 69,
+        "name": "werewolves"
+    },
+    {
+        "id": 70,
+        "name": "how to"
+    },
+    {
+        "id": 71,
+        "name": "southern gothic"
+    },
+    {
+        "id": 72,
+        "name": "novella"
+    },
+    {
+        "id": 73,
+        "name": "china"
+    },
+    {
+        "id": 74,
+        "name": "theatre"
+    },
+    {
+        "id": 75,
+        "name": "journalism"
+    },
+    {
+        "id": 76,
+        "name": "physics"
+    },
+    {
+        "id": 77,
+        "name": "audiobook"
+    },
+    {
+        "id": 78,
+        "name": "realistic fiction"
+    },
+    {
+        "id": 79,
+        "name": "medieval"
+    },
+    {
+        "id": 80,
+        "name": "animals"
+    },
+    {
+        "id": 81,
+        "name": "ancient history"
+    },
+    {
+        "id": 82,
+        "name": "north american hi..."
+    },
+    {
+        "id": 83,
+        "name": "chick lit"
+    },
+    {
+        "id": 84,
+        "name": "picture books"
+    },
+    {
+        "id": 85,
+        "name": "paranormal"
+    },
+    {
+        "id": 86,
+        "name": "couture"
+    },
+    {
+        "id": 87,
+        "name": "ghosts"
+    },
+    {
+        "id": 88,
+        "name": "young adult romance"
+    },
+    {
+        "id": 89,
+        "name": "theory"
+    },
+    {
+        "id": 90,
+        "name": "personal development"
+    },
+    {
+        "id": 91,
+        "name": "language"
+    },
+    {
+        "id": 92,
+        "name": "chapter books"
+    },
+    {
+        "id": 93,
+        "name": "poverty"
+    },
+    {
+        "id": 94,
+        "name": "book club"
+    },
+    {
+        "id": 95,
+        "name": "egypt"
+    },
+    {
+        "id": 96,
+        "name": "maritime"
+    },
+    {
+        "id": 97,
+        "name": "young adult paranormal"
+    },
+    {
+        "id": 98,
+        "name": "utopia"
+    },
+    {
+        "id": 99,
+        "name": "comedy"
+    },
+    {
+        "id": 100,
+        "name": "americana"
+    },
+    {
+        "id": 101,
+        "name": "modern classics"
+    },
+    {
+        "id": 102,
+        "name": "music"
+    },
+    {
+        "id": 103,
+        "name": "anthropology"
+    },
+    {
+        "id": 104,
+        "name": "environment"
+    },
+    {
+        "id": 105,
+        "name": "literature"
+    },
+    {
+        "id": 106,
+        "name": "history"
+    },
+    {
+        "id": 107,
+        "name": "steampunk"
+    },
+    {
+        "id": 108,
+        "name": "race"
+    },
+    {
+        "id": 109,
+        "name": "hugo awards"
+    },
+    {
+        "id": 110,
+        "name": "romance"
+    },
+    {
+        "id": 111,
+        "name": "czech literature"
+    },
+    {
+        "id": 112,
+        "name": "tragedy"
+    },
+    {
+        "id": 113,
+        "name": "christmas"
+    },
+    {
+        "id": 114,
+        "name": "vampires"
+    },
+    {
+        "id": 115,
+        "name": "denmark"
+    },
+    {
+        "id": 116,
+        "name": "world history"
+    },
+    {
+        "id": 117,
+        "name": "apocalyptic"
+    },
+    {
+        "id": 118,
+        "name": "cyberpunk"
+    },
+    {
+        "id": 119,
+        "name": "surreal"
+    },
+    {
+        "id": 120,
+        "name": "horticulture"
+    },
+    {
+        "id": 121,
+        "name": "biography"
+    },
+    {
+        "id": 122,
+        "name": "japanese literature"
+    },
+    {
+        "id": 123,
+        "name": "fae"
+    },
+    {
+        "id": 124,
+        "name": "shapeshifters"
+    },
+    {
+        "id": 125,
+        "name": "mystery thriller"
+    },
+    {
+        "id": 126,
+        "name": "biography memoir"
+    },
+    {
+        "id": 127,
+        "name": "space opera"
+    },
+    {
+        "id": 128,
+        "name": "true story"
+    },
+    {
+        "id": 129,
+        "name": "amazon"
+    },
+    {
+        "id": 130,
+        "name": "crime"
+    },
+    {
+        "id": 131,
+        "name": "magic"
+    },
+    {
+        "id": 132,
+        "name": "the united states of america"
+    },
+    {
+        "id": 133,
+        "name": "dark"
+    },
+    {
+        "id": 134,
+        "name": "alternate history"
+    },
+    {
+        "id": 135,
+        "name": "gay"
+    },
+    {
+        "id": 136,
+        "name": "spy thriller"
+    },
+    {
+        "id": 137,
+        "name": "adventure"
+    },
+    {
+        "id": 138,
+        "name": "feminism"
+    },
+    {
+        "id": 139,
+        "name": "germany"
+    },
+    {
+        "id": 140,
+        "name": "halloween"
+    },
+    {
+        "id": 141,
+        "name": "buddhism"
+    },
+    {
+        "id": 142,
+        "name": "inspirational"
+    },
+    {
+        "id": 143,
+        "name": "islam"
+    },
+    {
+        "id": 144,
+        "name": "teen"
+    },
+    {
+        "id": 145,
+        "name": "womens"
+    },
+    {
+        "id": 146,
+        "name": "biology"
+    },
+    {
+        "id": 147,
+        "name": "art history"
+    },
+    {
+        "id": 148,
+        "name": "entrepreneurship"
+    },
+    {
+        "id": 149,
+        "name": "sequential art"
+    },
+    {
+        "id": 150,
+        "name": "sweden"
+    },
+    {
+        "id": 151,
+        "name": "dogs"
+    },
+    {
+        "id": 152,
+        "name": "spirituality"
+    },
+    {
+        "id": 153,
+        "name": "dragons"
+    },
+    {
+        "id": 154,
+        "name": "detective"
+    },
+    {
+        "id": 155,
+        "name": "christianity"
+    },
+    {
+        "id": 156,
+        "name": "poland"
+    },
+    {
+        "id": 157,
+        "name": "novels"
+    },
+    {
+        "id": 158,
+        "name": "childrens"
+    },
+    {
+        "id": 159,
+        "name": "demons"
+    },
+    {
+        "id": 160,
+        "name": "nigeria"
+    },
+    {
+        "id": 161,
+        "name": "iran"
+    },
+    {
+        "id": 162,
+        "name": "sports romance"
+    },
+    {
+        "id": 163,
+        "name": "german literature"
+    },
+    {
+        "id": 164,
+        "name": "gender studies"
+    },
+    {
+        "id": 165,
+        "name": "christian fiction"
+    },
+    {
+        "id": 166,
+        "name": "speculative fiction"
+    },
+    {
+        "id": 167,
+        "name": "superheroes"
+    },
+    {
+        "id": 168,
+        "name": "italy"
+    },
+    {
+        "id": 169,
+        "name": "science fiction fantasy"
+    },
+    {
+        "id": 170,
+        "name": "pakistan"
+    },
+    {
+        "id": 171,
+        "name": "middle grade"
+    },
+    {
+        "id": 172,
+        "name": "political science"
+    },
+    {
+        "id": 173,
+        "name": "world war ii"
+    },
+    {
+        "id": 174,
+        "name": "high school"
+    },
+    {
+        "id": 175,
+        "name": "epic fantasy"
+    },
+    {
+        "id": 176,
+        "name": "disability"
+    },
+    {
+        "id": 177,
+        "name": "relationships"
+    },
+    {
+        "id": 178,
+        "name": "presidents"
+    },
+    {
+        "id": 179,
+        "name": "victorian"
+    },
+    {
+        "id": 180,
+        "name": "read for school"
+    },
+    {
+        "id": 181,
+        "name": "gardening"
+    },
+    {
+        "id": 182,
+        "name": "travel"
+    },
+    {
+        "id": 183,
+        "name": "ghost stories"
+    },
+    {
+        "id": 184,
+        "name": "gothic"
+    },
+    {
+        "id": 185,
+        "name": "european literature"
+    },
+    {
+        "id": 186,
+        "name": "holiday"
+    },
+    {
+        "id": 187,
+        "name": "books about books"
+    },
+    {
+        "id": 188,
+        "name": "japan"
+    },
+    {
+        "id": 189,
+        "name": "paranormal romance"
+    },
+    {
+        "id": 190,
+        "name": "survival"
+    },
+    {
+        "id": 191,
+        "name": "academic"
+    },
+    {
+        "id": 192,
+        "name": "cultural"
+    },
+    {
+        "id": 193,
+        "name": "high fantasy"
+    },
+    {
+        "id": 194,
+        "name": "education"
+    },
+    {
+        "id": 195,
+        "name": "pirates"
+    },
+    {
+        "id": 196,
+        "name": "zombies"
+    },
+    {
+        "id": 197,
+        "name": "mental illness"
+    },
+    {
+        "id": 198,
+        "name": "science"
+    },
+    {
+        "id": 199,
+        "name": "social movements"
+    },
+    {
+        "id": 200,
+        "name": "psychological thriller"
+    },
+    {
+        "id": 201,
+        "name": "modern"
+    },
+    {
+        "id": 202,
+        "name": "suspense"
+    },
+    {
+        "id": 203,
+        "name": "military fiction"
+    },
+    {
+        "id": 204,
+        "name": "nonfiction"
+    },
+    {
+        "id": 205,
+        "name": "architecture"
+    },
+    {
+        "id": 206,
+        "name": "romanticism"
+    },
+    {
+        "id": 207,
+        "name": "atheism"
+    },
+    {
+        "id": 208,
+        "name": "action"
+    },
+    {
+        "id": 209,
+        "name": "roman"
+    },
+    {
+        "id": 210,
+        "name": "anti racist"
+    },
+    {
+        "id": 211,
+        "name": "russian literature"
+    },
+    {
+        "id": 212,
+        "name": "social issues"
+    },
+    {
+        "id": 213,
+        "name": "currency"
+    },
+    {
+        "id": 214,
+        "name": "irish literature"
+    },
+    {
+        "id": 215,
+        "name": "neuroscience"
+    },
+    {
+        "id": 216,
+        "name": "pulp"
+    },
+    {
+        "id": 217,
+        "name": "juvenile"
+    },
+    {
+        "id": 218,
+        "name": "autistic spectrum disorder"
+    },
+    {
+        "id": 219,
+        "name": "science fiction romance"
+    },
+    {
+        "id": 220,
+        "name": "world war i"
+    },
+    {
+        "id": 221,
+        "name": "anthologies"
+    },
+    {
+        "id": 222,
+        "name": "comics"
+    },
+    {
+        "id": 223,
+        "name": "time travel"
+    },
+    {
+        "id": 224,
+        "name": "autobiography"
+    },
+    {
+        "id": 225,
+        "name": "amish"
+    },
+    {
+        "id": 226,
+        "name": "young adult fantasy"
+    },
+    {
+        "id": 227,
+        "name": "health"
+    },
+    {
+        "id": 228,
+        "name": "italian literature"
+    },
+    {
+        "id": 229,
+        "name": "natural history"
+    },
+    {
+        "id": 230,
+        "name": "classic literature"
+    },
+    {
+        "id": 231,
+        "name": "south africa"
+    },
+    {
+        "id": 232,
+        "name": "social justice"
+    },
+    {
+        "id": 233,
+        "name": "technology"
+    },
+    {
+        "id": 234,
+        "name": "fashion"
+    },
+    {
+        "id": 235,
+        "name": "sociology"
+    },
+    {
+        "id": 236,
+        "name": "british literature"
+    },
+    {
+        "id": 237,
+        "name": "russia"
+    },
+    {
+        "id": 238,
+        "name": "money"
+    },
+    {
+        "id": 239,
+        "name": "historical fiction"
+    },
+    {
+        "id": 240,
+        "name": "hard boiled"
+    },
+    {
+        "id": 241,
+        "name": "terrorism"
+    },
+    {
+        "id": 242,
+        "name": "military history"
+    },
+    {
+        "id": 243,
+        "name": "coming of age"
+    },
+    {
+        "id": 244,
+        "name": "fairies"
+    },
+    {
+        "id": 245,
+        "name": "legal thriller"
+    },
+    {
+        "id": 246,
+        "name": "northern africa"
+    },
+    {
+        "id": 247,
+        "name": "christian"
+    },
+    {
+        "id": 248,
+        "name": "ancient"
+    },
+    {
+        "id": 249,
+        "name": "space"
+    },
+    {
+        "id": 250,
+        "name": "young adult"
+    },
+    {
+        "id": 251,
+        "name": "adult fiction"
+    },
+    {
+        "id": 252,
+        "name": "epic"
+    },
+    {
+        "id": 253,
+        "name": "fairy tales"
+    },
+    {
+        "id": 254,
+        "name": "magical realism"
+    },
+    {
+        "id": 255,
+        "name": "scotland"
+    },
+    {
+        "id": 256,
+        "name": "theology"
+    },
+    {
+        "id": 257,
+        "name": "lesbian"
+    },
+    {
+        "id": 258,
+        "name": "mountaineering"
+    },
+    {
+        "id": 259,
+        "name": "biblical"
+    },
+    {
+        "id": 260,
+        "name": "romantic"
+    },
+    {
+        "id": 261,
+        "name": "mental health"
+    },
+    {
+        "id": 262,
+        "name": "communication"
+    },
+    {
+        "id": 263,
+        "name": "writing"
+    },
+    {
+        "id": 264,
+        "name": "18th century"
+    },
+    {
+        "id": 265,
+        "name": "christian non fiction"
+    },
+    {
+        "id": 266,
+        "name": "classics"
+    },
+    {
+        "id": 267,
+        "name": "literary fiction"
+    },
+    {
+        "id": 268,
+        "name": "dark fantasy"
+    },
+    {
+        "id": 269,
+        "name": "ireland"
+    },
+    {
+        "id": 270,
+        "name": "horses"
+    },
+    {
+        "id": 271,
+        "name": "thriller"
+    },
+    {
+        "id": 272,
+        "name": "psychology"
+    },
+    {
+        "id": 273,
+        "name": "american history"
+    },
+    {
+        "id": 274,
+        "name": "espionage"
+    },
+    {
+        "id": 275,
+        "name": "medicine"
+    },
+    {
+        "id": 276,
+        "name": "marriage"
+    },
+    {
+        "id": 277,
+        "name": "horror"
+    },
+    {
+        "id": 278,
+        "name": "cults"
+    },
+    {
+        "id": 279,
+        "name": "fiction"
+    },
+    {
+        "id": 280,
+        "name": "love"
+    },
+    {
+        "id": 281,
+        "name": "erotic romance"
+    },
+    {
+        "id": 282,
+        "name": "21st century"
+    },
+    {
+        "id": 283,
+        "name": "climate change"
+    },
+    {
+        "id": 284,
+        "name": "war"
+    },
+    {
+        "id": 285,
+        "name": "holocaust"
+    },
+    {
+        "id": 286,
+        "name": "scandinavian literature"
+    },
+    {
+        "id": 287,
+        "name": "adoption"
+    },
+    {
+        "id": 288,
+        "name": "australia"
+    },
+    {
+        "id": 289,
+        "name": "society"
+    },
+    {
+        "id": 290,
+        "name": "travelogue"
+    },
+    {
+        "id": 291,
+        "name": "humor"
+    },
+    {
+        "id": 292,
+        "name": "death"
+    },
+    {
+        "id": 293,
+        "name": "economics"
+    },
+    {
+        "id": 294,
+        "name": "latin american"
+    },
+    {
+        "id": 295,
+        "name": "western africa"
+    },
+    {
+        "id": 296,
+        "name": "essays"
+    },
+    {
+        "id": 297,
+        "name": "romantic suspense"
+    },
+    {
+        "id": 298,
+        "name": "buisness"
+    },
+    {
+        "id": 299,
+        "name": "india"
+    },
+    {
+        "id": 300,
+        "name": "greek mythology"
+    },
+    {
+        "id": 301,
+        "name": "lgbt"
+    },
+    {
+        "id": 302,
+        "name": "adult"
+    },
+    {
+        "id": 303,
+        "name": "road trip"
+    },
+    {
+        "id": 304,
+        "name": "philosophy"
+    },
+    {
+        "id": 305,
+        "name": "m m romance"
+    },
+    {
+        "id": 306,
+        "name": "gender"
+    },
+    {
+        "id": 307,
+        "name": "media tie in"
+    },
+    {
+        "id": 308,
+        "name": "lebanon"
+    },
+    {
+        "id": 309,
+        "name": "pop culture"
+    },
+    {
+        "id": 310,
+        "name": "africa"
+    },
+    {
+        "id": 311,
+        "name": "management"
+    },
+    {
+        "id": 312,
+        "name": "science fiction"
+    },
+    {
+        "id": 313,
+        "name": "productivity"
+    },
+    {
+        "id": 314,
+        "name": "european history"
+    },
+    {
+        "id": 315,
+        "name": "post apocalyptic"
+    },
+    {
+        "id": 316,
+        "name": "medical"
+    },
+    {
+        "id": 317,
+        "name": "southern africa"
+    },
+    {
+        "id": 318,
+        "name": "personal finance"
+    },
+    {
+        "id": 319,
+        "name": "mythology"
+    },
+    {
+        "id": 320,
+        "name": "france"
+    },
+    {
+        "id": 321,
+        "name": "dystopia"
+    },
+    {
+        "id": 322,
+        "name": "futuristic"
+    },
+    {
+        "id": 323,
+        "name": "culture"
+    },
+    {
+        "id": 324,
+        "name": "american revolution"
+    },
+    {
+        "id": 325,
+        "name": "reference"
+    },
+    {
+        "id": 326,
+        "name": "westerns"
+    },
+    {
+        "id": 327,
+        "name": "prehistoric"
+    },
+    {
+        "id": 328,
+        "name": "leadership"
+    },
+    {
+        "id": 329,
+        "name": "college"
+    },
+    {
+        "id": 330,
+        "name": "school"
+    },
+    {
+        "id": 331,
+        "name": "african american"
+    },
+    {
+        "id": 332,
+        "name": "law"
+    },
+    {
+        "id": 333,
+        "name": "urban fantasy"
+    },
+    {
+        "id": 334,
+        "name": "drama"
+    },
+    {
+        "id": 335,
+        "name": "politics"
+    },
+    {
+        "id": 336,
+        "name": "banned books"
+    }
+]
