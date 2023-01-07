@@ -19,6 +19,8 @@ app = createPyxApp(
 # TODO NOW:
     # Generate loans
 
+    # Add users and loans (and bookcopies)
+
 
 sidebar = createRef()
 glob.currentPage = createDependancy(Destinations.browse)
