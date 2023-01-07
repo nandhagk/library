@@ -17,12 +17,6 @@ app = createPyxApp(
 # TODO: Window Icon
 
 # TODO NOW:
-    # Remove duplicate entries in the data
-
-    # Clean the data:
-        # Ignore tags like: audiobook etc
-
-    # Generate people
     # Generate loans
 
 
