@@ -12,12 +12,13 @@ class Add(pyx.Component):
     def getParams(self):
         from src.models.book_copy import BookCopy
         from src.models.user import User
+        from src.models.tag import Tag
         if self.addFilter() == 'books':
             return SearchInput.Parameters(
                 Title         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
                 Author        = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()),
                 CoverURL      = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip()), # NOTE: Placeholder support has not been made yet
-                Tags          = SearchInput.Parameters.ChipsInput(),
+                Tags          = SearchInput.Parameters.ChipsInput(validate = lambda t:Tag.exists(t.strip().lower())),
                 Description   = SearchInput.Parameters.LongText(),
                 Pages         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
                 TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit()),
@@ -37,7 +38,7 @@ class Add(pyx.Component):
             )
         elif self.addFilter() == 'tags':
             return SearchInput.Parameters(
-                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip())
+                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:Tag.exists(t) is None)
             )
         else:
             print("INVALID ADDFILTER")
@@ -56,7 +57,7 @@ class Add(pyx.Component):
         if self.addFilter() == 'books':
             book = Book.create(title=values['Title'], author=values['Author'], cover_url=values['CoverURL'], description=values['Description'],  tags=list(values['Tags']), publisher=values["Publisher"], published_at=values['PublishedDate'], pages=values['Pages'], copies=int(values['TotalCopies']))
             self.parentNode().renderNode.windowProvider().inform("Book record has been created!", "Information")
-            self.props['redirect'](Destinations.bookInfo, book.id)
+            self.props['redirect'](Destinations.bookInfo, book)
         elif self.addFilter() == 'people':
             user = User.create(values['Name'])
             self.parentNode().renderNode.windowProvider().inform("User record has been created!", "Information")

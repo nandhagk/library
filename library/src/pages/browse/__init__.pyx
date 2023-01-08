@@ -1,5 +1,6 @@
 import styles from 'browse.css'
 from PyQt6.QtWidgets import QGraphicsItem
+from textwrap import shorten
 @styles
 class Browse(pyx.Component):
     def onClick(self, e):
@@ -10,8 +11,8 @@ class Browse(pyx.Component):
         xs = <div class="book" clickable={True} bid={book.id}>
             <img source={book.cover_url} />
             <div class="infoContainer" qflags={(QGraphicsItem.GraphicsItemFlag.ItemDoesntPropagateOpacityToChildren,)}>
-                <text class="name">{book.title[:16] + ("..." if book.title[16:] else '')}</text>
-                <text class="author">{book.author[:17] + ("..." if book.author[17:] else '')}</text>
+                <text class="name">{shorten(book.title, 17, placeholder="...")}</text>
+                <text class="author">{shorten(book.author, 16, placeholder="...")}</text>
             </div>
         </div>
 
@@ -32,7 +33,8 @@ class Browse(pyx.Component):
 
     def body(self):
         from src.models.book import Book
-        values = {"Trending": Book.get_trending_books(), "New": Book.get_new_books(), "Magazines":Book.get_magazines_books(), "Classics":Book.get_classics_books()}
+        values = {"Trending": Book.get_trending_books(), "New": Book.get_new_books(), "Comics":Book.get_magazines_books(), "Classics":Book.get_classics_books()}
+
         return <div class="container">
             {*(self.hydrate( values ))}
         </div>

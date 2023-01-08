@@ -71,7 +71,7 @@ class BookInfo(pyx.Component):
 
         cv = self.chipsViewer()
         for chip in self.data['tags']:
-            cv.appendChild( <text class="chip">{chip}</text>, _link=False)
+            cv.appendChild( <text class="chip">{chip.title()}</text>, _link=False)
 
 
 
@@ -85,7 +85,7 @@ class BookInfo(pyx.Component):
         self.searchResult().updateQuery({
             'resource':'loans',
             'PersonID' : '',
-            'Status' : {},
+            'Status' : {'returned':True, 'overdue':True,'active':True},
             'BookID' : self.data['bookId']
         })
 

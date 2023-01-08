@@ -11,8 +11,7 @@ def requestData(personId, callback):
     user = User.find_by_id(personId)
     callback({
         'personId' : str(user.id),
-        'personName' : user.name,
-        'status' : 'Overdue'
+        'personName' : user.name
     })
 
 @styles
@@ -21,8 +20,7 @@ class PersonInfo(pyx.Component):
         self.data = None
         self.refs = {
             'personName' : createRef(),
-            'personId' : createRef(),
-            'status' : createRef(),
+            'personId' : createRef()
         }
         self.deleteButton = createRef()
         self.editButton = createRef()
@@ -43,7 +41,7 @@ class PersonInfo(pyx.Component):
         self.searchResult().updateQuery({
             'resource':'loans',
             'PersonID' : self.data['personId'],
-            'Status' : {},
+            'Status' : {'returned':True, 'overdue':True,'active':True},
             'BookID' : ''
         })
 
@@ -65,8 +63,6 @@ class PersonInfo(pyx.Component):
                     <text class="info" ref={self.refs['personId']}>Loading....</text>
                     <text class="label">PersonName</text>
                     <text class="info" ref={self.refs['personName']}>Loading....</text>
-                    <text class="label">Staus</text>
-                    <text class="info" ref={self.refs['status']}>Loading....</text>
                 </div>
                 <div class="absoluteBox">
                     <button class="delete" ref={self.deleteButton}>

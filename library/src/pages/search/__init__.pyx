@@ -9,11 +9,12 @@ class Search(pyx.Component):
         self.searchFilter = createDependancy("loans", createRef(self.searchFilterChange))
 
     def getParams(self):
+        from src.models.tag import Tag
         if self.searchFilter() == 'books':
             return SearchInput.Parameters(
                 Title  = SearchInput.Parameters.SingleLineText(placeholder=''), # NOTE: Placeholder support has not been made yet
                 Author = SearchInput.Parameters.SingleLineText(),
-                Tags   = SearchInput.Parameters.ChipsInput()
+                Tags   = SearchInput.Parameters.ChipsInput(validate = lambda t:Tag.exists(t.strip().lower()))
             )
         elif self.searchFilter() == 'people':
             return SearchInput.Parameters(
@@ -31,6 +32,7 @@ class Search(pyx.Component):
     def searchFilterChange(self):
         self.searchInput().updateParams(self.getParams())
         self.searchResult().clearResults()
+        self.searchResult().paginator().setTotalPages(0, changePage=False)
         self.searchResult().bodyNode().renderNode.reflow().renderWorker.update()
 
     def body(self):

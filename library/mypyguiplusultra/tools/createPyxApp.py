@@ -5,11 +5,11 @@ def warningSuppressor(msg_type, msg_log_context, msg_string): # Suppress warning
     pass
 
 
-def createPyxApp(globalStyleSheet = StyleSheet(), minimumWindowSize=(None, None), suppressQtWarnings=True, globalObject = Object()) -> PYXApp:
+def createPyxApp(globalStyleSheet = StyleSheet(), minimumWindowSize=(None, None), suppressQtWarnings=True, globalObject = Object(), windowIcon = None) -> PYXApp:
     from mypyguiplusultra.pyx.pyx_factory import setGlobalObject
     setGlobalObject(globalObject)
     
-    app = PYXApp(globalStyleSheet, minimumWindowSize)
+    app = PYXApp(globalStyleSheet, minimumWindowSize, windowIcon.attrs.source)
     app.windowProvider.on.ready.wait()
     if suppressQtWarnings:
         from PyQt6.QtCore import qInstallMessageHandler

@@ -5,9 +5,9 @@ from mypyguiplusultra.objects.dom_linker import linkDom
 from threading import Thread
 
 class PYXApp:
-    def __init__(self, globalStyleSheet, minimumWindowSize):
+    def __init__(self, globalStyleSheet, minimumWindowSize, windowIcon):
         self.globalStyleSheet = globalStyleSheet
-        self.windowProvider = WindowProvider()
+        self.windowProvider = WindowProvider(windowIcon)
         self.windowProvider.setMinimumWindowSize(minimumWindowSize)
         '''Deals with the pyqt side of things :)'''
 

@@ -183,14 +183,14 @@ class User:
             """
         )
 
-        payload = USERS
+        # payload = USERS
 
-        cursor.executemany(
-            """
-            INSERT INTO users (id, name)
-            VALUES (%(id)s, %(name)s)
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO users (id, name)
+        #     VALUES (%(id)s, %(name)s)
+        #     """,
+        #     payload,
+        # )
 
-        connection.commit()
+        # connection.commit()

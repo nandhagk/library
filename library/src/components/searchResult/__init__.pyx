@@ -52,7 +52,6 @@ class SearchResult(pyx.Component):
 
         # Get the count of results of query
         total = getResultsSize(self.currentQuery)
-
         # Update paginator
         self.paginator().setTotalPages(total)
 
@@ -82,7 +81,7 @@ class SearchResult(pyx.Component):
                 <span class="secondaryText">{result['secondaryText']}</span>
             </div>
             <div class="chipContainer">
-                {*( <span class="chip">{i}</span> for i in result['chips'] )}
+                {*( <span class="chip">{i.title()}</span> for i in result['chips'] )}
             </div>
         </div>
         xs.on.click.subscribe(self.onClick)

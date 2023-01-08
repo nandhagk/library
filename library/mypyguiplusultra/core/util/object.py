@@ -10,5 +10,8 @@ class Object(SimpleNamespace):
     def copy(self):
         return Object(**self.__dict__)
 
+    def items(self):
+        return self.__dict__.items()
+
     def __getitem__(self, name):
         return self.get(name)

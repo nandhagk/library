@@ -128,13 +128,13 @@ class Loan:
         """Searches loans."""
         if statuses is None:
             statuses = []
+        if not statuses:
+            return []
 
         payload = {"start": start, "book_id": book_id, "user_id": user_id}
 
         status_where_clause = (
             f"""AND loans.status in ({','.join('"' + status + '"' for status in statuses)})"""
-            if statuses
-            else ""
         )
 
         query = f"""
@@ -181,6 +181,8 @@ class Loan:
         """Searches loans."""
         if statuses is None:
             statuses = []
+        if not statuses:
+            return 0
 
         payload = {"book_id": book_id, "user_id": user_id}
 
@@ -391,30 +393,30 @@ class Loan:
             """
         )
 
-        payload = LOANS
+        # payload = LOANS
 
-        cursor.executemany(
-            """
-            INSERT INTO loans (
-                id,
-                status,
-                user_id,
-                book_copy_id,
-                created_at,
-                returned_at,
-                due_at
-            )
-            VALUES (
-                %(id)s,
-                %(status)s,
-                %(user_id)s,
-                %(book_copy_id)s,
-                %(created_at)s,
-                %(returned_at)s,
-                %(due_at)s
-            )
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO loans (
+        #         id,
+        #         status,
+        #         user_id,
+        #         book_copy_id,
+        #         created_at,
+        #         returned_at,
+        #         due_at
+        #     )
+        #     VALUES (
+        #         %(id)s,
+        #         %(status)s,
+        #         %(user_id)s,
+        #         %(book_copy_id)s,
+        #         %(created_at)s,
+        #         %(returned_at)s,
+        #         %(due_at)s
+        #     )
+        #     """,
+        #     payload,
+        # )
 
         connection.commit()

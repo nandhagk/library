@@ -12,15 +12,9 @@ app = createPyxApp(
     globalStyleSheet=defaultStyles,
     minimumWindowSize=(500, 300),
     suppressQtWarnings=True,
-    globalObject = glob
+    globalObject = glob,
+    windowIcon = <icon src="commonMedia/icon.png"/>
 )
-# TODO: Window Icon
-
-# TODO NOW:
-    # Generate loans
-
-    # Add users and loans (and bookcopies)
-
 
 sidebar = createRef()
 glob.currentPage = createDependancy(Destinations.browse)
@@ -31,5 +25,3 @@ app.render(
         <Content sidebar={sidebar}></Content>
     </Body>
 )
-
-print('Execution finis ho gaya')

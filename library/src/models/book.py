@@ -88,7 +88,7 @@ class Book:
     @classmethod
     def get_magazines_books(cls) -> list[Self]:
         """Gets magazine books."""
-        return cls.find_by_tag_id(3)
+        return cls.find_by_tag_id(589)
 
     @classmethod
     def get_classics_books(cls):
@@ -318,11 +318,11 @@ class Book:
                 COUNT(DISTINCT book_copies.id),
                 GROUP_CONCAT(DISTINCT tags.name)
             FROM books
-            JOIN book_copies ON
+            LEFT JOIN book_copies ON
                 book_copies.book_id = books.id
-            JOIN book_tags ON
+            LEFT JOIN book_tags ON
                 book_tags.book_id = books.id
-            JOIN tags ON
+            LEFT JOIN tags ON
                 book_tags.tag_id = tags.id
             GROUP BY books.id
             HAVING
@@ -390,7 +390,6 @@ class Book:
             """,
             payload,
         )
-
         results = cursor.fetchall()
 
         if results is None:
@@ -579,30 +578,30 @@ class Book:
             """
         )
 
-        payload = BOOKS
+        # payload = BOOKS
 
-        cursor.executemany(
-            """
-            INSERT INTO books (
-                id,
-                title,
-                author,
-                cover_url,
-                description,
-                publisher,
-                published_at,
-                pages
-            )
-            VALUES (
-                %(id)s,
-                %(title)s,
-                %(author)s,
-                %(cover_url)s,
-                %(description)s,
-                %(publisher)s,
-                %(published_at)s,
-                %(pages)s
-            )
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO books (
+        #         id,
+        #         title,
+        #         author,
+        #         cover_url,
+        #         description,
+        #         publisher,
+        #         published_at,
+        #         pages
+        #     )
+        #     VALUES (
+        #         %(id)s,
+        #         %(title)s,
+        #         %(author)s,
+        #         %(cover_url)s,
+        #         %(description)s,
+        #         %(publisher)s,
+        #         %(published_at)s,
+        #         %(pages)s
+        #     )
+        #     """,
+        #     payload,
+        # )

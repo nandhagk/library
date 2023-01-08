@@ -3,6 +3,7 @@ from mypyguiplusultra.core import createRef
 from .render_worker import RenderWorker
 from .qelem_helper import QElemHelper
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPainter
 
 class GraphicsView(QGraphicsView):
     def scrollContentsBy(self, x, y):
@@ -55,6 +56,11 @@ class RootRenderWorker(RenderWorker):
         self.qgv.setViewportMargins(-1, -1, -1, -1) # Fixes the wierd ass shit they do in `fitInView`
         self.qgv.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.qgv.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+
+        # Improves quality (trust me bro)
+        self.qgv.setRenderHint(QPainter.RenderHint.LosslessImageRendering, True)
+        self.qgv.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+        
         window.setCentralWidget(self.qgv)
 
         self._paintSlaves()

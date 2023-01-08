@@ -136,14 +136,14 @@ class BookCopy:
             """
         )
 
-        payload = BOOK_COPIES
+        # payload = BOOK_COPIES
 
-        cursor.executemany(
-            """
-            INSERT INTO book_copies (id, book_id)
-            VALUES (%(id)s, %(book_id)s)
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO book_copies (id, book_id)
+        #     VALUES (%(id)s, %(book_id)s)
+        #     """,
+        #     payload,
+        # )
 
-        connection.commit()
+        # connection.commit()

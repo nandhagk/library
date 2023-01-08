@@ -112,14 +112,14 @@ class BookTag:
             """
         )
 
-        payload = BOOK_TAGS
+        # payload = BOOK_TAGS
 
-        cursor.executemany(
-            """
-            INSERT INTO book_tags (book_id, tag_id)
-            VALUES (%(book_id)s, %(tag_id)s)
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO book_tags (book_id, tag_id)
+        #     VALUES (%(book_id)s, %(tag_id)s)
+        #     """,
+        #     payload,
+        # )
 
-        connection.commit()
+        # connection.commit()

@@ -16,7 +16,9 @@ class ChipsInput(pyx.Component):
 
     def onKeyPress(self, e):
         if e[0].text() == '\r':
+            # TODO NOW: Only add tag if the tag exists (we need to have validation for tags)
             text = self.input().content
+            
             self.input().renderNode.renderWorker.setText('')
             self.addChip(text.strip())
 
@@ -32,7 +34,11 @@ class ChipsInput(pyx.Component):
             self.addChip(chip)
 
     def addChip(self, chipText):
-        if not chipText or chipText.lower() in self.chips:return
+        chipText = chipText.lower()
+        if not chipText or chipText in self.chips:return
+        if not (self.props['options']['validate'](chipText)):
+            self.parentNode().renderNode.windowProvider().inform("Tag does not exist!")
+            return
         self.chips.add(chipText.lower())
         chip = <text class="chip">{chipText.title()}</text>
         chip.on.click.subscribe(lambda e:self.removeChip(chip), weakify=False)

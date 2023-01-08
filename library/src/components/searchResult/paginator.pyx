@@ -88,8 +88,13 @@ class Paginator(pyx.Component):
             <svg ref={self.frontSVG} class="right" src="./forward.svg"/>
         </div>
 
-    def setTotalPages(self, n):
+    def setTotalPages(self, n, changePage = True):
         self.totalItems = n
         self.totalPages = max(ceil(n / self.props['setSize']), 1)
         self.currentPage = 1
-        self.onPageChange()
+        if changePage:
+            self.onPageChange()
+        else:
+            self.labelSpan().content = self.getLabelText()
+            self.updateActivity()
+            self.labelSpan().renderNode.reflow().renderWorker.update()

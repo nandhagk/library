@@ -56,6 +56,26 @@ class Tag:
             return
 
         return cls(*result)
+    @classmethod
+    def exists(cls, name: int, /) -> Self | None:
+        """Finds a tag by its name."""
+        payload = {"name": name}
+
+        cursor.execute(
+            """
+            SELECT * FROM tags
+            WHERE
+                name = %(name)s
+            """,
+            payload,
+        )
+
+        result = cursor.fetchone()
+        
+        if result is None:
+            return False
+
+        return True
 
     @classmethod
     def find_by_book_id(cls, book_id: int, /) -> list[Self]:
@@ -150,14 +170,14 @@ class Tag:
             """
         )
 
-        payload = TAGS
+        # payload = TAGS
 
-        cursor.executemany(
-            """
-            INSERT INTO tags (id, name)
-            VALUES (%(id)s, %(name)s)
-            """,
-            payload,
-        )
+        # cursor.executemany(
+        #     """
+        #     INSERT INTO tags (id, name)
+        #     VALUES (%(id)s, %(name)s)
+        #     """,
+        #     payload,
+        # )
 
-        connection.commit()
+        # connection.commit()

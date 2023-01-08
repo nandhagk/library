@@ -21,13 +21,14 @@ class Edit(pyx.Component):
             return "Edit Loan Info"
 
     def getParams(self):
+        from src.models.tag import Tag
         if self.glob.data['type'] == 'books':
             return SearchInput.Parameters(
                 BookID        = SearchInput.Parameters.SingleLineText(disable=True, value=self.glob['data']['data']['bookId']),
                 Title         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip(), value=self.glob['data']['data']['title']), # NOTE: Placeholder support has not been made yet
                 Author        = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip(), value=self.glob['data']['data']['author']),
                 CoverURL      = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip(), value=self.glob['data']['data']['coverURL']), # NOTE: Placeholder support has not been made yet
-                Tags          = SearchInput.Parameters.ChipsInput(value=self.glob['data']['data']['tags']),
+                Tags          = SearchInput.Parameters.ChipsInput(value=self.glob['data']['data']['tags'], validate = lambda t:Tag.exists(t.strip().lower())),
                 Description   = SearchInput.Parameters.LongText(value=self.glob['data']['data']['description']),
                 Pages         = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit(), value=self.glob['data']['data']['pages']),
                 TotalCopies   = SearchInput.Parameters.SingleLineText(validate=lambda t:t.strip().isdigit() and int(self.glob['data']['data']['totalCopies']) - int(t) <= int(self.glob['data']['data']['activeCopies']), value=self.glob['data']['data']['totalCopies']),

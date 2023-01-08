@@ -2,11 +2,12 @@ from mypyguiplusultra.core.events import EventEmitter, Event
 from .myqt import Window, App, AlertWindow, ConfirmWindow
 
 class WindowProvider:
-    def __init__(self):
+    def __init__(self, windowIcon):
         self.on = EventEmitter()
         self.on.ready = Event('ready', oneTimeOnly=True)
         self.on.end = Event('ready', oneTimeOnly=True)
         self.minimumWindowSize = (None, None)
+        self.windowIcon = windowIcon
 
     def setTitle(self, title):
         self.window.setWindowTitle(title)
@@ -37,6 +38,9 @@ class WindowProvider:
         self.root = App([])
         '''pyqt app'''
         self.window = Window() # The main window
+        if self.windowIcon is not None:
+            from PyQt6.QtGui import QIcon
+            self.window.setWindowIcon(QIcon(self.windowIcon))
         self.window.show()
         self._setMinimumWindowSize()
         self.root.aboutToQuit.connect(lambda:self.on.end.resolve(True)) # When the gui closes we have to resolve it

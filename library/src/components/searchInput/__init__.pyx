@@ -30,10 +30,11 @@ class SearchInput(pyx.Component):
                 'value': value
             })
         @staticmethod
-        def ChipsInput(placeholder='', value=set()):
+        def ChipsInput(placeholder='', value=set(), validate=lambda t:True):
             return (SearchInput.Parameters._ChipsInput, {
                 'placeholder':placeholder,
-                'value' : value
+                'value' : value,
+                'validate' : validate
             })
         @staticmethod
         def SwtichBoxInput(values=()):
