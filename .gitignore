@@ -12,7 +12,7 @@ library/src/**/*.py
 !library/src/models/**/*.py
 !library/src/cli/**/*.py
 !library/src/database.example.py
-!library/src/_main__.py
+!library/src/__main__.py
 # C extensions
 *.so
 
