@@ -3,7 +3,6 @@ from datetime import date
 from typing import Final, cast
 
 from src.database import connection, cursor
-
 from typing_extensions import Self
 
 BOOKS: Final = [
@@ -244,6 +243,7 @@ class Book:
         if results is None:
             return []
         from src.pages import Destinations
+
         return [
             {
                 "primaryText": title,
@@ -411,6 +411,7 @@ class Book:
         published_at: date | None = None,
         pages: int | None = None,
         tags: list[str] | None = None,
+        copies: int | None = None,
     ) -> None:
         """Updates a book by its id."""
         book = cls.find_by_id(id)
@@ -482,6 +483,59 @@ class Book:
             payload,
         )
 
+        payload = {"id": id}
+
+        cursor.execute(
+            """
+            SELECT COUNT(*) FROM book_copies
+            WHERE
+                book_copies.book_id = %(id)s
+            """,
+            payload,
+        )
+
+        initial_copies = cursor.fetchone()[0]  # type: ignore
+
+        if copies > initial_copies:
+            payload = [{"book_id": id} for _ in range(copies - initial_copies)]
+
+            cursor.executemany(
+                """
+                INSERT INTO book_copies (book_id)
+                VALUES (%(book_id)s)
+                """,
+                payload,
+            )
+
+        elif copies < initial_copies:
+            payload = {"id": id, "count": initial_copies - copies}
+
+            cursor.execute(
+                """
+                SELECT book_copies.id FROM book_copies
+                LEFT JOIN loans ON
+                    book_copies.id = loans.book_copy_id
+                    AND loans.status = 'active'
+                WHERE
+                    book_copies.book_id = %(id)s
+                    AND loans.book_copy_id IS NULL
+                LIMIT %(count)s
+                """,
+                payload,
+            )
+
+            results = cursor.fetchall() or []
+
+            id_string = ",".join(str(result[0]) for result in results)
+
+            query = f"""
+            DELETE FROM book_copies
+            WHERE
+                id IN ({id_string})
+            """
+
+            cursor.execute(query)
+
         connection.commit()
 
     @classmethod
@@ -516,7 +570,7 @@ class Book:
                 title VARCHAR(255) NOT NULL,
                 author VARCHAR(255) NOT NULL,
                 cover_Url TEXT NOT NULL,
-                description VARCHAR(255) NOT NULL,
+                description TEXT NOT NULL,
                 publisher VARCHAR(255) NOT NULL,
                 published_at DATE NOT NULL,
                 pages INT NOT NULL,

@@ -69,7 +69,7 @@ class Edit(pyx.Component):
 
         from ..destinations import Destinations
         if self.glob.data['type'] == 'books':
-            Book.update(self.glob['data']['data']['bookId'], title=values['Title'], author=values['Author'], cover_url=values['CoverURL'],description=values['Description'], publisher=values["Publisher"], published_at=values["PublishedDate"], tags=list(values["Tags"]), pages=values["Pages"])
+            Book.update(self.glob['data']['data']['bookId'], title=values['Title'], author=values['Author'], cover_url=values['CoverURL'],description=values['Description'], publisher=values["Publisher"], published_at=values["PublishedDate"], tags=list(values["Tags"]), pages=values["Pages"], copies=int(values["TotalCopies"]))
             self.parentNode().renderNode.windowProvider().inform("Book record has been updated!", "Information")
             self.props['redirect'](Destinations.bookInfo, self.glob['data']['data']['bookId'])
         elif self.glob.data['type'] == 'people':

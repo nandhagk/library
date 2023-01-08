@@ -1,9 +1,4 @@
 from click import group
-
-from src.cli.book import book
-from src.cli.loan import loan
-from src.cli.tag import tag
-from src.cli.user import user
 from src.database import cursor
 from src.models.book import Book
 from src.models.book_copy import BookCopy

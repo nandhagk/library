@@ -5,7 +5,6 @@ from typing import Final, Literal, TypeAlias, cast
 from src.database import connection, cursor
 from src.models.book_copy import BookCopy
 from src.models.user import User
-
 from typing_extensions import Self
 
 LOANS: Final = [
@@ -96,6 +95,22 @@ class Loan:
         id = cast(int, cursor.lastrowid)
         loan = cast(cls, cls.find_by_id(id))
 
+        payload = {"id": id}
+
+        query = f"""
+        CREATE EVENT update_loan_status_{loan.id}
+        ON SCHEDULE AT '{due_at.isoformat()}'
+        DO
+            UPDATE loans
+            SET
+                status = 'overdue'
+            WHERE
+                status = 'active'
+                AND loans.id = %(id)s
+        """
+
+        cursor.execute(query, payload)
+
         return loan
 
     @classmethod
@@ -145,6 +160,7 @@ class Loan:
         if results is None:
             return []
         from src.pages.destinations import Destinations
+
         return [
             {
                 "primaryText": user_name,
@@ -372,26 +388,6 @@ class Loan:
                     REFERENCES book_copies(id)
                     ON DELETE CASCADE
             )
-            """
-        )
-
-        cursor.execute(
-            """
-            DROP EVENT IF EXISTS update_loan_status
-            """
-        )
-
-        cursor.execute(
-            """
-            CREATE EVENT update_loan_status
-            ON SCHEDULE EVERY 1 DAY
-            DO
-                UPDATE loans
-                SET
-                    status = 'overdue'
-                WHERE
-                    status = 'active'
-                    AND due_at < IFNULL(returned_at, SYSDATE());
             """
         )
 
