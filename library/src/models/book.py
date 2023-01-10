@@ -55,6 +55,7 @@ class Book:
                 books.id
             ORDER BY
                 COUNT(loans.id)
+            DESC
             LIMIT 10
             """
         )
@@ -104,6 +105,7 @@ class Book:
                 books.id
             ORDER BY
                 COUNT(loans.id)
+            DESC
             LIMIT 10
             """
         )
