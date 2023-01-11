@@ -69,7 +69,6 @@ class BookCopy:
         """Finds a copy of a book that is available to loan by its book id."""
         payload = {"book_id": book_id}
 
-        # https://stackoverflow.com/a/15389141
         cursor.execute(
             """
             SELECT book_copies.* FROM book_copies
