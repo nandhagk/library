@@ -40,7 +40,7 @@ class ChipsInput(pyx.Component):
             self.parentNode().renderNode.windowProvider().inform("Tag does not exist!")
             return
         self.chips.add(chipText.lower())
-        chip = <text class="chip">{chipText.title()}</text>
+        chip = <text clickable={True} class="chip">{chipText.title()}</text>
         chip.on.click.subscribe(lambda e:self.removeChip(chip), weakify=False)
         self.chipContainer().appendChild(chip)
 
