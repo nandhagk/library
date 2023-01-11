@@ -9,6 +9,7 @@ __pycache__/
 library/mypyguiplusultra.config.json
 
 library/src/**/*.py
+library/src/**/*.js
 !library/src/models/**/*.py
 !library/src/cli/**/*.py
 !library/src/database.example.py
