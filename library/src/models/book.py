@@ -50,7 +50,7 @@ class Book:
                 book_copies.book_id = books.id
             JOIN loans ON
                 loans.book_copy_id = book_copies.id
-                AND loans.status = 'active'
+                AND (loans.status = 'active' OR loans.status = 'overdue')
             GROUP BY
                 books.id
             ORDER BY
@@ -89,7 +89,7 @@ class Book:
     @classmethod
     def get_magazines_books(cls) -> list[Self]:
         """Gets magazine books."""
-        return cls.find_by_tag_id(589)
+        return cls.find_by_tag_id(187)
 
     @classmethod
     def get_classics_books(cls):
@@ -343,7 +343,7 @@ class Book:
             JOIN loans ON
                 loans.book_copy_id = book_copies.id
             WHERE
-                loans.status = 'active'
+                loans.status = 'active' OR loans.status='overdue'
             GROUP BY books.id
             HAVING
                 books.id = %(id)s
@@ -516,7 +516,7 @@ class Book:
                 SELECT book_copies.id FROM book_copies
                 LEFT JOIN loans ON
                     book_copies.id = loans.book_copy_id
-                    AND loans.status = 'active'
+                    AND (loans.status = 'active' OR loans.status = 'overdue')
                 WHERE
                     book_copies.book_id = %(id)s
                     AND loans.book_copy_id IS NULL
