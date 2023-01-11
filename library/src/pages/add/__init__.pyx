@@ -38,7 +38,7 @@ class Add(pyx.Component):
             )
         elif self.addFilter() == 'tags':
             return SearchInput.Parameters(
-                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:Tag.exists(t) is None)
+                Name = SearchInput.Parameters.SingleLineText(validate=lambda t:not Tag.exists(t))
             )
         else:
             print("INVALID ADDFILTER")
