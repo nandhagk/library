@@ -83,16 +83,6 @@ class BookCopy:
             """,
             payload,
         )
-        """
-            SELECT book_copies.* FROM book_copies
-            LEFT JOIN loans ON
-                book_copies.id = loans.book_copy_id
-                AND (loans.status = 'active' OR loans.status = 'overdue')
-            WHERE
-                book_id = 1824
-                AND loans.book_copy_id IS NULL
-            LIMIT 1
-            """
         result = cursor.fetchone()
         if result is None:
             return
