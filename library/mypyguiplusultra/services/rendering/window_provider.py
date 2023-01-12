@@ -47,3 +47,4 @@ class WindowProvider:
 
         self.on.ready.resolve(True) # The gui is now ready
         self.root.exec()
+        self.on.end.resolve(True)

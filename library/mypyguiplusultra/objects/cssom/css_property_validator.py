@@ -76,7 +76,7 @@ def expect(
     values : list,
     property_name,
     expected_parameters, # list<(value_type, count :int, optional :bool)>
-    allow_extra=False,
+    allow_extra=False, # Not being used rn
     ignore_whitespace = True,
 ):
     expecteds_dict = {xs[0]:[xs[1], xs[2]] for xs in expected_parameters}

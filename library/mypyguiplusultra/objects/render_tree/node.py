@@ -142,8 +142,8 @@ class RenderNode:
         try:
             for i in range(len(self.slaves[z_index])):
                 if self.slaves[z_index][i]() is slave:
+                    self.slaves[z_index].pop(i)
                     break
-            self.slaves[z_index].pop(i)
             # self.slaves[z_index].remove(slave)
         except:pass
 
